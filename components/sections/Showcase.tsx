@@ -1,0 +1,63 @@
+"use client";
+
+import { useDeshatan } from "@/lib/context";
+import { t } from "@/lib/i18n";
+import Image from "next/image";
+
+const DESTINATION_IMAGES: Record<string, string> = {
+  "1": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky1' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%236ba3d0;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23e8f0f7;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky1)'/%3E%3Cpolygon points='0,400 100,200 200,200 250,100 300,200 400,200 500,400' fill='%23888888'/%3E%3Cpolygon points='50,400 150,250 250,150 350,250 450,400' fill='%23a0a0a0' opacity='0.8'/%3E%3Cpolygon points='0,400 80,280 150,220 200,180 250,160 300,180 350,220 420,280 500,400' fill='%23ffffff' opacity='0.6'/%3E%3Crect x='180' y='240' width='140' height='160' fill='%23d4a574'/%3E%3Crect x='210' y='260' width='25' height='35' fill='%23333333'/%3E%3Crect x='265' y='260' width='25' height='35' fill='%23333333'/%3E%3C/svg%3E",
+  "2": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky2' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%2387ceeb;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23fff0e6;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky2)'/%3E%3Cpolygon points='0,400 70,300 140,250 180,200 220,180 250,170 280,180 320,200 360,250 430,300 500,400' fill='%236b4423'/%3E%3Crect x='200' y='140' width='100' height='120' fill='%238b7355'/%3E%3Crect x='220' y='160' width='15' height='40' fill='%23333333'/%3E%3Crect x='265' y='160' width='15' height='40' fill='%23333333'/%3E%3Crect x='210' y='210' width='80' height='50' fill='%23c49060'/%3E%3C/svg%3E",
+  "3": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky3' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%23ffb347;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23ffe8cc;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky3)'/%3E%3Crect y='300' width='500' height='100' fill='%23ddb892'/%3E%3Crect x='80' y='220' width='120' height='100' fill='%23d4a574'/%3E%3Crect x='220' y='200' width='140' height='120' fill='%23c49060' /%3E%3Crect x='50' y='240' width='25' height='60' fill='%23666666'/%3E%3Crect x='295' y='220' width='25' height='80' fill='%23666666'/%3E%3Ccircle cx='250' cy='150' r='40' fill='%23ffcc00' opacity='0.9'/%3E%3C/svg%3E",
+  "4": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky4' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%236ba3d0;stop-opacity:1' /%3E%3Cstop offset='50%' style='stop-color:%2385d4f0;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%2320a08d;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky4)'/%3E%3Cpath d='M0,250 Q50,240 100,250 T200,250 T300,250 T400,250 T500,250 L500,400 L0,400' fill='%231a7a6f'/%3E%3Ccircle cx='100' cy='280' r='8' fill='%23ffeb3b'/%3E%3Ccircle cx='200' cy='290' r='6' fill='%23ffeb3b'/%3E%3Ccircle cx='350' cy='275' r='7' fill='%23ffeb3b'/%3E%3Cpath d='M150,300 L160,340 M165,300 L170,335 M175,300 L180,340' stroke='%2345b393' stroke-width='3'/%3E%3C/svg%3E",
+  "5": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky5' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%235a7a99;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23a0b8d4;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky5)'/%3E%3Cpolygon points='0,400 80,250 160,150 220,120 250,100 280,120 340,150 420,250 500,400' fill='%23666666'/%3E%3Cpolygon points='50,400 100,300 150,200 180,140 220,110 250,95 280,110 320,140 370,200 420,300 450,400' fill='%23888888'/%3E%3Crect x='220' y='180' width='60' height='80' fill='%23c4914d'/%3E%3Crect x='235' y='200' width='12' height='30' fill='%23333333'/%3E%3Crect x='253' y='200' width='12' height='30' fill='%23333333'/%3E%3C/svg%3E",
+  "6": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky6' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%2399cc99;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23ccffdd;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky6)'/%3E%3Crect y='300' width='500' height='100' fill='%234a7c4e'/%3E%3Ccircle cx='80' cy='280' r='50' fill='%2366aa66'/%3E%3Ccircle cx='200' cy='260' r='60' fill='%2366aa66'/%3E%3Ccircle cx='350' cy='270' r='55' fill='%2366aa66'/%3E%3Ccircle cx='450' cy='290' r='45' fill='%2366aa66'/%3E%3Crect x='180' y='200' width='140' height='120' fill='%238b6f47'/%3E%3Crect x='200' y='220' width='20' height='50' fill='%23333333'/%3E%3Crect x='260' y='220' width='20' height='50' fill='%23333333'/%3E%3C/svg%3E",
+  "7": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky7' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%23003d7a;stop-opacity:1' /%3E%3Cstop offset='50%' style='stop-color:%230099cc;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23ffeb99;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky7)'/%3E%3Cpath d='M0,280 Q125,260 250,280 T500,280 L500,400 L0,400' fill='%231a7a9e'/%3E%3Ccircle cx='150' cy='150' r='35' fill='%23ffeb3b'/%3E%3Ccircle cx='100' cy='320' r='10' fill='%23fff9e6' opacity='0.8'/%3E%3Ccircle cx='250' cy='330' r='12' fill='%23fff9e6' opacity='0.8'/%3E%3Ccircle cx='400' cy='325' r='9' fill='%23fff9e6' opacity='0.8'/%3E%3C/svg%3E",
+  "8": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cdefs%3E%3ClinearGradient id='sky8' x1='0%' y1='0%' x2='0%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%236d5a47;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23d4a574;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='500' height='400' fill='url(%23sky8)'/%3E%3Cpolygon points='0,400 60,300 120,220 180,160 250,120 320,160 380,220 440,300 500,400' fill='%233d3a2e'/%3E%3Crect x='210' y='160' width='80' height='100' fill='%23a68964'/%3E%3Crect x='230' y='180' width='15' height='40' fill='%23333333'/%3E%3Crect x='255' y='180' width='15' height='40' fill='%23333333'/%3E%3Ccircle cx='250' cy='100' r='30' fill='%23ffb347' opacity='0.8'/%3E%3C/svg%3E",
+};
+
+export default function Showcase() {
+  const { db, language } = useDeshatan();
+
+  return (
+    <div className="wrap">
+      <div className="showcase-head reveal">
+        <h2>{t("showcase.h2", language)}</h2>
+        <p style={{ marginTop: "12px", color: "var(--ink-soft)" }}>
+          {t("showcase.h2", language)}
+        </p>
+      </div>
+
+      <div className="showcase-grid">
+        {db.destinations.slice(0, 8).map((dest) => (
+          <div key={dest.id} className="showcase-card reveal">
+            <div className="showcase-media">
+              <img
+                src={DESTINATION_IMAGES[dest.id] || DESTINATION_IMAGES["1"]}
+                alt={dest.title}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+              <div className="showcase-region">{dest.region}</div>
+            </div>
+            <div className="showcase-body">
+              <h3>{dest.title}</h3>
+              <p>{dest.blurb}</p>
+              <div style={{ marginTop: "10px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--sindoor)" }}>
+                  ₹{(dest.priceFrom / 1000).toFixed(0)}K+ • {dest.days} days
+                </span>
+                <span style={{ fontSize: "12px", color: "var(--marigold)" }}>⭐ {dest.rating}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="showcase-credit">{t("showcase.credit", language)}</div>
+    </div>
+  );
+}
