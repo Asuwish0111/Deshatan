@@ -9,8 +9,21 @@ import { Language } from "@/types";
 export default function Header() {
   const { language, setLanguage } = useDeshatan();
   const [navOpen, setNavOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
 
-  const languages: Language[] = ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or"];
+  const languages: Language[] = ["en", "hi", "bn", "mr"];
+  const langNames: Record<Language, string> = {
+    en: "English",
+    hi: "हिंदी",
+    bn: "বাংলা",
+    mr: "मराठी",
+    te: "తెలుగు",
+    ta: "தமிழ்",
+    gu: "ગુજરાતી",
+    ur: "اردو",
+    kn: "ಕನ್ನಡ",
+    or: "ଓଡ଼ିଆ",
+  };
 
   return (
     <>
@@ -23,6 +36,8 @@ export default function Header() {
           <span>28 States + 8 Territories 🧳</span>
           <span className="dot">•</span>
           <span>2,600+ Verified Guides 🧳</span>
+          <span className="dot">•</span>
+          <span>50,000+ Safe Stays 🧳</span>
         </div>
       </div>
 
@@ -36,27 +51,41 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="nav-links" id="nav-links">
+          <div className={`nav-links ${navOpen ? 'open' : ''}`} id="nav-links">
             <a href="#showcase">{t("nav.coverage", language)}</a>
             <a href="#features">{t("nav.features", language)}</a>
-            <a href="#calculator">{t("nav.calculator", language)}</a>
+            <a href="#tracking">{t("nav.calculator", language)}</a>
             <a href="#groups">{t("nav.groups", language)}</a>
-            <a href="/book/search" style={{ color: "var(--sindoor)", fontWeight: "700" }}>🎫 Book</a>
-            <a href="/admin" style={{ color: "var(--marigold)", fontWeight: "700" }}>⚙️ Admin</a>
+            <a href="/book/search" className="nav-book">🎫 Book</a>
+            <a href="/admin" className="nav-admin">⚙️ Admin</a>
           </div>
 
           <div className="nav-right">
-            <div className="lang-switch">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as Language)}
+            <div className="lang-dropdown">
+              <button
+                className="lang-trigger"
+                onClick={() => setLangOpen(!langOpen)}
+                title="Change language"
               >
-                {languages.map((lang) => (
-                  <option key={lang} value={lang}>
-                    {lang.toUpperCase()}
-                  </option>
-                ))}
-              </select>
+                <span>🌐</span>
+                <span>{language.toUpperCase()}</span>
+              </button>
+              {langOpen && (
+                <div className="lang-menu">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang}
+                      className={`lang-option ${language === lang ? 'active' : ''}`}
+                      onClick={() => {
+                        setLanguage(lang);
+                        setLangOpen(false);
+                      }}
+                    >
+                      {langNames[lang]}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <button
@@ -64,6 +93,7 @@ export default function Header() {
               id="nav-toggle"
               onClick={() => setNavOpen(!navOpen)}
               aria-expanded={navOpen}
+              aria-label="Toggle menu"
             >
               <span></span>
               <span></span>

@@ -2,9 +2,15 @@
 
 import { useDeshatan } from "@/lib/context";
 import { t } from "@/lib/i18n";
+import Link from "next/link";
 
 export default function Hero() {
   const { language } = useDeshatan();
+
+  const handleExplore = () => {
+    const elem = document.getElementById("showcase");
+    elem?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section className="hero" id="top">
@@ -20,8 +26,8 @@ export default function Hero() {
           <p className="lede">{t("hero.lede", language)}</p>
 
           <div className="hero-ctas">
-            <button className="btn">{t("hero.cta1", language)}</button>
-            <button className="btn red">{t("hero.cta2", language)}</button>
+            <button className="btn" onClick={handleExplore}>{t("hero.cta1", language)}</button>
+            <Link href="/book/search" className="btn red">{t("hero.cta2", language)}</Link>
           </div>
 
           <div className="hero-proof">

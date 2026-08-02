@@ -300,28 +300,103 @@ header {
 }
 
 /* ---- language switcher ---- */
-.lang-switch select {
+.lang-dropdown {
+  position: relative;
+}
+
+.lang-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: "Mukta", sans-serif;
   font-weight: 700;
   font-size: 13.5px;
-  padding: 8px 28px 8px 12px;
+  padding: 8px 14px;
   border: 2px solid var(--ink);
   background: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%2326190E' d='M5 7l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 12px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
   color: var(--ink);
-  max-width: 132px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.lang-switch select:focus-visible {
+.lang-trigger:hover {
+  background: var(--paper-deep);
+  border-color: var(--sindoor);
+  color: var(--sindoor-deep);
+}
+
+.lang-trigger:focus-visible {
   outline: 3px solid var(--sindoor);
   outline-offset: 2px;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 6px 6px 0 rgba(38, 25, 14, 0.15);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.lang-option {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--paper-muted);
+  cursor: pointer;
+  text-align: left;
+  font-family: "Mukta", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  transition: all 0.15s ease;
+}
+
+.lang-option:last-child {
+  border-bottom: none;
+}
+
+.lang-option:hover {
+  background: var(--paper-deep);
+  color: var(--sindoor-deep);
+}
+
+.lang-option.active {
+  background: var(--marigold-soft);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ---- nav link styling ---- */
+.nav-book {
+  color: var(--sindoor) !important;
+  font-weight: 700 !important;
+}
+
+.nav-book:hover {
+  color: var(--sindoor-deep) !important;
+}
+
+.nav-admin {
+  color: var(--marigold) !important;
+  font-weight: 700 !important;
+}
+
+.nav-admin:hover {
+  color: var(--marigold-soft) !important;
+}
+
+/* Mobile nav toggle */
+.nav-links.open {
+  display: flex;
 }
 
 /* ---- multi-script typography per language ---- */
