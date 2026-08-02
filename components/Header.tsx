@@ -29,15 +29,15 @@ export default function Header() {
     <>
       <div className="ticker" aria-hidden="true">
         <div className="ticker-track">
-          <span>🛣️ Explore India 🏍️</span>
-          <span className="dot">✦</span>
-          <span>भारत घूमो पूरा 🏛️</span>
-          <span className="dot">✦</span>
-          <span>28 States + 8 Territories 🗺️</span>
-          <span className="dot">✦</span>
-          <span>2,600+ Verified Guides 👨‍🏫</span>
-          <span className="dot">✦</span>
-          <span>50,000+ Curated Stays 🏠</span>
+          <span>🧳 Explore India 🧳</span>
+          <span className="dot">•</span>
+          <span>भारत घूमो 🧳</span>
+          <span className="dot">•</span>
+          <span>28 States + 8 Territories 🧳</span>
+          <span className="dot">•</span>
+          <span>2,600+ Verified Guides 🧳</span>
+          <span className="dot">•</span>
+          <span>50,000+ Safe Stays 🧳</span>
         </div>
       </div>
 

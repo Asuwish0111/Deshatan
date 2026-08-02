@@ -17,8 +17,8 @@ export default function Hero() {
       <div className="wrap hero-grid">
         <div>
           <div className="eyebrow">
-            <span className="hindi">📍 घूमो</span>
-            <span>BHARAT YATRA</span>
+            <span className="hindi">घूमो</span>
+            <span>EXPLORE</span>
           </div>
           <h1>
             <span>{t("hero.h1", language)}</span>
