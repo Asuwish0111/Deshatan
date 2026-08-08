@@ -32,6 +32,8 @@
   --band-h: 112px;
   --close-h: 185.5px;
   --gutter: 28px;
+  /* vertical rhythm inside the estimator card; Figma's is 22px */
+  --calc-gap: 13px;
   /* the design leaves an empty hero slot above the first section */
   --hero-gap: clamp(96px, 48.5vw, 698px);
   --section-pad: clamp(32px, 3.6vw, 52px);
@@ -861,11 +863,11 @@
 
 .calculator {
   position: relative;
-  padding: 56px 0;
+  padding: 44px 0;
   border: 1px solid var(--hairline);
   border-top: 0;
   border-bottom: 0;
-  border-radius: var(--r-close);
+  border-radius: var(--r-close) var(--r-close) 0 0;
   background: var(--cream);
 }
 .calculatorInner {
@@ -968,7 +970,7 @@
 .calcField,
 .calcSlider {
   width: 100%;
-  padding-top: 22px;
+  padding-top: var(--calc-gap);
 }
 .calcLabel {
   font-family: var(--text);
@@ -989,7 +991,7 @@
   flex: 1 0 0;
   min-width: 0;
   align-items: center;
-  padding: 11px 14px;
+  padding: 9px 14px;
   border: 2px solid var(--ink);
   border-radius: 12px;
   background: #fff;
@@ -1005,7 +1007,7 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  padding: 11px 26px;
+  padding: 9px 24px;
   border: 3px solid var(--ink);
   border-radius: 12px;
   background: var(--rust);
@@ -1023,7 +1025,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding-bottom: 8px;
+  padding-bottom: 4px;
 }
 .calcOutput {
   font-family: var(--display);
@@ -1034,7 +1036,7 @@
 }
 .calcTrack {
   display: flex;
-  height: 28px;
+  height: 18px;
   align-items: center;
 }
 .calcTrack span {
@@ -1052,10 +1054,10 @@
 }
 .calcChoice {
   display: flex;
-  min-height: 45.5px;
+  min-height: 40px;
   align-items: center;
   justify-content: center;
-  padding: 9px 6px;
+  padding: 7px 6px;
   border: 2px solid var(--ink);
   border-radius: 12px;
   background: var(--parchment);
@@ -1073,8 +1075,8 @@
 
 .calcEstimate {
   width: 100%;
-  margin-top: 22px;
-  padding: 20px;
+  margin-top: var(--calc-gap);
+  padding: 16px 20px;
   border: 3px solid var(--ink);
   border-radius: 12px;
   background: #d8bc7b;
@@ -1101,7 +1103,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 16px;
+  padding-top: 12px;
 }
 .calcBreakLabel {
   font-family: var(--text);
@@ -1124,7 +1126,7 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  padding: 18px 0 16px;
+  padding: 16px 0 2px;
 }
 .calcCtaBtn {
   font-size: 15px;

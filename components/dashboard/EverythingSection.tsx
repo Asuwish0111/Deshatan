@@ -75,9 +75,9 @@ function BudgetIcon() {
   );
 }
 
-export default function EverythingSection() {
+export default function EverythingSection({ id = "features" }: { id?: string }) {
   return (
-    <section className={s.everything} id="features">
+    <section className={s.everything} id={id}>
       <div className={s.everythingInner}>
         <div className={s.everythingHead}>
           <p className={s.eyebrow}>

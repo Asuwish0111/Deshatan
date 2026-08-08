@@ -39,6 +39,7 @@ export default function DashboardPage() {
       <div className={s.calcGap} />
       <div className={s.lower}>
         <CalculatorSection />
+        <EverythingSection id="features-more" />
       </div>
 
       <div className={s.tail} />
