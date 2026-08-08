@@ -4,6 +4,7 @@ import ShowcaseSection from "@/components/dashboard/ShowcaseSection";
 import MonumentBand from "@/components/dashboard/MonumentBand";
 import CoverageSection from "@/components/dashboard/CoverageSection";
 import EverythingSection from "@/components/dashboard/EverythingSection";
+import CalculatorSection from "@/components/dashboard/CalculatorSection";
 import s from "@/components/dashboard/dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -33,6 +34,11 @@ export default function DashboardPage() {
           </div>
         </div>
         <EverythingSection />
+      </div>
+
+      <div className={s.calcGap} />
+      <div className={s.lower}>
+        <CalculatorSection />
       </div>
 
       <div className={s.tail} />

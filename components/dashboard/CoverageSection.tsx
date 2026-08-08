@@ -23,16 +23,6 @@ const STAMPS: Stamp[] = [
   }
 ];
 
-const CHIPS: string[] = [
-  'Himalayas',
-  'Rajasthan & the West',
-  'The Deep South',
-  'Seven Sisters',
-  'Coasts & Islands',
-  'The Heartland',
-  'Nepal',
-  'Bhutan'
-];
 
 export default function CoverageSection() {
   return (
@@ -58,13 +48,6 @@ export default function CoverageSection() {
         ))}
       </div>
 
-      <div className={s.chips} role="list">
-        {CHIPS.map((chip, i) => (
-          <span className={`${s.chip} ${i === 0 ? s.chipOn : ''}`} role="listitem" key={chip}>
-            {chip}
-          </span>
-        ))}
-      </div>
     </section>
   );
 }
