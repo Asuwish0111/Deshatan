@@ -227,10 +227,10 @@ export default function CustomizePage() {
                     </strong>
                   </div>
                 )}
-                {PICKUP_OPTIONS.find((p) => p.key === pickup)?.fee > 0 && (
+                {(PICKUP_OPTIONS.find((p) => p.key === pickup)?.fee ?? 0) > 0 && (
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
                     <span>Pickup</span>
-                    <strong>₹{PICKUP_OPTIONS.find((p) => p.key === pickup)?.fee}</strong>
+                    <strong>₹{PICKUP_OPTIONS.find((p) => p.key === pickup)?.fee ?? 0}</strong>
                   </div>
                 )}
                 {addonCost > 0 && (

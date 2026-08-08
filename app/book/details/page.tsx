@@ -14,7 +14,7 @@ export default function DetailsPage() {
     passengers: "1",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelect>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
