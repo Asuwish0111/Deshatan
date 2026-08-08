@@ -569,6 +569,7 @@
 }
 .stamp {
   padding: 10px;
+  border-radius: 16px;
 }
 .stampRed {
   background: var(--rust);
@@ -583,6 +584,7 @@
   min-height: 239.594px;
   padding: 26px 24px;
   border: 2px solid var(--ink);
+  border-radius: 16px;
   background: var(--parchment);
 }
 .stampNum {
