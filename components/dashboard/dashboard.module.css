@@ -1,0 +1,1009 @@
+/* ============================================================
+   Dashboard — implemented from Figma "Travel Design" (node 2:2441)
+   Metrics are the design's own: 1440px frame, arch cut from a
+   #15445C plate, cream #FAF6F0 page under it.
+   ============================================================ */
+
+.page {
+  --navy: #15445c;
+  --cream: #faf6f0;
+  --ink: #26190e;
+  --rust: #a14834;
+  --gold: #cf9e46;
+  --indigo: #2b355d;
+  --peacock: #23695b;
+  --sand: #eedfc0;
+  --parchment: #f6edd9;
+  --body-muted: #6b5842;
+  --body-soft: #4b3a2a;
+  --tab-gold: #dfc9a8;
+  --hairline: rgba(245, 240, 230, 0.3);
+  --monument: #5b7c8d;
+
+  /* frame geometry — every rail, radius and step derives from these,
+     so a breakpoint only restates the scale, never the layout */
+  --rail: 15px;
+  --shoulder: 47px;
+  --cap-inset: 58.5px;
+  --r-cap: 43.5px;
+  --r-body: 48px;
+  --r-close: 44px;
+  --topbar-h: 91px;
+  --band-h: 98px;
+  --close-h: 185.5px;
+  --gutter: 28px;
+  /* the design leaves an empty hero slot above the first section */
+  --hero-gap: clamp(96px, 49.4vw, 712px);
+  --section-pad: clamp(32px, 3.6vw, 52px);
+  /* 3.06vw resolves to the design's 44px at 1440 */
+  --h2: clamp(26px, 3.06vw, 44px);
+
+  --display: 'Rozha One', Georgia, serif;
+  --text: 'Mukta', system-ui, sans-serif;
+  --hindi: 'Yatra One', 'Mukta', system-ui, sans-serif;
+  --ui: 'Inter', system-ui, -apple-system, sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--text);
+  overflow-x: clip;
+}
+
+/* ------------------------------------------------------------
+   Top bar — navy plate above the arch
+   ------------------------------------------------------------ */
+
+/* the trailing four properties unset the site-wide sticky <header> rule */
+.topbar {
+  position: relative;
+  z-index: 3;
+  height: var(--topbar-h);
+  background: var(--navy);
+  border-bottom: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* Lotus motif straddling the arch edge */
+.motif {
+  position: absolute;
+  top: calc(var(--topbar-h) - 45px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 116px;
+  height: 93px;
+  object-fit: cover;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.06));
+  pointer-events: none;
+}
+
+/* Two dots sitting on the arch hairline either side of the motif */
+.motifDot {
+  position: absolute;
+  top: calc(var(--topbar-h) - 1.25px);
+  z-index: 4;
+  width: 6.4px;
+  height: 6.4px;
+  border-radius: 50%;
+  background: var(--hairline);
+}
+.motifDotLeft {
+  left: calc(50% - 71.6px);
+}
+.motifDotRight {
+  left: calc(50% + 65.2px);
+}
+
+.navCenter {
+  position: absolute;
+  top: 23px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.tabSlot {
+  width: 118px;
+}
+
+.tab {
+  display: flex;
+  width: 113px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8px;
+  background: linear-gradient(
+    180deg,
+    rgba(248, 217, 169, 0) 0%,
+    rgba(248, 217, 169, 0.12) 80.396%,
+    rgba(248, 217, 169, 0) 82.633%,
+    rgba(248, 217, 169, 0) 100%
+  );
+  text-decoration: none;
+}
+
+.tabText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 12px;
+  font-family: 'Lato', var(--ui);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--tab-gold);
+  white-space: nowrap;
+}
+
+.tabRule {
+  position: relative;
+  width: 101px;
+  height: 16.5px;
+}
+.tabRule .rule {
+  position: absolute;
+  top: 6.67px;
+  left: 0;
+  width: 101px;
+  height: 2.224px;
+}
+.tabRule .ornLeft,
+.tabRule .ornRight {
+  position: absolute;
+  top: calc(50% + 0.45px);
+}
+.tabRule .ornLeft {
+  left: -13.76px;
+  width: 16.68px;
+  height: 16.68px;
+  transform: translateY(-50%) scaleY(-1);
+}
+.tabRule .ornRight {
+  right: -14.83px;
+  width: 17.118px;
+  height: 16.501px;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 12px;
+  font-family: var(--ui);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgba(245, 240, 230, 0.8);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.navRight {
+  position: absolute;
+  top: 22px;
+  right: 98px;
+  display: flex;
+  height: 44px;
+  align-items: center;
+  gap: 16px;
+}
+
+.langPill {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px;
+  border: 0;
+  border-radius: 9px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+}
+.langPill > span {
+  display: flex;
+  align-items: center;
+}
+/* the exported vectors are the glyph only — these boxes restore the
+   18×18 icon frames and the glyph inset each one sits at in Figma */
+.icon18 {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.icon18 img {
+  position: absolute;
+}
+.iconGlobe img {
+  top: 9.38%;
+  left: 9.37%;
+  width: 81.25%;
+  height: 81.25%;
+}
+.iconCaret img {
+  top: 32.9%;
+  left: 14.9%;
+  width: 70.8%;
+  height: 39.5%;
+}
+.langPill .langCode {
+  font-family: var(--ui);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: #000;
+}
+
+/* the hair-thin capped rule between the language pill and the CTA */
+.navDivider {
+  display: flex;
+  width: 2px;
+  height: 27.043px;
+  align-items: center;
+  justify-content: center;
+}
+.navDividerInner {
+  display: flex;
+  width: 27.043px;
+  height: 2px;
+  align-items: center;
+  gap: 2px;
+  transform: rotate(-90deg);
+}
+.navDividerInner .cap {
+  height: 4px;
+  flex: none;
+}
+.navDividerInner .line {
+  height: 2px;
+  flex: 1 0 0;
+  min-width: 1px;
+}
+
+.planBtn {
+  position: relative;
+  display: flex;
+  width: 188px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+}
+.planBtn img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.planBtn span {
+  position: relative;
+  font-family: var(--ui);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 26px;
+  color: #fff;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+   The arch — a navy plate with a stepped, rounded cut-out.
+   Shoulder geometry straight off the exported Subtract path:
+   plateau at y91 (inset 58.5), step out to the full body at y138.
+   ------------------------------------------------------------ */
+
+.upper {
+  position: relative;
+  padding: var(--shoulder) var(--rail) 0;
+  background: var(--navy);
+}
+
+.archCap {
+  position: absolute;
+  top: 0;
+  left: var(--cap-inset);
+  right: var(--cap-inset);
+  height: var(--shoulder);
+  border: 1px solid var(--hairline);
+  border-bottom: 0;
+  border-radius: var(--r-cap) var(--r-cap) 0 0;
+  background: var(--cream);
+}
+
+.panel {
+  position: relative;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-radius: var(--r-cap) var(--r-cap) var(--r-body) var(--r-body);
+  background: var(--cream);
+}
+
+/* the plate's drop shadow, read from the inside of the cut-out */
+.archCap::after,
+.panel::before,
+.panelLower::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px),
+    linear-gradient(270deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px);
+  pointer-events: none;
+}
+.archCap::after {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px),
+    linear-gradient(270deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px);
+}
+
+/* The design leaves the hero slot above "Asli Tasveerein" empty. */
+.panelInner {
+  padding: var(--hero-gap) 0 var(--section-pad);
+}
+
+/* ------------------------------------------------------------
+   Monument band — full-bleed navy strip through the arch
+   ------------------------------------------------------------ */
+
+.band {
+  position: relative;
+  height: var(--band-h);
+  background: var(--navy);
+  overflow: hidden;
+}
+.bandRow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 16.18px;
+}
+.monument {
+  flex: none;
+  background-color: var(--monument);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* ------------------------------------------------------------
+   Lower arch panels — the cream Coverage plate and the sand
+   "Sab Kuch" plate that closes the arch, on one navy rail.
+   ------------------------------------------------------------ */
+
+.lower {
+  position: relative;
+  padding: 0 var(--rail);
+  background: var(--navy);
+}
+
+.panelLower {
+  position: relative;
+  border: 1px solid var(--hairline);
+  border-bottom: 0;
+  border-radius: var(--r-body) var(--r-body) 0 0;
+  background: var(--cream);
+}
+.panelLowerInner {
+  position: relative;
+  padding: var(--section-pad) 0 51.4px;
+}
+
+
+/* ------------------------------------------------------------
+   Shared section furniture
+   ------------------------------------------------------------ */
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.eyebrowBar {
+  width: 26px;
+  height: 2px;
+  flex: none;
+  background: var(--rust);
+}
+.eyebrowWord {
+  font-family: var(--hindi);
+  font-size: 18px;
+  line-height: 29.7px;
+  color: var(--ink);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+   Asli Tasveerein — showcase
+   ------------------------------------------------------------ */
+
+.showcase {
+  display: flex;
+  width: min(1124px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+}
+.showcaseHead {
+  display: flex;
+  width: min(640px, 100%);
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.showcaseHead h2 {
+  margin: 0;
+  width: min(640px, 100%);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--ink);
+}
+
+.showcaseGrid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: #fff;
+  overflow: hidden;
+}
+.cardMedia {
+  position: relative;
+  aspect-ratio: 260.5 / 195.375;
+  flex: none;
+  border-bottom: 2px solid var(--ink);
+  background: var(--sand);
+  overflow: hidden;
+}
+.cardMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cardRegion {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(38, 25, 14, 0.82);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 18.15px;
+  letter-spacing: 0.33px;
+  color: var(--parchment);
+  white-space: nowrap;
+}
+.cardBody {
+  padding: 15px 16px 17px;
+}
+.cardBody h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 19.04px;
+  letter-spacing: -0.17px;
+  color: var(--ink);
+}
+.cardBody p {
+  padding-top: 4px;
+  font-family: var(--text);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 19.5px;
+  color: var(--body-muted);
+}
+
+/* ------------------------------------------------------------
+   Kahaan-Kahaan — coverage
+   ------------------------------------------------------------ */
+
+.coverage {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.coverageHead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.coverageHead h2 {
+  margin: 0;
+  width: 720px;
+  max-width: 100%;
+  padding-top: 14px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--ink);
+}
+
+.stamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 26px;
+  margin-top: clamp(30px, 3.3vw, 48px);
+}
+.stamp {
+  padding: 14px;
+}
+.stampRed {
+  background: var(--rust);
+}
+.stampGold {
+  background: var(--gold);
+}
+.stampBlue {
+  background: var(--indigo);
+}
+.stampInner {
+  min-height: 239.594px;
+  padding: 26px 24px;
+  border: 2px solid var(--ink);
+  background: var(--parchment);
+}
+.stampNum {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(46px, 4.44vw, 64px);
+  line-height: 1;
+  color: var(--rust);
+}
+.stampLabel {
+  height: 38px;
+  padding-top: 6px;
+  font-family: var(--hindi);
+  font-size: 19px;
+  line-height: 31.35px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.stampBody {
+  padding-top: 8px;
+  font-family: var(--text);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24.75px;
+  color: var(--body-soft);
+}
+
+/* one row at the design width; wraps rather than clipping below it */
+.chips {
+  display: flex;
+  min-height: 76px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 36px;
+}
+.chip {
+  flex: none;
+  padding: 6px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--parchment);
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 23.1px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.chipOn {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--parchment);
+}
+
+/* ------------------------------------------------------------
+   Sab Kuch — the six-feature plate that closes the arch
+   ------------------------------------------------------------ */
+
+.everything {
+  position: relative;
+  padding: var(--section-pad) 0;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0 0 var(--r-close) var(--r-close);
+  background: var(--sand);
+}
+.everythingInner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.everythingHead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.everythingHead h2 {
+  width: 680px;
+  max-width: 100%;
+  margin: 0;
+  padding-top: 14px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--ink);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 26px;
+  margin-top: var(--section-pad);
+}
+
+.feature {
+  padding: 14px;
+  border-radius: 16px;
+}
+.toneRed {
+  background: var(--rust);
+}
+.toneIndigo {
+  background: var(--indigo);
+}
+.tonePeacock {
+  background: var(--peacock);
+}
+.toneGold {
+  background: var(--gold);
+}
+
+.featureInner {
+  display: flex;
+  height: 100%;
+  min-height: 385.766px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 26px 24px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+}
+
+.featureIcon,
+.iconBudget {
+  position: relative;
+  display: block;
+  width: 52px;
+  height: 52px;
+  flex: none;
+}
+.featureIcon img {
+  width: 100%;
+  height: 100%;
+}
+
+/* ₹ mark: outer note, glyph, inner rule — each at its own inset */
+.budgetOuter,
+.budgetInner {
+  position: absolute;
+  display: block;
+}
+.budgetOuter {
+  top: 6px;
+  left: 10px;
+  width: 32px;
+  height: 40px;
+}
+.budgetInner {
+  top: 14px;
+  left: 16px;
+  width: 20px;
+  height: 26px;
+}
+.budgetOuter img,
+.budgetInner img {
+  position: absolute;
+  inset: -3.13% -3.91%;
+  width: 107.82%;
+  height: 106.26%;
+}
+.budgetInner img {
+  inset: -4.81% -6.25%;
+  width: 112.5%;
+  height: 109.62%;
+}
+.budgetGlyph {
+  position: absolute;
+  top: 25%;
+  left: 38.46%;
+  right: 38.46%;
+  font-family: var(--ui);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: normal;
+  text-align: center;
+  color: var(--rust);
+}
+
+.featureInner h3 {
+  margin: 0;
+  padding-top: 16px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(19px, 1.53vw, 22px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.featureCopy {
+  padding-top: 8px;
+  font-family: var(--text);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 25.575px;
+  color: var(--body-soft);
+}
+
+.featureFoot {
+  width: 100%;
+  padding-top: 16px;
+}
+/* drawn rather than `border: dashed` — CSS picks its own dash length,
+   and the design's is finer than what the browser would choose */
+.featureRule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 16px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 4.2px,
+    transparent 4.2px 8.4px
+  );
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+}
+.featureTags {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stars {
+  flex: none;
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 26.4px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.ratingNote,
+.ratingNoteWide {
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 23.1px;
+  color: var(--ink);
+}
+.ratingNote {
+  white-space: nowrap;
+}
+.ratingNoteWide {
+  width: 180px;
+}
+
+.tag {
+  flex: none;
+  padding: 3px 10px;
+  border: 2px solid var(--ink);
+  background: #d8bc7b;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 20.625px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+   Closing arch — the same shoulder profile, mirrored
+   ------------------------------------------------------------ */
+
+.tail {
+  height: 200px;
+  background: var(--navy);
+}
+.archBottom {
+  position: relative;
+  height: var(--close-h);
+  background: var(--navy);
+}
+.archBottom::before,
+.archBottom::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  background: var(--cream);
+  border-radius: 0 0 var(--r-cap) var(--r-cap);
+}
+.archBottom::before {
+  left: var(--rail);
+  right: var(--rail);
+  height: 52.04%;
+}
+.archBottom::after {
+  left: var(--cap-inset);
+  right: var(--cap-inset);
+  height: 77.36%;
+}
+
+/* ------------------------------------------------------------
+   Responsive scale.
+
+   The grids reflow on available width (auto-fit), and type/spacing
+   are clamped, so these breakpoints only need to restate the frame
+   scale and the few pieces the nav can't solve on its own.
+   ------------------------------------------------------------ */
+
+/* the centre tabs meet the right-hand controls here */
+@media (max-width: 1160px) {
+  .navCenter {
+    display: none;
+  }
+  .navRight {
+    right: 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .page {
+    --shoulder: 40px;
+    --cap-inset: 46px;
+    --r-cap: 34px;
+    --r-body: 38px;
+    --r-close: 34px;
+    --close-h: 150px;
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    --rail: 10px;
+    --shoulder: 30px;
+    --cap-inset: 34px;
+    --r-cap: 24px;
+    --r-body: 26px;
+    --r-close: 24px;
+    --topbar-h: 72px;
+    --band-h: 68px;
+    --close-h: 112px;
+    --gutter: 18px;
+  }
+  .motif {
+    width: 92px;
+    height: 74px;
+    top: calc(var(--topbar-h) - 36px);
+  }
+  .motifDotLeft {
+    left: calc(50% - 58px);
+  }
+  .motifDotRight {
+    left: calc(50% + 52px);
+  }
+  .navRight {
+    top: 14px;
+    right: 16px;
+    height: 40px;
+    gap: 10px;
+  }
+  .langPill {
+    height: 40px;
+    padding: 8px;
+  }
+  .navDivider {
+    display: none;
+  }
+  .planBtn {
+    width: 150px;
+    height: 40px;
+  }
+  .planBtn span {
+    font-size: 15px;
+  }
+  /* the frieze is a fixed-width row of fixed-size monuments */
+  .bandRow {
+    transform: translateX(-50%) scale(0.7);
+    transform-origin: bottom center;
+  }
+  .chips {
+    min-height: 0;
+    padding-bottom: 4px;
+  }
+  .stampLabel {
+    height: auto;
+    white-space: normal;
+  }
+  .featureInner {
+    min-height: 0;
+  }
+  .featureRule {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .ratingNoteWide {
+    width: auto;
+  }
+  .ratingNote {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 420px) {
+  .page {
+    --gutter: 14px;
+    --band-h: 56px;
+  }
+  .bandRow {
+    transform: translateX(-50%) scale(0.55);
+  }
+  .stampInner,
+  .featureInner {
+    padding: 20px 18px;
+  }
+  .navRight {
+    gap: 8px;
+  }
+  .planBtn {
+    width: 128px;
+  }
+  .planBtn span {
+    font-size: 14px;
+  }
+}
