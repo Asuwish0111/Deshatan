@@ -661,6 +661,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 9px;
   padding: 13px 30px;
   border: 2px solid var(--ink);
   border-radius: 12px;
@@ -670,9 +671,20 @@
   letter-spacing: 0.16px;
   text-decoration: none;
 }
+/* the primary carries more width and the arrow, so the pair reads as one
+   choice and one alternative rather than two equal options */
 .heroCtaPrimary {
+  padding-inline: 34px;
   background: var(--rust);
   color: var(--parchment);
+}
+.heroCtaArrow {
+  transition: transform 0.28s var(--ease-spring);
+  font-size: 17px;
+  line-height: 1;
+}
+.heroCtaPrimary:hover .heroCtaArrow {
+  transform: translateX(3px);
 }
 .heroCtaPrimary:hover,
 .heroCtaGhost:hover {
@@ -688,6 +700,21 @@
 }
 .heroCtaGhost:hover {
   background: var(--sand);
+}
+/* pressing returns the button to the page — without this the hover lift has
+   no counterpart and the buttons feel unclickable */
+.heroCtaPrimary:active,
+.heroCtaGhost:active {
+  transform: translateY(0);
+  box-shadow: none;
+  transition-duration: 0.06s;
+}
+/* the page left these to the browser default: a 1px Chrome-blue hairline,
+   off-palette and barely visible. Matches the calculator's ring. */
+.heroCtaPrimary:focus-visible,
+.heroCtaGhost:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
 }
 
 /* a light inline row — the stat cards below already carry the heavy version */
@@ -849,6 +876,11 @@
   .heroCtaGhost:hover {
     transform: none;
     box-shadow: none;
+  }
+  .heroCtaArrow,
+  .heroCtaPrimary:hover .heroCtaArrow {
+    transition: none;
+    transform: none;
   }
 }
 
@@ -2368,6 +2400,13 @@
   .heroProof dd {
     font-size: 11px;
     letter-spacing: 0.2px;
+  }
+  /* once they wrap they sit at two different widths, which reads ragged —
+     stacked and matched is cleaner than two mismatched pills */
+  .heroCtas {
+    flex-direction: column;
+    align-self: stretch;
+    align-items: stretch;
   }
   .heroHorizonRow {
     --sky-scale: 0.56;

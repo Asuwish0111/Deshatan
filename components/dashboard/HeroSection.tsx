@@ -55,6 +55,9 @@ export default function HeroSection() {
         <div className={s.heroCtas}>
           <Link className={s.heroCtaPrimary} href="/book/search">
             Start exploring
+            <span className={s.heroCtaArrow} aria-hidden="true">
+              →
+            </span>
           </Link>
           <Link className={s.heroCtaGhost} href="#showcase">
             See where we go
