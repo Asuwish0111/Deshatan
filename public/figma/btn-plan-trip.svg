@@ -28,10 +28,10 @@
 <stop offset="1" stop-color="#C19242"/>
 </linearGradient>
 <linearGradient id="paint1_linear_0_159" x1="59.8798" y1="41.8376" x2="59.8798" y2="1.10163" gradientUnits="userSpaceOnUse">
-<stop offset="0.2539" stop-color="#BF1747"/>
-<stop offset="0.4085" stop-color="#CC2454"/>
-<stop offset="0.7296" stop-color="#F08EB4"/>
-<stop offset="1" stop-color="#CC2454"/>
+<stop offset="0.2539" stop-color="#803625"/>
+<stop offset="0.4085" stop-color="#A14834"/>
+<stop offset="0.7296" stop-color="#C87A5F"/>
+<stop offset="1" stop-color="#A14834"/>
 </linearGradient>
 <linearGradient id="paint2_linear_0_159" x1="8.67389e-05" y1="21.9999" x2="188" y2="24" gradientUnits="userSpaceOnUse">
 <stop offset="0.0267" stop-color="#FFDF63"/>
