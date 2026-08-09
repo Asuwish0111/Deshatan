@@ -21,7 +21,7 @@ export default function YatriBiradariSection() {
     <section className={s.biradari} id="community">
       <div className={s.biradariInner}>
         <div className={s.biradariCopy}>
-          <p className={`${s.eyebrow} ${s.eyebrowOnDark} ${s.eyebrowCream}`}>
+          <p className={`${s.eyebrow} ${s.eyebrowOnDark}`}>
             <span className={s.eyebrowBar} aria-hidden="true" />
             <span className={s.eyebrowWord}>Yatri Biradari</span>
             <span className={s.eyebrowCaps}>The yatri circle</span>
