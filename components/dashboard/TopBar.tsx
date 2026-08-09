@@ -47,8 +47,7 @@ export default function TopBar() {
           </span>
         </span>
 
-        <Link className={s.planBtn} href="/book">
-          <img src="/figma/btn-plan-trip.svg" alt="" />
+        <Link className={`${s.btnPlate} ${s.planBtn}`} href="/book">
           <span>Plan Your Trip</span>
         </Link>
       </div>

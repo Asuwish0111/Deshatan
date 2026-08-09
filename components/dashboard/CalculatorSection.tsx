@@ -1,26 +1,60 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { STYLE_OPTIONS, REGION_MULTIPLIERS } from "@/lib/constants";
 import s from "./dashboard.module.css";
 
-const STYLES = ["Backpacker", "Comfort", "Heritage Royal"];
-const ACTIVE_STYLE = "Comfort";
+type StyleKey = "backpacker" | "comfort" | "heritage";
 
-const REGIONS = [
-  "Himalayas",
-  "Rajasthan",
-  "Deep South",
-  "Nepal & Bhutan",
-  "Seaside",
-  "Offbeat location",
-  "Trek location",
+const STYLES: { key: StyleKey; label: string }[] = [
+  { key: "backpacker", label: "Backpacker" },
+  { key: "comfort", label: "Comfort" },
+  { key: "heritage", label: "Heritage Royal" },
 ];
-const ACTIVE_REGION = "Himalayas";
 
-const BREAKDOWN = [
-  { label: "Stay", value: "₹31,185" },
-  { label: "Travel + driver", value: "₹24,255" },
-  { label: "Guide + experiences", value: "₹13,860" },
+// the shared table covers the first three; the rest are this section's own
+const REGIONS: { label: string; mult: number }[] = [
+  { label: "Himalayas", mult: REGION_MULTIPLIERS["Himalayas"] ?? 1.1 },
+  { label: "Rajasthan", mult: REGION_MULTIPLIERS["Rajasthan"] ?? 1.0 },
+  { label: "Deep South", mult: REGION_MULTIPLIERS["Deep South"] ?? 1.05 },
+  { label: "Nepal & Bhutan", mult: 1.15 },
+  { label: "Seaside", mult: 1.08 },
+  { label: "Offbeat location", mult: 1.12 },
+  { label: "Trek location", mult: 1.14 },
 ];
+
+const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
 
 export default function CalculatorSection() {
+  const [days, setDays] = useState(7);
+  const [pax, setPax] = useState(2);
+  const [style, setStyle] = useState<StyleKey>("comfort");
+  const [region, setRegion] = useState("Himalayas");
+  const [query, setQuery] = useState("");
+
+  const rate = STYLE_OPTIONS.find((o) => o.key === style)?.price ?? 4500;
+  const mult = REGIONS.find((r) => r.label === region)?.mult ?? 1;
+  // groups of three or more get a per-head discount, capped at 22%
+  const groupFactor = 1 - Math.min(Math.max(pax - 2, 0) * 0.04, 0.22);
+
+  const total = Math.round(days * pax * rate * mult * groupFactor);
+  const perHead = Math.round(total / pax);
+  // the last share takes the remainder so the three always sum to the total
+  const stay = Math.round(total * 0.45);
+  const travel = Math.round(total * 0.35);
+  const guide = total - stay - travel;
+
+  const bookingHref = `/book?days=${days}&pax=${pax}&style=${style}&region=${encodeURIComponent(region)}`;
+  const searchHref = query.trim()
+    ? `/book/search?q=${encodeURIComponent(query.trim())}`
+    : "/book/search";
+
+  // paints the filled part of the track up to the current value
+  const track = (value: number, min: number, max: number) => ({
+    "--fill": `${((value - min) / (max - min)) * 100}%`,
+  }) as React.CSSProperties;
+
   return (
     <section className={s.calculator} id="calculator">
       <div className={s.calculatorInner}>
@@ -54,76 +88,125 @@ export default function CalculatorSection() {
           </div>
 
           <div className={s.calcField}>
-            <p className={s.calcLabel}>Search your destination</p>
+            <label className={s.calcLabel} htmlFor="calc-destination">
+              Search your destination
+            </label>
             <div className={s.calcSearch}>
-              <span className={s.calcInput}>Manali, Kerala backwaters, Rajasthan…</span>
-              <span className={s.calcSearchBtn}>Search</span>
+              <input
+                id="calc-destination"
+                className={s.calcInput}
+                type="search"
+                placeholder="Manali, Kerala backwaters, Rajasthan…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <Link className={`${s.btnPlate} ${s.calcSearchBtn}`} href={searchHref}>
+                <span>Search</span>
+              </Link>
             </div>
           </div>
 
           <div className={s.calcSlider}>
             <div className={s.calcSliderLabel}>
-              <span className={s.calcLabel}>Days on the road</span>
-              <span className={s.calcOutput}>7 din</span>
+              <label className={s.calcLabel} htmlFor="calc-days">
+                Days on the road
+              </label>
+              <output className={s.calcOutput} htmlFor="calc-days">
+                {days} din
+              </output>
             </div>
-            <div className={s.calcTrack}>
-              <span />
-            </div>
+            <input
+              id="calc-days"
+              className={s.calcRange}
+              style={track(days, 2, 30)}
+              type="range"
+              min={2}
+              max={30}
+              value={days}
+              onChange={(e) => setDays(Number(e.target.value))}
+            />
           </div>
 
           <div className={s.calcSlider}>
             <div className={s.calcSliderLabel}>
-              <span className={s.calcLabel}>Travellers</span>
-              <span className={s.calcOutput}>2 log</span>
+              <label className={s.calcLabel} htmlFor="calc-pax">
+                Travellers
+              </label>
+              <output className={s.calcOutput} htmlFor="calc-pax">
+                {pax} log
+              </output>
             </div>
-            <div className={s.calcTrack}>
-              <span />
-            </div>
+            <input
+              id="calc-pax"
+              className={s.calcRange}
+              style={track(pax, 1, 15)}
+              type="range"
+              min={1}
+              max={15}
+              value={pax}
+              onChange={(e) => setPax(Number(e.target.value))}
+            />
           </div>
 
           <div className={s.calcField}>
             <p className={s.calcLabel}>Travel style</p>
-            <div className={s.calcChoices}>
-              {STYLES.map((style) => (
-                <span
-                  className={`${s.calcChoice} ${style === ACTIVE_STYLE ? s.calcChoiceOn : ""}`}
-                  key={style}
+            <div className={s.calcChoices} role="group" aria-label="Travel style">
+              {STYLES.map((opt) => (
+                <button
+                  type="button"
+                  key={opt.key}
+                  className={`${s.calcChoice} ${style === opt.key ? s.calcChoiceOn : ""}`}
+                  aria-pressed={style === opt.key}
+                  onClick={() => setStyle(opt.key)}
                 >
-                  {style}
-                </span>
+                  {opt.label}
+                </button>
               ))}
             </div>
           </div>
 
           <div className={s.calcField}>
             <p className={s.calcLabel}>Region</p>
-            <div className={s.calcChoices}>
-              {REGIONS.map((region) => (
-                <span
-                  className={`${s.calcChoice} ${region === ACTIVE_REGION ? s.calcChoiceOn : ""}`}
-                  key={region}
+            <div className={s.calcChoices} role="group" aria-label="Region">
+              {REGIONS.map((opt) => (
+                <button
+                  type="button"
+                  key={opt.label}
+                  className={`${s.calcChoice} ${region === opt.label ? s.calcChoiceOn : ""}`}
+                  aria-pressed={region === opt.label}
+                  onClick={() => setRegion(opt.label)}
                 >
-                  {region}
-                </span>
+                  {opt.label}
+                </button>
               ))}
             </div>
           </div>
 
-          <div className={s.calcEstimate}>
-            <p className={s.calcTotal}>₹69,300</p>
-            <p className={s.calcPerPerson}>≈ ₹34,650 per person, sab kuch included</p>
+          <div className={s.calcEstimate} aria-live="polite">
+            <p className={s.calcTotal}>{inr(total)}</p>
+            <p className={s.calcPerPerson}>
+              ≈ {inr(perHead)} per person, sab kuch included
+            </p>
             <div className={s.calcBreakdown}>
-              {BREAKDOWN.map((row) => (
-                <div key={row.label}>
-                  <p className={s.calcBreakLabel}>{row.label}</p>
-                  <p className={s.calcBreakValue}>{row.value}</p>
-                </div>
-              ))}
+              <div>
+                <p className={s.calcBreakLabel}>Stay</p>
+                <p className={s.calcBreakValue}>{inr(stay)}</p>
+              </div>
+              <div>
+                <p className={s.calcBreakLabel}>Travel + driver</p>
+                <p className={s.calcBreakValue}>{inr(travel)}</p>
+              </div>
+              <div>
+                <p className={s.calcBreakLabel}>Guide + experiences</p>
+                <p className={s.calcBreakValue}>{inr(guide)}</p>
+              </div>
             </div>
           </div>
 
           <div className={s.calcCta}>
-            <span className={s.calcCtaBtn}>Like this number? Start a real booking →</span>
+            <Link className={`${s.btnPlate} ${s.calcCtaBtn}`} href={bookingHref}>
+              <span>Like this number? Start a real booking →</span>
+            </Link>
           </div>
         </div>
       </div>
