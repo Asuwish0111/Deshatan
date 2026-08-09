@@ -362,7 +362,7 @@
 
 /* The design leaves the hero slot above "Asli Tasveerein" empty. */
 .panelInner {
-  padding: var(--hero-gap) 0 var(--section-pad);
+  padding: 0 0 var(--section-pad);
 }
 
 /* ------------------------------------------------------------
@@ -439,6 +439,150 @@
   color: var(--ink);
   text-align: center;
   white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+   Hero — fills the slot the design leaves empty under the arch.
+   Centred, because every section head on this page is centred and
+   the arch shoulders frame the middle. Vocabulary is borrowed, not
+   invented: the eyebrow rule, the Rozha One display face, the flat
+   2px-ink buttons, and the frieze silhouettes reused as a horizon.
+   ------------------------------------------------------------ */
+
+.hero {
+  position: relative;
+  padding: clamp(48px, 6vw, 92px) 0 clamp(44px, 5.4vw, 78px);
+  overflow: hidden;
+}
+.heroInner {
+  display: flex;
+  width: min(1000px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* the largest type on the page — it has to out-rank the 44px section heads */
+.heroTitle {
+  margin: 18px 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(38px, 5.6vw, 80px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.heroTitleAccent {
+  display: block;
+  color: var(--rust);
+}
+
+.heroLede {
+  max-width: 620px;
+  margin-top: 22px;
+  font-family: var(--text);
+  font-weight: 400;
+  font-size: clamp(16px, 1.35vw, 18.5px);
+  line-height: 1.7;
+  color: var(--body-soft);
+}
+
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 34px;
+}
+.heroCtaPrimary,
+.heroCtaGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 30px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.16px;
+  text-decoration: none;
+}
+.heroCtaPrimary {
+  background: var(--rust);
+  color: var(--parchment);
+}
+.heroCtaPrimary:hover {
+  background: #8d3e2d;
+}
+.heroCtaGhost {
+  background: var(--parchment);
+  color: var(--ink);
+}
+.heroCtaGhost:hover {
+  background: var(--sand);
+}
+
+/* a light inline row — the stat cards below already carry the heavy version */
+.heroProof {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px clamp(28px, 5vw, 64px);
+  margin: 44px 0 0;
+  padding-top: 26px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(38, 25, 14, 0.35) 0 4.2px,
+    transparent 4.2px 8.4px
+  );
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+}
+.heroProof div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.heroProof dt {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(26px, 2.5vw, 34px);
+  line-height: 1.1;
+  color: var(--rust);
+}
+.heroProof dd {
+  margin: 2px 0 0;
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: 0.4px;
+  color: var(--body-muted);
+}
+
+/* horizon: the frieze silhouettes again, whispered onto the cream */
+.heroHorizon {
+  position: relative;
+  height: clamp(64px, 7vw, 96px);
+  margin-top: clamp(36px, 4.5vw, 64px);
+}
+.heroHorizonRow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 26px;
+}
+.heroMonument {
+  flex: none;
+  background-color: rgba(38, 25, 14, 0.13);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 /* ------------------------------------------------------------

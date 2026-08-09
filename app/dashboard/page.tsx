@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import TopBar from "@/components/dashboard/TopBar";
+import HeroSection from "@/components/dashboard/HeroSection";
 import ShowcaseSection from "@/components/dashboard/ShowcaseSection";
 import MonumentBand from "@/components/dashboard/MonumentBand";
 import CoverageSection from "@/components/dashboard/CoverageSection";
@@ -20,6 +21,7 @@ export default function DashboardPage() {
         <div className={s.archCap} aria-hidden="true" />
         <div className={s.panel}>
           <div className={s.panelInner}>
+            <HeroSection />
             <ShowcaseSection />
           </div>
         </div>
