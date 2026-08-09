@@ -5,6 +5,7 @@ import { useDeshatan } from "@/lib/context";
 import { t } from "@/lib/i18n";
 import Link from "next/link";
 import { Language } from "@/types";
+import Image from "next/image";
 
 export default function Header() {
   const { language, setLanguage } = useDeshatan();
@@ -44,7 +45,17 @@ export default function Header() {
       <header>
         <nav className="nav">
           <div className="logo">
-            <div className="logo-mark">🏍️</div>
+            <div className="logo-frame">
+              <Image
+                src="/assets/logo-frame.svg"
+                alt=""
+                width={130}
+                height={50}
+                priority
+                aria-hidden="true"
+              />
+              <div className="logo-mark">🏍️</div>
+            </div>
             <div className="logo-name">
               {t("nav.logo", language)}
               <small>{t("nav.tagline", language)}</small>
@@ -67,8 +78,11 @@ export default function Header() {
                 onClick={() => setLangOpen(!langOpen)}
                 title="Change language"
               >
-                <span>🌐</span>
-                <span>{language.toUpperCase()}</span>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="lang-globe">
+                  <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1"/>
+                  <path d="M1 9h16M9 1a8 8 0 010 16 8 8 0 010-16z" stroke="currentColor" strokeWidth="1"/>
+                </svg>
+                <span>{language.toUpperCase().slice(0, 2)}</span>
               </button>
               {langOpen && (
                 <div className="lang-menu">
@@ -87,6 +101,18 @@ export default function Header() {
                 </div>
               )}
             </div>
+
+            <div className="nav-divider"></div>
+
+            <Link href="/book/search" className="plan-trip-btn" aria-label="Plan Your Trip">
+              <Image
+                src="/assets/plan-trip-button.svg"
+                alt="Plan Your Trip"
+                width={188}
+                height={44}
+                priority
+              />
+            </Link>
 
             <button
               className="nav-toggle"

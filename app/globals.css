@@ -242,9 +242,9 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: linear-gradient(180deg, var(--paper) 0%, rgba(246, 237, 217, 0.95) 100%);
-  border-bottom: 3px solid var(--ink);
-  box-shadow: var(--shadow-md);
+  background: #faf6f0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
 }
 
@@ -278,7 +278,28 @@ header {
   transform: scale(1.03);
 }
 
+.logo-frame {
+  position: relative;
+  width: 130px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .logo-mark {
+  position: relative;
+  z-index: 1;
   width: 48px;
   height: 48px;
   display: flex;
@@ -411,30 +432,40 @@ header {
 .lang-trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: "Mukta", sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  padding: 9px 15px;
-  border: 2px solid var(--ink);
-  background: linear-gradient(135deg, rgba(207, 158, 70, 0.1), rgba(161, 72, 52, 0.05));
-  color: var(--ink);
+  gap: 4px;
+  font-family: "Google Sans Flex", "Inter", "Mukta", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px 10px;
+  border: none;
+  background: #ffffff;
+  color: #000000;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 9px;
   transition: all 0.3s ease;
   white-space: nowrap;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .lang-trigger:hover {
-  border-color: var(--sindoor);
-  background: linear-gradient(135deg, rgba(207, 158, 70, 0.2), rgba(161, 72, 52, 0.1));
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
 .lang-trigger:focus-visible {
-  outline: 3px solid var(--sindoor);
+  outline: 2px solid var(--sindoor);
   outline-offset: 2px;
+}
+
+.lang-globe {
+  width: 18px;
+  height: 18px;
+  color: #000000;
+  flex-shrink: 0;
 }
 
 .lang-menu {
@@ -480,6 +511,40 @@ header {
   background: linear-gradient(135deg, var(--marigold), var(--sindoor));
   color: var(--paper);
   font-weight: 700;
+}
+
+/* ---- nav divider ---- */
+.nav-divider {
+  width: 2px;
+  height: 27px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+  border-radius: 1px;
+}
+
+/* ---- plan trip button (exact Figma ornate export) ---- */
+.plan-trip-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 188px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.plan-trip-btn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.plan-trip-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05) drop-shadow(0 6px 12px rgba(191, 23, 71, 0.35));
 }
 
 /* ---- nav link styling ---- */
@@ -1601,6 +1666,16 @@ footer {
     width: 42px;
     height: 42px;
     font-size: 20px;
+  }
+
+  .logo-frame {
+    width: 110px;
+    height: 42px;
+  }
+
+  .plan-trip-btn {
+    width: 150px;
+    height: 35px;
   }
 
   .hero-ctas {
