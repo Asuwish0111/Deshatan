@@ -9,8 +9,6 @@ import s from "./dashboard.module.css";
 // Copy comes from lib/i18n so the footer has one source of truth with the rest
 // of the site — the page's own sections are English-only, but this follows the
 // language switcher the moment the dashboard wires it up.
-const TRUST = ["1", "2", "3", "4"] as const;
-
 const COLUMNS: { head: string; links: [string, string][] }[] = [
   {
     head: "footer.explore",
@@ -47,6 +45,13 @@ const COLUMNS: { head: string; links: [string, string][] }[] = [
   },
 ];
 
+const SOCIALS: [string, string][] = [
+  ["Instagram", "/figma/social-instagram.svg"],
+  ["YouTube", "/figma/social-youtube.svg"],
+  ["X", "/figma/social-x.svg"],
+  ["WhatsApp community", "/figma/social-whatsapp.svg"],
+];
+
 export default function SiteFooter() {
   const { language } = useDeshatan();
   const [email, setEmail] = useState("");
@@ -55,23 +60,9 @@ export default function SiteFooter() {
   return (
     <footer className={s.siteFooter}>
       <div className={s.footerInner}>
-        <ul className={s.footTrust}>
-          {TRUST.map((n) => (
-            <li key={n}>
-              <span className={s.footTick} aria-hidden="true">
-                ✦
-              </span>
-              <span>
-                <b>{t(`footer.trust${n}`, language)}</b>
-                <small>{t(`footer.trust${n}.sub`, language)}</small>
-              </span>
-            </li>
-          ))}
-        </ul>
-
         <div className={s.footNews}>
           <div className={s.footNewsCopy}>
-            <p className={`${s.eyebrow} ${s.eyebrowOnDark}`}>
+            <p className={s.eyebrow}>
               <span className={s.eyebrowBar} aria-hidden="true" />
               <span className={s.eyebrowWord}>Judey Rahiye</span>
               <span className={s.eyebrowCaps}>{t("footer.news", language)}</span>
@@ -102,10 +93,10 @@ export default function SiteFooter() {
               }}
             />
             <button type="submit">{t("footer.news.btn", language)}</button>
+            <p className={s.footNewsNote} aria-live="polite">
+              {sent ? t("footer.news.note", language) : " "}
+            </p>
           </form>
-          <p className={s.footNewsNote} aria-live="polite">
-            {sent ? t("footer.news.note", language) : " "}
-          </p>
         </div>
 
         <div className={s.footGrid}>
@@ -113,14 +104,17 @@ export default function SiteFooter() {
             <p className={s.footWordmark}>Deshatan</p>
             <p>{t("footer.about.p", language)}</p>
             <div className={s.footSocials}>
-              {[
-                ["Instagram", "/figma/social-instagram.svg"],
-                ["YouTube", "/figma/social-youtube.svg"],
-                ["X", "/figma/social-x.svg"],
-                ["WhatsApp community", "/figma/social-whatsapp.svg"],
-              ].map(([label, icon]) => (
+              {SOCIALS.map(([label, icon]) => (
                 <Link key={label} href="#" aria-label={label}>
-                  <img src={icon} alt="" width={18} height={18} />
+                  {/* the exported glyphs are hard-filled parchment, which is
+                      invisible on cream — masked so they take the ink */}
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      maskImage: `url(${icon})`,
+                      WebkitMaskImage: `url(${icon})`,
+                    }}
+                  />
                 </Link>
               ))}
             </div>

@@ -47,12 +47,15 @@ export default function DashboardPage() {
         <CalculatorSection />
         <LiveTrackerSection />
         <AapkiYatraSection />
-        <YatriBiradariSection />
+        {/* the cream plate the rust band's rounded corners sit on — the
+            footer shares it, so the page closes on one surface */}
+        <div className={s.closePanel}>
+          <YatriBiradariSection />
+          <SiteFooter />
+        </div>
       </div>
 
-      <div className={s.tail} />
       <div className={s.archBottom} aria-hidden="true" />
-      <SiteFooter />
     </div>
   );
 }
