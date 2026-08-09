@@ -933,18 +933,23 @@
   font-family: var(--hindi);
 }
 
-/* the card sits on a hard gold offset rather than a soft shadow */
+/* same construction as .stamp / .feature: coloured frame, parchment inner */
+.calcFrame {
+  width: 528px;
+  flex: none;
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--gold);
+}
 .calcCard {
   display: flex;
-  width: 508px;
-  flex: none;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;
-  border: 3px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 16px;
   background: var(--parchment);
-  filter: drop-shadow(8px 8px 0 var(--gold));
 }
 
 .calcCardHead {
@@ -1019,11 +1024,10 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  padding: 9px 24px;
-  border: 3px solid var(--ink);
+  padding: 10px 24px;
+  border: 2px solid var(--ink);
   border-radius: 12px;
   background: var(--rust);
-  box-shadow: 4px 4px 0 var(--ink);
   font-family: var(--text);
   font-weight: 700;
   color: var(--parchment);
@@ -1135,7 +1139,7 @@
   width: 100%;
   margin-top: var(--calc-gap);
   padding: 16px 20px;
-  border: 3px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 12px;
   background: #d8bc7b;
 }
@@ -1248,9 +1252,9 @@
     flex-direction: column;
     gap: 40px;
   }
-  .calcCard {
+  .calcFrame {
     width: 100%;
-    max-width: 508px;
+    max-width: 528px;
     align-self: center;
   }
   .page {

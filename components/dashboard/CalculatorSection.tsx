@@ -81,132 +81,134 @@ export default function CalculatorSection() {
           </div>
         </div>
 
-        <div className={s.calcCard}>
-          <div className={s.calcCardHead}>
-            <h3>Sapno ka Calculator</h3>
-            <span className={s.calcLive}>live estimate</span>
-          </div>
+        <div className={s.calcFrame}>
+          <div className={s.calcCard}>
+            <div className={s.calcCardHead}>
+              <h3>Sapno ka Calculator</h3>
+              <span className={s.calcLive}>live estimate</span>
+            </div>
 
-          <div className={s.calcField}>
-            <label className={s.calcLabel} htmlFor="calc-destination">
-              Search your destination
-            </label>
-            <div className={s.calcSearch}>
+            <div className={s.calcField}>
+              <label className={s.calcLabel} htmlFor="calc-destination">
+                Search your destination
+              </label>
+              <div className={s.calcSearch}>
+                <input
+                  id="calc-destination"
+                  className={s.calcInput}
+                  type="search"
+                  placeholder="Manali, Kerala backwaters, Rajasthan…"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+                <Link className={s.calcSearchBtn} href={searchHref}>
+                  <span>Search</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className={s.calcSlider}>
+              <div className={s.calcSliderLabel}>
+                <label className={s.calcLabel} htmlFor="calc-days">
+                  Days on the road
+                </label>
+                <output className={s.calcOutput} htmlFor="calc-days">
+                  {days} din
+                </output>
+              </div>
               <input
-                id="calc-destination"
-                className={s.calcInput}
-                type="search"
-                placeholder="Manali, Kerala backwaters, Rajasthan…"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                id="calc-days"
+                className={s.calcRange}
+                style={track(days, 2, 30)}
+                type="range"
+                min={2}
+                max={30}
+                value={days}
+                onChange={(e) => setDays(Number(e.target.value))}
               />
-              <Link className={s.calcSearchBtn} href={searchHref}>
-                <span>Search</span>
+            </div>
+
+            <div className={s.calcSlider}>
+              <div className={s.calcSliderLabel}>
+                <label className={s.calcLabel} htmlFor="calc-pax">
+                  Travellers
+                </label>
+                <output className={s.calcOutput} htmlFor="calc-pax">
+                  {pax} log
+                </output>
+              </div>
+              <input
+                id="calc-pax"
+                className={s.calcRange}
+                style={track(pax, 1, 15)}
+                type="range"
+                min={1}
+                max={15}
+                value={pax}
+                onChange={(e) => setPax(Number(e.target.value))}
+              />
+            </div>
+
+            <div className={s.calcField}>
+              <p className={s.calcLabel}>Travel style</p>
+              <div className={s.calcChoices} role="group" aria-label="Travel style">
+                {STYLES.map((opt) => (
+                  <button
+                    type="button"
+                    key={opt.key}
+                    className={`${s.calcChoice} ${style === opt.key ? s.calcChoiceOn : ""}`}
+                    aria-pressed={style === opt.key}
+                    onClick={() => setStyle(opt.key)}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className={s.calcField}>
+              <p className={s.calcLabel}>Region</p>
+              <div className={s.calcChoices} role="group" aria-label="Region">
+                {REGIONS.map((opt) => (
+                  <button
+                    type="button"
+                    key={opt.label}
+                    className={`${s.calcChoice} ${region === opt.label ? s.calcChoiceOn : ""}`}
+                    aria-pressed={region === opt.label}
+                    onClick={() => setRegion(opt.label)}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className={s.calcEstimate} aria-live="polite">
+              <p className={s.calcTotal}>{inr(total)}</p>
+              <p className={s.calcPerPerson}>
+                ≈ {inr(perHead)} per person, sab kuch included
+              </p>
+              <div className={s.calcBreakdown}>
+                <div>
+                  <p className={s.calcBreakLabel}>Stay</p>
+                  <p className={s.calcBreakValue}>{inr(stay)}</p>
+                </div>
+                <div>
+                  <p className={s.calcBreakLabel}>Travel + driver</p>
+                  <p className={s.calcBreakValue}>{inr(travel)}</p>
+                </div>
+                <div>
+                  <p className={s.calcBreakLabel}>Guide + experiences</p>
+                  <p className={s.calcBreakValue}>{inr(guide)}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={s.calcCta}>
+              <Link className={s.calcCtaBtn} href={bookingHref}>
+                <span>Like this number? Start a real booking →</span>
               </Link>
             </div>
-          </div>
-
-          <div className={s.calcSlider}>
-            <div className={s.calcSliderLabel}>
-              <label className={s.calcLabel} htmlFor="calc-days">
-                Days on the road
-              </label>
-              <output className={s.calcOutput} htmlFor="calc-days">
-                {days} din
-              </output>
-            </div>
-            <input
-              id="calc-days"
-              className={s.calcRange}
-              style={track(days, 2, 30)}
-              type="range"
-              min={2}
-              max={30}
-              value={days}
-              onChange={(e) => setDays(Number(e.target.value))}
-            />
-          </div>
-
-          <div className={s.calcSlider}>
-            <div className={s.calcSliderLabel}>
-              <label className={s.calcLabel} htmlFor="calc-pax">
-                Travellers
-              </label>
-              <output className={s.calcOutput} htmlFor="calc-pax">
-                {pax} log
-              </output>
-            </div>
-            <input
-              id="calc-pax"
-              className={s.calcRange}
-              style={track(pax, 1, 15)}
-              type="range"
-              min={1}
-              max={15}
-              value={pax}
-              onChange={(e) => setPax(Number(e.target.value))}
-            />
-          </div>
-
-          <div className={s.calcField}>
-            <p className={s.calcLabel}>Travel style</p>
-            <div className={s.calcChoices} role="group" aria-label="Travel style">
-              {STYLES.map((opt) => (
-                <button
-                  type="button"
-                  key={opt.key}
-                  className={`${s.calcChoice} ${style === opt.key ? s.calcChoiceOn : ""}`}
-                  aria-pressed={style === opt.key}
-                  onClick={() => setStyle(opt.key)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className={s.calcField}>
-            <p className={s.calcLabel}>Region</p>
-            <div className={s.calcChoices} role="group" aria-label="Region">
-              {REGIONS.map((opt) => (
-                <button
-                  type="button"
-                  key={opt.label}
-                  className={`${s.calcChoice} ${region === opt.label ? s.calcChoiceOn : ""}`}
-                  aria-pressed={region === opt.label}
-                  onClick={() => setRegion(opt.label)}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className={s.calcEstimate} aria-live="polite">
-            <p className={s.calcTotal}>{inr(total)}</p>
-            <p className={s.calcPerPerson}>
-              ≈ {inr(perHead)} per person, sab kuch included
-            </p>
-            <div className={s.calcBreakdown}>
-              <div>
-                <p className={s.calcBreakLabel}>Stay</p>
-                <p className={s.calcBreakValue}>{inr(stay)}</p>
-              </div>
-              <div>
-                <p className={s.calcBreakLabel}>Travel + driver</p>
-                <p className={s.calcBreakValue}>{inr(travel)}</p>
-              </div>
-              <div>
-                <p className={s.calcBreakLabel}>Guide + experiences</p>
-                <p className={s.calcBreakValue}>{inr(guide)}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className={s.calcCta}>
-            <Link className={s.calcCtaBtn} href={bookingHref}>
-              <span>Like this number? Start a real booking →</span>
-            </Link>
           </div>
         </div>
       </div>
