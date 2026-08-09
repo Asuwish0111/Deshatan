@@ -37,7 +37,9 @@
   --r-close: 44px;
   --topbar-h: 91px;
   --band-h: 112px;
-  --close-h: 185.5px;
+  /* the closing shoulder; the plate used to leave ~140px of blank cream
+     between the footer's last line and the first step */
+  --close-h: 112px;
   --gutter: 28px;
   /* vertical rhythm inside the estimator card; Figma's is 22px */
   --calc-gap: 13px;
@@ -2262,7 +2264,7 @@
 /* the top rule needs to clear the rust band's rounded corners rather than
    butting straight against them */
 .siteFooter {
-  padding: 14px 0 clamp(30px, 3.2vw, 44px);
+  padding: 14px 0 12px;
   background: var(--cream);
 }
 .footerInner {
@@ -2533,7 +2535,7 @@
     --r-cap: 34px;
     --r-body: 38px;
     --r-close: 34px;
-    --close-h: 150px;
+    --close-h: 92px;
   }
 }
 
@@ -2561,7 +2563,7 @@
     --r-close: 24px;
     --topbar-h: 72px;
     --band-h: 68px;
-    --close-h: 112px;
+    --close-h: 74px;
     --gutter: 18px;
   }
   .motif {
