@@ -946,6 +946,30 @@
   object-fit: cover;
   display: block;
 }
+/* CC BY and CC BY-SA require visible attribution — deliberately quiet, but
+   it has to stay rendered for the photo licences to be satisfied */
+.photoCredits {
+  width: min(1238px, 100% - 2 * var(--gutter));
+  margin: 26px auto 0;
+  font-family: var(--text);
+  font-size: 11.5px;
+  line-height: 19px;
+  text-align: center;
+  color: var(--body-muted);
+}
+.photoCreditsLead {
+  font-weight: 600;
+}
+.photoCredits a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(107, 88, 66, 0.4);
+  text-underline-offset: 2px;
+}
+.photoCredits a:hover {
+  color: var(--rust);
+}
+
 .cardRegion {
   position: absolute;
   top: 10px;
