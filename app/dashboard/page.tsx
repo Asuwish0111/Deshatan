@@ -6,6 +6,9 @@ import MonumentBand from "@/components/dashboard/MonumentBand";
 import CoverageSection from "@/components/dashboard/CoverageSection";
 import EverythingSection from "@/components/dashboard/EverythingSection";
 import CalculatorSection from "@/components/dashboard/CalculatorSection";
+import LiveTrackerSection from "@/components/dashboard/LiveTrackerSection";
+import AapkiYatraSection from "@/components/dashboard/AapkiYatraSection";
+import YatriBiradariSection from "@/components/dashboard/YatriBiradariSection";
 import s from "@/components/dashboard/dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -41,7 +44,9 @@ export default function DashboardPage() {
       <div className={s.calcGap} />
       <div className={s.lower}>
         <CalculatorSection />
-        <EverythingSection id="features-more" />
+        <LiveTrackerSection />
+        <AapkiYatraSection />
+        <YatriBiradariSection />
       </div>
 
       <div className={s.tail} />

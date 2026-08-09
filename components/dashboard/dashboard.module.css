@@ -440,6 +440,33 @@
   text-align: center;
   white-space: nowrap;
 }
+/* the sections on rust add a spaced-caps translation beside the Hindi word */
+.eyebrowCaps {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 13.5px;
+  line-height: 22.275px;
+  letter-spacing: 2.16px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--gold);
+}
+.eyebrowOnDark {
+  justify-content: flex-start;
+}
+.eyebrowOnDark .eyebrowBar {
+  background: var(--gold);
+}
+.eyebrowOnDark .eyebrowWord {
+  color: var(--parchment);
+}
+/* Yatri Biradari runs the whole eyebrow in cream rather than gold */
+.eyebrowCream .eyebrowBar {
+  background: var(--parchment);
+}
+.eyebrowCream .eyebrowCaps {
+  color: var(--parchment);
+}
 
 /* ------------------------------------------------------------
    Hero — fills the slot the design leaves empty under the arch.
@@ -799,9 +826,17 @@
   .heroHorizonRow {
     animation: none;
   }
+  /* park the tracker dot mid-route rather than looping it */
+  .trackerMarker {
+    animation: none;
+  }
   .heroCtaPrimary,
-  .heroCtaGhost {
+  .heroCtaGhost,
+  .biradariSocial {
     transition: background-color 0.2s ease;
+  }
+  .biradariSocial:hover {
+    transform: none;
   }
   .heroCtaPrimary:hover,
   .heroCtaGhost:hover {
@@ -1566,6 +1601,528 @@
 }
 
 /* ------------------------------------------------------------
+   Live Tracker — rust band, copy left, map card right
+   ------------------------------------------------------------ */
+
+/* the three sections below continue the plate the calculator opens, so they
+   carry its hairline sides and the last one closes the radius */
+.tracker {
+  padding: 56px 0;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-bottom: 0;
+  background: var(--rust);
+  overflow: hidden;
+}
+.trackerInner {
+  display: flex;
+  width: min(1238px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 8vw, 118px);
+}
+
+.trackerCopy {
+  flex: 1 1 530px;
+  min-width: 0;
+  max-width: 530px;
+}
+.trackerTitle {
+  margin: 14px 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--parchment);
+}
+.trackerLede {
+  margin-top: 18px;
+  font-family: var(--text);
+  font-size: 17px;
+  line-height: 28.05px;
+  color: #cfd4ec;
+}
+
+.trackerList {
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.trackerList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.trackerList p {
+  margin: 0;
+  font-family: var(--text);
+  font-size: 17px;
+  line-height: 28.05px;
+  color: var(--parchment);
+}
+.trackerList strong {
+  font-weight: 700;
+}
+.trackerBullet {
+  width: 12px;
+  height: 12px;
+  margin-top: 7px;
+  flex: none;
+  border-radius: 6px;
+  background: var(--gold);
+}
+
+.trackerCard {
+  display: flex;
+  flex: 1 1 530px;
+  min-width: 0;
+  max-width: 530px;
+  flex-direction: column;
+  padding: 22px;
+  border: 5px solid var(--ink);
+  border-radius: 16px;
+  background: #1d2443;
+}
+.trackerCardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.trackerCardTitle {
+  margin: 0;
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 23.1px;
+  color: var(--parchment);
+}
+.trackerLive {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--rust);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 20.625px;
+  letter-spacing: 1px;
+  color: var(--parchment);
+}
+.trackerLiveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--parchment);
+  opacity: 0.83;
+}
+
+/* the map keeps the design's 479.984 x 271.297 ratio so the route, the two
+   stops and the marker's path all stay in register as the card narrows */
+.trackerMap {
+  position: relative;
+  margin-top: 14px;
+  aspect-ratio: 479.984 / 271.297;
+  overflow: hidden;
+}
+/* globals clamp every img to max-width:100%; the route and the stop dots are
+   exported with the stroke bleeding past their box, so they must opt out */
+.trackerMap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+.trackerMapFill,
+.trackerMapGrid {
+  position: absolute;
+  inset: 0;
+}
+.trackerRoute {
+  position: absolute;
+  inset: 16.92% 8.7% 15.38% 8.7%;
+}
+/* the stroke bleeds past the path's box, exactly as the design exports it */
+.trackerRoute > img {
+  position: absolute;
+  inset: -1.14% -0.53%;
+  width: 101.06%;
+  height: 102.28%;
+}
+.trackerStop {
+  position: absolute;
+}
+.trackerStop[data-stop='start'] {
+  inset: 81.54% 89.57% 12.31% 6.96%;
+}
+.trackerStop[data-stop='end'] {
+  inset: 13.85% 6.96% 80% 89.57%;
+}
+.trackerStop img {
+  position: absolute;
+  inset: -6.25%;
+  width: 112.5%;
+  height: 112.5%;
+}
+.trackerStopLabel {
+  position: absolute;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 13.565px;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--parchment);
+}
+.trackerStopLabel[data-stop='start'] {
+  inset: 89.62% 87% 1.91% 4.46%;
+}
+.trackerStopLabel[data-stop='end'] {
+  inset: 5% 7.91% 86.52% 87.51%;
+}
+
+.trackerCardFoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 14px;
+}
+.trackerCardFoot p {
+  margin: 0;
+  font-family: var(--text);
+  font-size: 13.5px;
+  line-height: 22.275px;
+  color: #aeb5db;
+}
+.trackerCardFoot strong {
+  font-weight: 700;
+  color: var(--parchment);
+}
+
+/* the dot walks the same curve the dashed route is drawn on — the stops are
+   sampled at even arc length, so a linear timing reads as constant speed */
+@keyframes trackerRun {
+  0% {
+    left: 0.52%;
+    top: 98.89%;
+  }
+  8% {
+    left: 11.1%;
+    top: 92.09%;
+  }
+  16% {
+    left: 20.15%;
+    top: 78.2%;
+  }
+  24% {
+    left: 28.2%;
+    top: 62.58%;
+  }
+  32% {
+    left: 37.86%;
+    top: 50.99%;
+  }
+  40% {
+    left: 48.81%;
+    top: 46.29%;
+  }
+  48% {
+    left: 59.19%;
+    top: 39.84%;
+  }
+  56% {
+    left: 69.5%;
+    top: 31.02%;
+  }
+  64% {
+    left: 79.66%;
+    top: 21.05%;
+  }
+  72% {
+    left: 89.6%;
+    top: 10.97%;
+  }
+  80%,
+  100% {
+    left: 99.48%;
+    top: 1.11%;
+  }
+}
+.trackerMarker {
+  position: absolute;
+  left: 48.81%;
+  top: 46.29%;
+  width: 21.39px;
+  height: 21.39px;
+  margin: -10.7px 0 0 -10.7px;
+  animation: trackerRun 9s linear infinite;
+}
+.trackerMarker img {
+  width: 100%;
+  height: 100%;
+}
+
+/* ------------------------------------------------------------
+   Aapki Yatra — three itinerary cards under arched artwork
+   ------------------------------------------------------------ */
+
+.yatra {
+  padding: 56px 0;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-bottom: 0;
+  background: var(--sand);
+}
+.yatraInner {
+  display: flex;
+  width: min(1238px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+}
+/* an explicit width, not just max-width: the centred flex parent sizes this to
+   the h2's max-content otherwise, and the heading runs past the panel */
+.yatraHead {
+  display: flex;
+  width: min(700px, 100%);
+  flex-direction: column;
+  align-items: center;
+}
+.yatraHead h2 {
+  width: 100%;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--ink);
+}
+
+.yatraGrid {
+  display: grid;
+  width: 100%;
+  /* min() so the single column can go below its 320px track on small phones */
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 34px;
+}
+.yatraCard {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+  overflow: hidden;
+}
+.yatraArtFrame {
+  padding: 16px 16px 0;
+}
+/* the arch again, this time as a window onto the scene. 210px outer with
+   box-sizing: border-box leaves the design's 204px of artwork inside. */
+.yatraArt {
+  position: relative;
+  height: 210px;
+  border: 3px solid var(--ink);
+  border-radius: 999px 999px 0 0;
+  overflow: hidden;
+}
+.yatraArtLayer {
+  position: absolute;
+}
+.yatraArtLayer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+.yatraArtLayer > span {
+  display: block;
+}
+
+.yatraBody {
+  padding: 22px 24px 26px;
+}
+.yatraBody h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 25.76px;
+  letter-spacing: -0.23px;
+  color: var(--ink);
+}
+.yatraKicker {
+  margin: 4px 0 0;
+  font-family: var(--hindi);
+  font-size: 16px;
+  line-height: 26.4px;
+  color: var(--rust);
+}
+.yatraCopy {
+  margin: 10px 0 0;
+  font-family: var(--text);
+  font-size: 15px;
+  line-height: 24.75px;
+  color: var(--body-soft);
+}
+.yatraPoints {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.yatraPoints li {
+  display: flex;
+  gap: 6px;
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 14.5px;
+  line-height: 23.925px;
+  color: var(--ink);
+}
+.yatraPoints span {
+  flex: none;
+  width: 14.5px;
+  color: var(--rust);
+}
+
+/* ------------------------------------------------------------
+   Yatri Biradari — rust band that closes the arch
+   ------------------------------------------------------------ */
+
+.biradari {
+  padding: 56px 0;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: 0 0 var(--r-close) var(--r-close);
+  background: var(--rust);
+  overflow: hidden;
+}
+.biradariInner {
+  display: flex;
+  width: min(1238px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(40px, 6vw, 88px);
+}
+.biradariCopy {
+  flex: 1 1 585px;
+  min-width: 0;
+  max-width: 585px;
+}
+.biradariTitle {
+  margin: 14px 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--parchment);
+}
+.biradariLede {
+  max-width: 489px;
+  margin-top: 16px;
+  font-family: var(--text);
+  font-size: 17px;
+  line-height: 28.05px;
+  color: #fbe4d6;
+}
+.biradariLede + .biradariLede {
+  margin-top: 14px;
+}
+.biradariSocials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+.biradariSocial {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 2px solid var(--parchment);
+  border-radius: 23px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.biradariSocial:hover {
+  background: rgba(246, 237, 217, 0.16);
+  transform: translateY(-2px);
+}
+.biradariSocial img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* the one card on the page that keeps the heavy offset frame — it is the last
+   thing before the arch closes, so it earns the extra weight */
+.pointsCard {
+  flex: 0 1 478px;
+  min-width: 0;
+  padding: 28px;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+  box-shadow: 0 0 0 10px var(--ink);
+}
+.pointsTitle {
+  margin: 0;
+  font-family: var(--hindi);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 23.52px;
+  letter-spacing: -0.21px;
+  color: var(--ink);
+}
+.pointsLedger {
+  margin: 16px 0 0;
+}
+.pointsLedger > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 2px dashed var(--ink);
+}
+.pointsLedger > div:last-child {
+  border-bottom: 0;
+}
+.pointsLedger dt {
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 24.75px;
+  color: var(--ink);
+}
+.pointsLedger dd {
+  margin: 0;
+  flex: none;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24.75px;
+  color: var(--rust);
+}
+
+/* ------------------------------------------------------------
    Closing arch — the same shoulder profile, mirrored
    ------------------------------------------------------------ */
 
@@ -1625,6 +2182,34 @@
     width: 100%;
     max-width: 528px;
     align-self: center;
+  }
+  /* the tracker and biradari both pair a 530px column with a card of its own
+     width — below this the two stop fitting side by side */
+  .trackerInner,
+  .biradariInner {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  /* the flex shorthand's 530px basis is a height once the axis turns vertical,
+     which stretches both cards well past their content */
+  .trackerCopy,
+  .biradariCopy,
+  .trackerCard,
+  .pointsCard {
+    flex: 0 0 auto;
+  }
+  .trackerCopy,
+  .biradariCopy {
+    max-width: 100%;
+  }
+  .trackerCard,
+  .pointsCard {
+    width: 100%;
+    max-width: 530px;
+  }
+  .pointsCard {
+    max-width: 478px;
   }
   .page {
     --shoulder: 40px;
@@ -1713,6 +2298,21 @@
   .featureRule {
     align-items: flex-start;
     flex-wrap: wrap;
+  }
+  .tracker,
+  .yatra,
+  .biradari {
+    padding: 40px 0;
+  }
+  .yatraInner {
+    gap: 36px;
+  }
+  .yatraGrid {
+    gap: 24px;
+  }
+  /* the 10px offset frame eats real width once the card goes full-bleed */
+  .pointsCard {
+    box-shadow: 0 0 0 6px var(--ink);
   }
   .calcGap {
     height: 96px;
