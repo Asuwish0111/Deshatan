@@ -1,10 +1,11 @@
 import Link from "next/link";
 import s from "./dashboard.module.css";
 
+// the three accents deliberately foreshadow the three stat cards below
 const PROOF = [
-  { figure: "2,600+", label: "Verified guides" },
-  { figure: "50,000+", label: "Safe stays" },
-  { figure: "₹25L+", label: "Trips booked" },
+  { figure: "2,600+", label: "Verified guides", tone: s.heroProofRust },
+  { figure: "50,000+", label: "Safe stays", tone: s.heroProofGold },
+  { figure: "₹25L+", label: "Trips booked", tone: s.heroProofIndigo },
 ];
 
 // the same silhouettes the frieze band uses, laid out as a horizon line
@@ -39,7 +40,9 @@ export default function HeroSection() {
 
         <h1 className={s.heroTitle}>
           Explore all of India
-          <span className={s.heroTitleAccent}>&amp; just beyond it.</span>
+          <span className={s.heroTitleAccent}>
+            <span className={s.heroAmp}>&amp;</span> just beyond it.
+          </span>
         </h1>
 
         <p className={s.heroLede}>
@@ -58,7 +61,7 @@ export default function HeroSection() {
 
         <dl className={s.heroProof}>
           {PROOF.map((item) => (
-            <div key={item.label}>
+            <div key={item.label} className={item.tone}>
               <dt>{item.figure}</dt>
               <dd>{item.label}</dd>
             </div>
@@ -67,6 +70,20 @@ export default function HeroSection() {
       </div>
 
       <div className={s.heroHorizon} aria-hidden="true">
+        <div className={`${s.heroHorizonRow} ${s.heroHorizonFar}`}>
+          {HORIZON.map(([name, width, height], i) => (
+            <span
+              key={`far-${name}-${i}`}
+              className={s.heroMonument}
+              style={{
+                width: `${width}px`,
+                height: `${height}px`,
+                maskImage: `url(/figma/${name}.svg)`,
+                WebkitMaskImage: `url(/figma/${name}.svg)`,
+              }}
+            />
+          ))}
+        </div>
         <div className={s.heroHorizonRow}>
           {HORIZON.map(([name, width, height], i) => (
             <span

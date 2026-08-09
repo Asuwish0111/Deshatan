@@ -454,9 +454,23 @@
   padding: clamp(48px, 6vw, 92px) 0 clamp(44px, 5.4vw, 78px);
   overflow: hidden;
 }
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -6%;
+  left: 50%;
+  width: min(1080px, 96%);
+  height: 660px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 42%, rgba(207, 158, 70, 0.17), rgba(207, 158, 70, 0) 70%),
+    radial-gradient(ellipse 42% 38% at 50% 62%, rgba(161, 72, 52, 0.07), rgba(161, 72, 52, 0) 72%);
+  pointer-events: none;
+}
 .heroInner {
   display: flex;
-  width: min(1000px, 100% - 2 * var(--gutter));
+  position: relative;
+  width: min(1040px, 100% - 2 * var(--gutter));
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
@@ -476,6 +490,11 @@
 .heroTitleAccent {
   display: block;
   color: var(--rust);
+}
+.heroAmp {
+  color: var(--gold);
+  font-style: italic;
+  padding-right: 0.06em;
 }
 
 .heroLede {
@@ -545,6 +564,22 @@
   flex-direction: column;
   align-items: center;
 }
+.heroProof div::before {
+  content: '';
+  width: 26px;
+  height: 2px;
+  margin-bottom: 12px;
+  background: var(--proof-accent, var(--rust));
+}
+.heroProofRust {
+  --proof-accent: var(--rust);
+}
+.heroProofGold {
+  --proof-accent: var(--gold);
+}
+.heroProofIndigo {
+  --proof-accent: var(--indigo);
+}
 .heroProof dt {
   font-family: var(--display);
   font-weight: 400;
@@ -564,8 +599,24 @@
 /* horizon: the frieze silhouettes again, whispered onto the cream */
 .heroHorizon {
   position: relative;
-  height: clamp(64px, 7vw, 96px);
+  height: clamp(72px, 7.6vw, 104px);
   margin-top: clamp(36px, 4.5vw, 64px);
+}
+/* the ground the skyline stands on, fading out at both ends */
+.heroHorizon::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(38, 25, 14, 0) 0%,
+    rgba(38, 25, 14, 0.16) 22%,
+    rgba(38, 25, 14, 0.16) 78%,
+    rgba(38, 25, 14, 0) 100%
+  );
 }
 .heroHorizonRow {
   position: absolute;
@@ -576,13 +627,24 @@
   align-items: flex-end;
   gap: 26px;
 }
+/* far range: smaller, cooler, set back — atmospheric perspective */
+/* offset so the far silhouettes sit between the near ones, not behind them */
+.heroHorizonFar {
+  bottom: 3px;
+  gap: 40px;
+  transform: translateX(calc(-50% + 128px)) scale(0.54);
+  transform-origin: bottom center;
+}
 .heroMonument {
   flex: none;
-  background-color: rgba(38, 25, 14, 0.13);
+  background-color: rgba(38, 25, 14, 0.15);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
+}
+.heroHorizonFar .heroMonument {
+  background-color: rgba(91, 124, 141, 0.17);
 }
 
 /* ------------------------------------------------------------
