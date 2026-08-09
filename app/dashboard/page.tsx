@@ -9,6 +9,7 @@ import CalculatorSection from "@/components/dashboard/CalculatorSection";
 import LiveTrackerSection from "@/components/dashboard/LiveTrackerSection";
 import AapkiYatraSection from "@/components/dashboard/AapkiYatraSection";
 import YatriBiradariSection from "@/components/dashboard/YatriBiradariSection";
+import SiteFooter from "@/components/dashboard/SiteFooter";
 import s from "@/components/dashboard/dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -51,6 +52,7 @@ export default function DashboardPage() {
 
       <div className={s.tail} />
       <div className={s.archBottom} aria-hidden="true" />
+      <SiteFooter />
     </div>
   );
 }

@@ -2250,6 +2250,246 @@
 }
 
 /* ------------------------------------------------------------
+   Footer — continues the navy the closing arch sits on, so the page
+   ends on one ground rather than introducing a new band.
+   Text sits at 8.9:1 on this navy; --gold only reaches 4.29 so it is
+   kept off small type and --gold-soft used instead.
+   ------------------------------------------------------------ */
+
+.siteFooter {
+  padding: clamp(44px, 5vw, 68px) 0 28px;
+  background: var(--navy);
+}
+.footerInner {
+  display: flex;
+  width: min(1238px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  flex-direction: column;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.footTrust {
+  display: grid;
+  margin: 0;
+  padding: 0 0 clamp(28px, 3vw, 40px);
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+  gap: 20px 28px;
+  list-style: none;
+  border-bottom: 1px solid var(--hairline);
+}
+.footTrust li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+.footTick {
+  flex: none;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--gold-soft);
+}
+.footTrust b {
+  display: block;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--parchment);
+}
+.footTrust small {
+  display: block;
+  font-family: var(--text);
+  font-size: 13px;
+  line-height: 21px;
+  color: rgba(238, 223, 192, 0.72);
+}
+
+.footNews {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 40px;
+  padding: clamp(28px, 3vw, 40px) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.footNewsCopy {
+  flex: 1 1 380px;
+  min-width: 0;
+}
+.footNewsDesc {
+  margin-top: 10px;
+  font-family: var(--text);
+  font-size: 15px;
+  line-height: 25px;
+  color: rgba(238, 223, 192, 0.78);
+}
+.footNewsForm {
+  display: flex;
+  flex: 0 1 420px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.footNewsForm input {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 12px 15px;
+  border: 2px solid var(--hairline);
+  border-radius: 12px;
+  background: rgba(250, 246, 240, 0.06);
+  font-family: var(--text);
+  font-size: 15px;
+  color: var(--cream);
+}
+.footNewsForm input::placeholder {
+  color: rgba(238, 223, 192, 0.6);
+}
+.footNewsForm input:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 2px;
+}
+.footNewsForm button {
+  flex: none;
+  padding: 12px 28px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--rust);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--parchment);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.footNewsForm button:hover {
+  background: var(--rust-deep);
+}
+.footNewsForm button:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 3px;
+}
+/* holds its line whether or not the note is showing, so submitting
+   does not shunt the layout down */
+.footNewsNote {
+  flex-basis: 100%;
+  min-height: 21px;
+  margin-top: -6px;
+  font-family: var(--text);
+  font-size: 13px;
+  line-height: 21px;
+  color: var(--gold-soft);
+}
+
+.footGrid {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.6fr) repeat(auto-fit, minmax(140px, 1fr));
+  gap: 34px 28px;
+  padding: clamp(30px, 3.4vw, 44px) 0;
+}
+.footBrand p {
+  font-family: var(--text);
+  font-size: 14px;
+  line-height: 23px;
+  color: rgba(238, 223, 192, 0.74);
+}
+/* needs to out-rank .footBrand p, which is one element more specific */
+.footBrand p.footWordmark {
+  margin-bottom: 8px;
+  font-family: var(--display);
+  font-size: 27px;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--cream);
+}
+.footSocials {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.footSocials a {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 2px solid var(--hairline);
+  border-radius: 19px;
+  transition: background-color 0.2s ease;
+}
+.footSocials a:hover {
+  background: rgba(250, 246, 240, 0.12);
+}
+.footSocials a:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 2px;
+}
+.footSocials img {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.footCol h2 {
+  margin: 0 0 12px;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 20px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--tab-gold);
+}
+.footCol ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footCol li + li {
+  margin-top: 7px;
+}
+.footCol a {
+  font-family: var(--text);
+  font-size: 14.5px;
+  line-height: 24px;
+  color: rgba(246, 237, 217, 0.86);
+  text-decoration: none;
+}
+.footCol a:hover {
+  color: var(--cream);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footCol a:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.footBase {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--text);
+  font-size: 13px;
+  line-height: 21px;
+  /* 0.66 composites to 4.4:1 on this navy — just under AA */
+  color: rgba(238, 223, 192, 0.74);
+}
+
+/* ------------------------------------------------------------
    Responsive scale.
 
    The grids reflow on available width (auto-fit), and type/spacing
