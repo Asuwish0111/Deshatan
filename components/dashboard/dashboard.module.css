@@ -472,6 +472,17 @@
     translate: var(--sky-x) 0;
   }
 }
+/* the arch draws itself in behind the content, slower than the copy */
+@keyframes heroArchIn {
+  from {
+    opacity: 0;
+    translate: -50% 14px;
+  }
+  to {
+    opacity: 1;
+    translate: -50% 0;
+  }
+}
 /* light shifting over the scene — 24s, barely perceptible per cycle */
 @keyframes heroGlowDrift {
   0%,
@@ -505,6 +516,40 @@
     radial-gradient(ellipse 42% 38% at 50% 62%, rgba(161, 72, 52, 0.07), rgba(161, 72, 52, 0) 72%);
   pointer-events: none;
   animation: heroGlowDrift 24s ease-in-out infinite;
+}
+
+/* The page's own shape, borrowed as a frame. A pair of concentric hairline
+   arches sit behind the stack so the copy is held by the motif that defines
+   every panel on this page, instead of floating in flat cream. Both dissolve
+   downward, so the base never has to land on a particular element. */
+.heroArch {
+  position: absolute;
+  top: clamp(6px, 1.4vw, 22px);
+  left: 50%;
+  translate: -50% 0;
+  width: min(900px, 88%);
+  height: clamp(380px, 38vw, 556px);
+  border: 1.5px solid rgba(38, 25, 14, 0.11);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / clamp(150px, 19vw, 268px) clamp(150px, 19vw, 268px) 0 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(246, 237, 217, 0.5),
+    rgba(246, 237, 217, 0) 62%
+  );
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 96%);
+  pointer-events: none;
+  animation: heroArchIn 1.4s var(--ease-out) 0.1s both;
+}
+/* the inner echo — a single line reads as a border, two read as architecture */
+.heroArch::before {
+  content: '';
+  position: absolute;
+  inset: 13px 13px -1px;
+  border: 1.5px solid rgba(38, 25, 14, 0.06);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / clamp(140px, 18vw, 254px) clamp(140px, 18vw, 254px) 0 0;
 }
 
 /* the stack arrives in reading order, 90ms apart */
@@ -616,9 +661,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px clamp(28px, 5vw, 64px);
-  margin: 44px 0 0;
-  padding-top: 26px;
+  gap: 14px 0;
+  margin: 42px 0 0;
+  padding-top: 28px;
   background-image: repeating-linear-gradient(
     90deg,
     rgba(38, 25, 14, 0.35) 0 4.2px,
@@ -631,6 +676,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-left: clamp(14px, 2.5vw, 32px);
+  padding-right: clamp(14px, 2.5vw, 32px);
+}
+/* hairlines between, not around — the row stays lighter than the stat cards */
+.heroProof div + div {
+  border-left: 1px solid rgba(38, 25, 14, 0.13);
 }
 .heroProof div::before {
   content: '';
@@ -665,10 +716,28 @@
 }
 
 /* horizon: the frieze silhouettes again, whispered onto the cream */
+/* The box is much taller than the silhouettes on purpose: the mask below
+   clips to the border box, so the haze needs its headroom inside the element
+   or it ends in a hard line. Rows anchor to the bottom regardless. */
 .heroHorizon {
   position: relative;
-  height: clamp(72px, 7.6vw, 104px);
-  margin-top: clamp(36px, 4.5vw, 64px);
+  height: clamp(138px, 12.4vw, 178px);
+  margin-top: clamp(2px, 0.6vw, 10px);
+  /* fade both ends so a silhouette is never sliced by the panel edge */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+/* warm haze rising off the horizon — turns a grey strip into distance */
+.heroHorizon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(238, 223, 192, 0.66),
+    rgba(238, 223, 192, 0) 72%
+  );
+  pointer-events: none;
 }
 /* the ground the skyline stands on, fading out at both ends */
 .heroHorizon::after {
@@ -692,6 +761,8 @@
   bottom: 0;
   left: 50%;
   translate: var(--sky-x) 0;
+  scale: var(--sky-scale, 1);
+  transform-origin: bottom center;
   display: flex;
   align-items: flex-end;
   gap: 26px;
@@ -702,16 +773,15 @@
    It also lags the near range, which reads as distance. */
 .heroHorizonFar {
   --sky-x: calc(-50% + 128px);
+  --sky-scale: 0.54;
   bottom: 3px;
   gap: 40px;
-  scale: 0.54;
-  transform-origin: bottom center;
   animation-duration: 1.35s;
   animation-delay: 0.2s;
 }
 .heroMonument {
   flex: none;
-  background-color: rgba(38, 25, 14, 0.15);
+  background-color: rgba(38, 25, 14, 0.2);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
@@ -724,6 +794,7 @@
 /* the project has no reduced-motion handling; the hero opts in */
 @media (prefers-reduced-motion: reduce) {
   .hero::before,
+  .heroArch,
   .heroInner > *,
   .heroHorizonRow {
     animation: none;
@@ -1566,6 +1637,20 @@
 }
 
 @media (max-width: 760px) {
+  /* the skyline has to read as distance, not as buildings — at this width the
+     silhouettes are otherwise nearly as tall as the copy above them */
+  .heroHorizonRow {
+    --sky-scale: 0.74;
+    gap: 20px;
+  }
+  .heroHorizonFar {
+    --sky-scale: 0.42;
+    --sky-x: calc(-50% + 88px);
+    gap: 32px;
+  }
+  .heroArch {
+    width: 90%;
+  }
   .page {
     --rail: 10px;
     --shoulder: 30px;
@@ -1661,6 +1746,26 @@
 }
 
 @media (max-width: 420px) {
+  /* shrink the proof row rather than let it wrap — the hairlines between the
+     three items only read correctly while they stay on one line */
+  .heroProof div {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+  .heroProof dt {
+    font-size: 21px;
+  }
+  .heroProof dd {
+    font-size: 11px;
+    letter-spacing: 0.2px;
+  }
+  .heroHorizonRow {
+    --sky-scale: 0.56;
+  }
+  .heroHorizonFar {
+    --sky-scale: 0.34;
+    --sky-x: calc(-50% + 64px);
+  }
   .page {
     --gutter: 14px;
     --band-h: 56px;

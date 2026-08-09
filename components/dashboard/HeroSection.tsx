@@ -31,6 +31,8 @@ const HORIZON: [string, number, number][] = [
 export default function HeroSection() {
   return (
     <section className={s.hero} id="top">
+      <div className={s.heroArch} aria-hidden="true" />
+
       <div className={s.heroInner}>
         <p className={s.eyebrow}>
           <span className={s.eyebrowBar} aria-hidden="true" />
