@@ -1015,11 +1015,29 @@
 }
 .calcSearchBtn,
 .calcCtaBtn {
+  display: inline-flex;
   flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 24px;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  background: var(--rust);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-family: var(--text);
+  font-weight: 700;
+  color: var(--parchment);
+  text-decoration: none;
+  cursor: pointer;
+}
+.calcSearchBtn:hover,
+.calcCtaBtn:hover {
+  background: #8d3e2d;
 }
 .calcSearchBtn > span {
   font-size: 15.5px;
   letter-spacing: 0.155px;
+  white-space: nowrap;
 }
 
 .calcSliderLabel {
@@ -1171,7 +1189,7 @@
 .calcCtaBtn > span {
   font-size: 15px;
   letter-spacing: 0.15px;
-  text-transform: none;
+  text-align: center;
 }
 
 /* ------------------------------------------------------------

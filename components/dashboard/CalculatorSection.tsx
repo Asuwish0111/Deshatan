@@ -100,7 +100,7 @@ export default function CalculatorSection() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <Link className={`${s.btnPlate} ${s.calcSearchBtn}`} href={searchHref}>
+              <Link className={s.calcSearchBtn} href={searchHref}>
                 <span>Search</span>
               </Link>
             </div>
@@ -204,7 +204,7 @@ export default function CalculatorSection() {
           </div>
 
           <div className={s.calcCta}>
-            <Link className={`${s.btnPlate} ${s.calcCtaBtn}`} href={bookingHref}>
+            <Link className={s.calcCtaBtn} href={bookingHref}>
               <span>Like this number? Start a real booking →</span>
             </Link>
           </div>
