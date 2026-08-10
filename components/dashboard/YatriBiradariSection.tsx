@@ -1,12 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useCopy } from "@/lib/copy";
 import s from "./dashboard.module.css";
 
-const LEDGER: [string, string][] = [
-  ["Papa books Char Dham", "+4,200 pts"],
-  ["You review your Ziro guide", "+150 pts"],
-  ["Cousin's Pondy weekend", "+900 pts"],
-  ["Group pool balance", "18,750 pts"],
-  ["Redeemable on next booking", "₹1,875 off"],
+const LEDGER: [string, string, string][] = [
+  ["Papa books Char Dham", "+4,200 pts", "community.p1"],
+  ["You review your Ziro guide", "+150 pts", "community.p2"],
+  ["Cousin's Pondy weekend", "+900 pts", "community.p3"],
+  ["Group pool balance", "18,750 pts", "community.p4"],
+  ["Redeemable on next booking", "₹1,875 off", ""],
 ];
 
 const SOCIALS: { label: string; icon: string; href: string }[] = [
@@ -17,18 +20,20 @@ const SOCIALS: { label: string; icon: string; href: string }[] = [
 ];
 
 export default function YatriBiradariSection() {
+  const { line } = useCopy();
+
   return (
     <section className={s.biradari} id="community">
       <div className={s.biradariInner}>
         <div className={s.biradariCopy}>
           <p className={`${s.eyebrow} ${s.eyebrowOnDark}`}>
             <span className={s.eyebrowBar} aria-hidden="true" />
-            <span className={s.eyebrowWord}>Yatri Biradari</span>
+            <span className={s.eyebrowWord}>{line("community.points", "Yatri Biradari")}</span>
             <span className={s.eyebrowCaps}>The yatri circle</span>
             <span className={s.eyebrowBar} aria-hidden="true" />
           </p>
 
-          <h2 className={s.biradariTitle}>Travel together, earn together.</h2>
+          <h2 className={s.biradariTitle}>{line("community.h2", "Travel together, earn together.")}</h2>
 
           <p className={s.biradariLede}>
             Join a point group with your friends and family. Every booking anyone makes
@@ -57,9 +62,9 @@ export default function YatriBiradariSection() {
         <div className={s.pointsCard}>
           <h3 className={s.pointsTitle}>✦ Yatra Points — the family pool</h3>
           <dl className={s.pointsLedger}>
-            {LEDGER.map(([label, value]) => (
+            {LEDGER.map(([label, value, key]) => (
               <div key={label}>
-                <dt>{label}</dt>
+                <dt>{key ? line(key, label) : label}</dt>
                 <dd>{value}</dd>
               </div>
             ))}

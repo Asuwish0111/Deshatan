@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { STYLE_OPTIONS, REGION_MULTIPLIERS } from "@/lib/constants";
+import { useCopy } from "@/lib/copy";
 import s from "./dashboard.module.css";
 
 type StyleKey = "backpacker" | "comfort" | "heritage";
@@ -27,6 +28,7 @@ const REGIONS: { label: string; mult: number }[] = [
 const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
 
 export default function CalculatorSection() {
+  const { line } = useCopy();
   const [days, setDays] = useState(7);
   const [pax, setPax] = useState(2);
   const [style, setStyle] = useState<StyleKey>("comfort");
@@ -61,12 +63,12 @@ export default function CalculatorSection() {
         <div className={s.calcCopy}>
           <p className={s.eyebrow}>
             <span className={s.eyebrowBar} aria-hidden="true" />
-            <span className={s.eyebrowWord}>Kahaan-Kahaan</span>
+            <span className={s.eyebrowWord}>{line("nav.calculator", "Kahaan-Kahaan")}</span>
             <span className={s.eyebrowBar} aria-hidden="true" />
           </p>
           <div className={s.calcCopyBody}>
             <div className={s.calcCopyText}>
-              <h2>Your dream trip has a number. Find it in thirty seconds.</h2>
+              <h2>{line("calc.h2", "Your dream trip has a number. Find it in thirty seconds.")}</h2>
               <p>
                 Pick your days, your people, your style and your region. The calculator
                 prices real stays, real drivers and real guides — not a marketing estimate.
@@ -84,7 +86,7 @@ export default function CalculatorSection() {
         <div className={s.calcFrame}>
           <div className={s.calcCard}>
             <div className={s.calcCardHead}>
-              <h3>Sapno ka Calculator</h3>
+              <h3>{line("calc.h3", "Sapno ka Calculator")}</h3>
               <span className={s.calcLive}>live estimate</span>
             </div>
 
@@ -110,7 +112,7 @@ export default function CalculatorSection() {
             <div className={s.calcSlider}>
               <div className={s.calcSliderLabel}>
                 <label className={s.calcLabel} htmlFor="calc-days">
-                  Days on the road
+                  {line("calc.days", "Days on the road")}
                 </label>
                 <output className={s.calcOutput} htmlFor="calc-days">
                   {days} din
@@ -131,7 +133,7 @@ export default function CalculatorSection() {
             <div className={s.calcSlider}>
               <div className={s.calcSliderLabel}>
                 <label className={s.calcLabel} htmlFor="calc-pax">
-                  Travellers
+                  {line("calc.pax", "Travellers")}
                 </label>
                 <output className={s.calcOutput} htmlFor="calc-pax">
                   {pax} log
@@ -150,7 +152,7 @@ export default function CalculatorSection() {
             </div>
 
             <div className={s.calcField}>
-              <p className={s.calcLabel}>Travel style</p>
+              <p className={s.calcLabel}>{line("calc.style", "Travel style")}</p>
               <div className={s.calcChoices} role="group" aria-label="Travel style">
                 {STYLES.map((opt) => (
                   <button
@@ -167,7 +169,7 @@ export default function CalculatorSection() {
             </div>
 
             <div className={s.calcField}>
-              <p className={s.calcLabel}>Region</p>
+              <p className={s.calcLabel}>{line("calc.region", "Region")}</p>
               <div className={s.calcChoices} role="group" aria-label="Region">
                 {REGIONS.map((opt) => (
                   <button
@@ -190,7 +192,7 @@ export default function CalculatorSection() {
               </p>
               <div className={s.calcBreakdown}>
                 <div>
-                  <p className={s.calcBreakLabel}>Stay</p>
+                  <p className={s.calcBreakLabel}>{line("calc.stay", "Stay")}</p>
                   <p className={s.calcBreakValue}>{inr(stay)}</p>
                 </div>
                 <div>

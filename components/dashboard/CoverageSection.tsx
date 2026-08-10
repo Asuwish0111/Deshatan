@@ -1,23 +1,29 @@
+"use client";
+
+import { useCopy } from "@/lib/copy";
 import s from './dashboard.module.css';
 
-type Stamp = { tone: string; num: string; label: string; copy: string };
+type Stamp = { tone: string; num: string; key: string; label: string; copy: string };
 
 const STAMPS: Stamp[] = [
   {
     tone: s.stampRed,
     num: '28',
+    key: 's1',
     label: 'States of Bharat',
     copy: "From Himachal's deodar valleys to Kerala's backwaters — every single state, mapped with guides on the ground."
   },
   {
     tone: s.stampGold,
     num: '8',
+    key: 's2',
     label: 'Union Territories',
     copy: "Ladakh's moonscapes, Andaman's reefs, Puducherry's yellow lanes — the territories most trips skip."
   },
   {
     tone: s.stampBlue,
     num: '+2',
+    key: 's3',
     label: 'Nepal & Bhutan',
     copy: 'Cross the Himalaya without changing apps. Kathmandu, Pokhara, Thimphu and Paro — same guides, same tracking, same trust.'
   }
@@ -25,15 +31,17 @@ const STAMPS: Stamp[] = [
 
 
 export default function CoverageSection() {
+  const { line } = useCopy();
+
   return (
     <section className={s.coverage} id="coverage">
       <div className={s.coverageHead}>
         <p className={s.eyebrow}>
           <span className={s.eyebrowBar} aria-hidden="true" />
-          <span className={s.eyebrowWord}>Kahaan-Kahaan</span>
+          <span className={s.eyebrowWord}>{line("nav.coverage", "Kahaan-Kahaan")}</span>
           <span className={s.eyebrowBar} aria-hidden="true" />
         </p>
-        <h2>Kashmir to Kanyakumari. Kutch to Kohima. And beyond the border.</h2>
+        <h2>{line("coverage.h2", "Kashmir to Kanyakumari. Kutch to Kohima. And beyond the border.")}</h2>
       </div>
 
       <div className={s.stamps}>
@@ -41,8 +49,8 @@ export default function CoverageSection() {
           <div className={`${s.stamp} ${stamp.tone}`} key={stamp.label}>
             <div className={s.stampInner}>
               <p className={s.stampNum}>{stamp.num}</p>
-              <p className={s.stampLabel}>{stamp.label}</p>
-              <p className={s.stampBody}>{stamp.copy}</p>
+              <p className={s.stampLabel}>{line(`coverage.${stamp.key}.label`, stamp.label)}</p>
+              <p className={s.stampBody}>{line(`coverage.${stamp.key}.sub`, stamp.copy)}</p>
             </div>
           </div>
         ))}

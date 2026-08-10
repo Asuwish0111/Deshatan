@@ -1,3 +1,6 @@
+"use client";
+
+import { useCopy } from "@/lib/copy";
 import s from "./dashboard.module.css";
 
 const POINTS: [string, string][] = [
@@ -20,13 +23,15 @@ const POINTS: [string, string][] = [
 ];
 
 export default function LiveTrackerSection() {
+  const { line } = useCopy();
+
   return (
     <section className={s.tracker} id="tracker">
       <div className={s.trackerInner}>
         <div className={s.trackerCopy}>
           <p className={`${s.eyebrow} ${s.eyebrowOnDark}`}>
             <span className={s.eyebrowBar} aria-hidden="true" />
-            <span className={s.eyebrowWord}>Live Tracker</span>
+            <span className={s.eyebrowWord}>{line("tracker.head", "Live Tracker")}</span>
             <span className={s.eyebrowCaps}>Live yatra tracker</span>
             <span className={s.eyebrowBar} aria-hidden="true" />
           </p>
@@ -59,7 +64,7 @@ export default function LiveTrackerSection() {
             <p className={s.trackerCardTitle}>Priya&apos;s Yatra · Manali → Leh</p>
             <span className={s.trackerLive}>
               <span className={s.trackerLiveDot} aria-hidden="true" />
-              LIVE
+              {line("tracker.live", "LIVE")}
             </span>
           </div>
 

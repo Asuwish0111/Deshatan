@@ -6,6 +6,7 @@ import s from "./dashboard.module.css";
 type Rating = { stars: string; note: string; wide?: boolean };
 
 type Feature = {
+  key: string;
   tone: string;
   icon: string | null;
   title: string;
@@ -18,6 +19,7 @@ const FEATURES: Feature[] = [
   {
     tone: s.toneRed,
     icon: "/figma/icon-guide.svg",
+    key: "verified",
     title: "Verified local guides",
     copy: "Every guide is ID-verified, background-checked, and rated by real yatris after every single trip. Read the reviews before you book — good, bad, everything stays public.",
     rating: {
@@ -29,6 +31,7 @@ const FEATURES: Feature[] = [
   {
     tone: s.toneIndigo,
     icon: "/figma/icon-driver.svg",
+    key: "stays",
     title: "Trusted drivers, reviewed rides",
     copy: "Drivers with verified licences, verified plates, and a review score that follows them everywhere. Sleep in the back seat on the Manali highway — someone's already vouched for the person up front.",
     rating: { stars: "★★★★☆", note: "4.7 avg · 9,300 driver reviews" },
@@ -36,6 +39,7 @@ const FEATURES: Feature[] = [
   {
     tone: s.tonePeacock,
     icon: "/figma/icon-stay.svg",
+    key: "tracking",
     title: "Your perfect custom stay",
     copy: "Not a hotel list — a hotel brief. Tell us haveli or homestay, rooftop or riverside, veg kitchen or no kitchen. We match stays to your rules, not an algorithm's.",
     tags: ["Havelis", "Homestays", "Tea estates", "Monasteries"],
@@ -43,6 +47,7 @@ const FEATURES: Feature[] = [
   {
     tone: s.toneGold,
     icon: "/figma/icon-offbeat.svg",
+    key: "reviews",
     title: "Offbeat Bharat",
     copy: "Ziro's pine valleys. Gandikota's canyon. Majuli's river island. Places your relatives haven't posted from — curated by locals, reachable with our guides and drivers.",
     tags: ["Ziro", "Gandikota", "Majuli", "Chettinad", "+320 more"],
@@ -51,6 +56,7 @@ const FEATURES: Feature[] = [
     // the rupee icon is drawn from two vectors plus a ₹ glyph, not one export
     tone: s.toneIndigo,
     icon: null,
+    key: "meals",
     title: "Budget sorting, sabse pehle",
     copy: 'Sort every trip, stay, guide and ride by price — low to high, high to low, or "surprise me under ₹X". Your budget is a filter, never a compromise.',
     tags: ["₹ Low → High", "Under ₹5k/day", "Best value"],
@@ -58,6 +64,7 @@ const FEATURES: Feature[] = [
   {
     tone: s.toneRed,
     icon: "/figma/icon-safety.svg",
+    key: "insurance",
     title: "Safety map — offline & online",
     copy: "Marked safe zones, women-recommended stays, nearest police chowki and hospital — and the whole map downloads to your phone. No signal in Spiti? The map still works.",
     tags: ["Works offline", "SOS button", "Chowki finder"],
@@ -103,8 +110,8 @@ export default function EverythingSection({ id = "features" }: { id?: string }) 
                 ) : (
                   <BudgetIcon />
                 )}
-                <h3>{feature.title}</h3>
-                <p className={s.featureCopy}>{feature.copy}</p>
+                <h3>{line(`feature.${feature.key}`, feature.title)}</h3>
+                <p className={s.featureCopy}>{line(`feature.${feature.key}.desc`, feature.copy)}</p>
 
                 <div className={s.featureFoot}>
                   {feature.rating ? (

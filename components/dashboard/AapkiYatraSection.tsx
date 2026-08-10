@@ -1,3 +1,6 @@
+"use client";
+
+import { useCopy } from "@/lib/copy";
 import s from "./dashboard.module.css";
 
 // Each scene is a stack of exported vectors. The insets are the design's own —
@@ -83,16 +86,18 @@ const CARDS: Card[] = [
 ];
 
 export default function AapkiYatraSection() {
+  const { line } = useCopy();
+
   return (
     <section className={s.yatra} id="itineraries">
       <div className={s.yatraInner}>
         <div className={s.yatraHead}>
           <p className={s.eyebrow}>
             <span className={s.eyebrowBar} aria-hidden="true" />
-            <span className={s.eyebrowWord}>Aapki Yatra</span>
+            <span className={s.eyebrowWord}>{line("nav.groups", "Aapki Yatra")}</span>
             <span className={s.eyebrowBar} aria-hidden="true" />
           </p>
-          <h2>Every age travels differently. So does every itinerary here.</h2>
+          <h2>{line("groups.h2", "Every age travels differently. So does every itinerary here.")}</h2>
         </div>
 
         <div className={s.yatraGrid}>
