@@ -130,10 +130,6 @@
 .brand:hover {
   background: rgba(250, 246, 240, 0.08);
 }
-.brand:focus-visible {
-  outline: 2px solid var(--tab-gold);
-  outline-offset: 2px;
-}
 .brandMark {
   width: 34px;
   height: 39px;
@@ -175,6 +171,43 @@
 
 .tabSlot {
   width: 118px;
+}
+
+/* the bar's controls had no focus ring at all — the most-used links on the
+   site were invisible to anyone navigating by keyboard */
+.tab:focus-visible,
+.navLink:focus-visible,
+.btnPlate:focus-visible,
+.brand:focus-visible {
+  outline: 2px solid var(--tab-gold);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* visible only while focused, which is exactly when it is needed */
+.skipLink {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 60;
+  padding: 10px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--parchment);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  transform: translateY(-140%);
+  transition: transform 0.18s ease;
+}
+/* :focus, not :focus-visible — the link has to appear for any focus that
+   reaches it, and focus-visible's heuristics can skip it */
+.skipLink:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
 }
 
 .tab {
@@ -1154,6 +1187,8 @@
   font-weight: 600;
 }
 .photoCredits a {
+  display: inline-block;
+  padding: 4px 0;
   color: inherit;
   text-decoration: underline;
   text-decoration-color: rgba(107, 88, 66, 0.4);
@@ -2893,5 +2928,23 @@
   }
   .calcChoices {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  /* footer links and photo credits are the primary way out of this page on a
+     phone; 24px rows are too small to hit reliably */
+  .footCol a,
+  .photoCredits a {
+    display: inline-block;
+    padding: 7px 0;
+  }
+  .footCol li + li {
+    margin-top: 2px;
+  }
+  .footSocials a {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
   }
 }

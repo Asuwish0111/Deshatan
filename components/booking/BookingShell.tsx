@@ -1,5 +1,6 @@
 import React from "react";
 import TopBar from "@/components/dashboard/TopBar";
+import SkipLink from "@/components/dashboard/SkipLink";
 import ds from "@/components/dashboard/dashboard.module.css";
 import s from "./booking.module.css";
 
@@ -41,21 +42,26 @@ export default function BookingShell({
   title,
   lede,
   step,
+  titleAs = "h1",
 }: {
   children: React.ReactNode;
   eyebrow: string;
   title: string;
   lede?: string;
   step?: StepKey;
+  /* the trip page renders its own h1 in the hero, so the shell steps down
+     to avoid two competing page titles */
+  titleAs?: "h1" | "p";
 }) {
   return (
     <div className={ds.page}>
+      <SkipLink />
       <TopBar
         primary={{ label: "Find a yatra", href: "/book" }}
         secondary={{ label: "My trips", href: "/book/mytrips" }}
       />
 
-      <div className={ds.upper}>
+      <main id="main" className={ds.upper}>
         <div className={ds.archCap} aria-hidden="true" />
         <div className={s.plate}>
           <div className={s.plateInner}>
@@ -65,7 +71,7 @@ export default function BookingShell({
                 <span className={ds.eyebrowWord}>{eyebrow}</span>
                 <span className={ds.eyebrowBar} aria-hidden="true" />
               </p>
-              <h1>{title}</h1>
+              {titleAs === "h1" ? <h1>{title}</h1> : <p className={s.plateTitle}>{title}</p>}
               {lede ? <p>{lede}</p> : null}
             </div>
 
@@ -75,7 +81,7 @@ export default function BookingShell({
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       <div className={ds.archBottom} aria-hidden="true" />
     </div>

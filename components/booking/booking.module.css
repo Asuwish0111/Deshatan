@@ -1064,6 +1064,18 @@
   }
 }
 
+@media (max-width: 620px) {
+  /* 38px is below the comfortable-tap size, and filtering is the main thing
+     people do on these screens */
+  .chip {
+    min-height: 44px;
+    padding: 8px 15px;
+  }
+  .option {
+    min-height: 52px;
+  }
+}
+
 @media (max-width: 520px) {
   .steps li::after {
     width: 10px;

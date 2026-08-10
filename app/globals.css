@@ -49,6 +49,22 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Motion-triggered nausea is a real condition, and the in-page anchor links
+   trigger this on every section jump. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   font-family: "Mukta", sans-serif;
   background: linear-gradient(135deg, #FDFBF7 0%, var(--paper) 50%, var(--paper-deep) 100%);
@@ -1710,4 +1726,13 @@ footer {
   .points-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* The admin console is inline-styled and had no focus indication on any of its
+   five tabs. A global rule reaches them without rewriting the page. */
+button:focus-visible,
+a:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid var(--sindoor, #a14834);
+  outline-offset: 2px;
 }

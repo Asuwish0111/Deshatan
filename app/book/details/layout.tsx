@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin — Deshatan",
-  description: "Deshatan staff console.",
+  title: "Your details — Deshatan",
+  description: "Who is travelling and when. Nothing is charged at this step.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

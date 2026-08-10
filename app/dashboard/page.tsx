@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import TopBar from "@/components/dashboard/TopBar";
+import SkipLink from "@/components/dashboard/SkipLink";
 import HeroSection from "@/components/dashboard/HeroSection";
 import ShowcaseSection from "@/components/dashboard/ShowcaseSection";
 import MonumentBand from "@/components/dashboard/MonumentBand";
@@ -19,41 +20,47 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <div className={s.page}>
+      <SkipLink />
       <TopBar />
 
-      <div className={s.upper}>
-        <div className={s.archCap} aria-hidden="true" />
-        <div className={s.panel}>
-          <div className={s.panelInner}>
-            <HeroSection />
-            <ShowcaseSection />
+      {/* one landmark over the whole content run. The footer sits inside it
+          because it shares the closing plate with Yatri Biradari — moving it
+          out would break the arch it is drawn into. */}
+      <main id="main">
+        <div className={s.upper}>
+          <div className={s.archCap} aria-hidden="true" />
+          <div className={s.panel}>
+            <div className={s.panelInner}>
+              <HeroSection />
+              <ShowcaseSection />
+            </div>
           </div>
         </div>
-      </div>
 
-      <MonumentBand />
+        <MonumentBand />
 
-      <div className={s.lower}>
-        <div className={s.panelLower}>
-          <div className={s.panelLowerInner}>
-            <CoverageSection />
+        <div className={s.lower}>
+          <div className={s.panelLower}>
+            <div className={s.panelLowerInner}>
+              <CoverageSection />
+            </div>
+          </div>
+          <EverythingSection />
+        </div>
+
+        <div className={s.calcGap} />
+        <div className={s.lower}>
+          <CalculatorSection />
+          <LiveTrackerSection />
+          <AapkiYatraSection />
+          {/* the cream plate the rust band's rounded corners sit on — the
+              footer shares it, so the page closes on one surface */}
+          <div className={s.closePanel}>
+            <YatriBiradariSection />
+            <SiteFooter />
           </div>
         </div>
-        <EverythingSection />
-      </div>
-
-      <div className={s.calcGap} />
-      <div className={s.lower}>
-        <CalculatorSection />
-        <LiveTrackerSection />
-        <AapkiYatraSection />
-        {/* the cream plate the rust band's rounded corners sit on — the
-            footer shares it, so the page closes on one surface */}
-        <div className={s.closePanel}>
-          <YatriBiradariSection />
-          <SiteFooter />
-        </div>
-      </div>
+      </main>
 
       <div className={s.archBottom} aria-hidden="true" />
     </div>

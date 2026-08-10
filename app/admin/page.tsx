@@ -25,6 +25,8 @@ export default function AdminPage() {
               onClick={() => setSelectedTab(tab.id)}
               style={{
                 padding: "12px 20px",
+                outline: selectedTab === tab.id ? "2px solid var(--ink)" : undefined,
+                outlineOffset: "2px",
                 backgroundColor: selectedTab === tab.id ? "var(--sindoor)" : "var(--paper-deep)",
                 color: selectedTab === tab.id ? "var(--paper)" : "var(--ink)",
                 border: "2px solid var(--ink)",

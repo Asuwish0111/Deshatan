@@ -53,7 +53,7 @@ export default function TripPage() {
   const itinerary = itineraryFor(dest);
 
   return (
-    <BookingShell eyebrow="Yeh Rahi Yatra" title={dest.title} step="trip">
+    <BookingShell eyebrow="Yeh Rahi Yatra" title={dest.title} step="trip" titleAs="p">
       <div className={s.tripHero}>
         <div className={s.tripHeroMedia}>
           {TRIP_PHOTOS[dest.id] ? (
