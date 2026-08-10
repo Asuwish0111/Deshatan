@@ -425,6 +425,91 @@
   flex: 1 1 auto;
 }
 
+/* ---------- stay gallery ---------- */
+
+.gallery {
+  margin: 0 0 clamp(22px, 2.6vw, 32px);
+}
+/* 3:2 would run to ~825px on a full-width plate and swamp the page */
+.galleryMain {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  max-height: clamp(280px, 32vw, 440px);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--sand);
+  overflow: hidden;
+}
+.galleryMain img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* states plainly what the frame is, so nobody reads it as the room they get */
+.galleryTag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  padding: 4px 11px;
+  border-radius: 8px;
+  background: rgba(38, 25, 14, 0.82);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 18px;
+  letter-spacing: 0.3px;
+  color: var(--parchment);
+}
+.galleryThumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+.galleryThumb {
+  width: 108px;
+  padding: 0;
+  border: 2px solid rgba(38, 25, 14, 0.3);
+  border-radius: 10px;
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.18s ease;
+}
+.galleryThumb img {
+  display: block;
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+}
+.galleryThumb:hover {
+  border-color: var(--ink);
+}
+.galleryThumbOn {
+  border-color: var(--rust);
+}
+.galleryThumb:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+.galleryCaption {
+  margin-top: 9px;
+  font-family: var(--text);
+  font-size: 12px;
+  line-height: 19px;
+  color: var(--body-muted);
+}
+.galleryCaption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.galleryCaption a:hover {
+  color: var(--rust);
+}
+
 /* ---------- stay detail ---------- */
 
 /* an arched band tinted by the kind of stay, with the frieze silhouettes the

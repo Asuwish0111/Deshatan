@@ -21,6 +21,8 @@ import {
   groupAmenities,
   toneFor,
 } from "@/components/booking/stayDetail";
+import StayGallery from "@/components/booking/StayGallery";
+import { photosFor } from "@/components/booking/stayPhotos";
 import s from "@/components/booking/booking.module.css";
 
 const WARLI = ["warli-3", "warli-1", "warli-5", "warli-2", "warli-7", "warli-4", "warli-6"];
@@ -71,6 +73,7 @@ export default function StayPage() {
   const alsoHere = db.stays.filter((st) => st.region === stay.region && st.id !== stay.id);
   const written = db.reviews.filter((r) => r.stayId === stay.id && r.status === "published");
   const groups = groupAmenities(stay.amenities);
+  const photos = photosFor(stay);
   const tone = toneFor(stay.type);
 
   const choose = () => {
@@ -87,27 +90,34 @@ export default function StayPage() {
       title={stay.title}
       step={inFlow ? "stay" : undefined}
     >
-      {/* Drawn, not photographed — we hold no photography of these properties. */}
-      <div className={`${s.stayBanner} ${s[`tone${tone[0].toUpperCase()}${tone.slice(1)}`]}`}>
-        <div className={s.stayBannerInner}>
-          <span className={s.stayType}>{stay.type}</span>
-          <p className={s.stayBannerCity}>
-            {stay.city} · {stay.region}
-          </p>
+      {/* Photographs of the area and the kind of stay where we have them;
+          otherwise the drawn band, which is never mistakable for a photo. */}
+      {photos.length > 0 ? (
+        <StayGallery photos={photos} kind={stay.type} />
+      ) : (
+        <div
+          className={`${s.stayBanner} ${s[`tone${tone[0].toUpperCase()}${tone.slice(1)}`]}`}
+        >
+          <div className={s.stayBannerInner}>
+            <span className={s.stayType}>{stay.type}</span>
+            <p className={s.stayBannerCity}>
+              {stay.city} · {stay.region}
+            </p>
+          </div>
+          <div className={s.stayBannerSky} aria-hidden="true">
+            {WARLI.map((name, i) => (
+              <span
+                key={i}
+                className={s.stayBannerMonument}
+                style={{
+                  maskImage: `url(/figma/${name}.svg)`,
+                  WebkitMaskImage: `url(/figma/${name}.svg)`,
+                }}
+              />
+            ))}
+          </div>
         </div>
-        <div className={s.stayBannerSky} aria-hidden="true">
-          {WARLI.map((name, i) => (
-            <span
-              key={i}
-              className={s.stayBannerMonument}
-              style={{
-                maskImage: `url(/figma/${name}.svg)`,
-                WebkitMaskImage: `url(/figma/${name}.svg)`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      )}
 
       <div className={s.split}>
         <div className={s.stack}>
