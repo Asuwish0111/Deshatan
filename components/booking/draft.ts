@@ -133,6 +133,15 @@ export function priceDraft(
   };
 }
 
+/* What a trip actually costs the party the user typed in, using the same maths
+   the rest of the flow uses. A card that only says "from ₹12,000 per person"
+   makes everyone do the multiplication in their head. */
+export function estimateFor(dest: Destination, pax: number, days?: number): number {
+  const d = emptyDraft(dest.id, days ?? dest.days);
+  d.pax = Math.max(1, pax);
+  return priceDraft(d, dest).total;
+}
+
 export function makeReference(id: string) {
   return "DSH-" + id.slice(-6).toUpperCase();
 }

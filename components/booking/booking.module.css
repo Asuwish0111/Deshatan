@@ -606,6 +606,43 @@
   color: var(--body-soft);
 }
 
+/* ---------- loading ----------
+   The trip data lives in localStorage, so nothing renders server-side and the
+   grid arrives a beat late. Skeletons hold the shape instead of flashing. */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.skeletonCard {
+  border: 2px solid rgba(38, 25, 14, 0.18);
+  border-radius: 16px;
+  background: var(--parchment);
+  overflow: hidden;
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+.skeletonMedia {
+  aspect-ratio: 288 / 195.375;
+  border-bottom: 2px solid rgba(38, 25, 14, 0.18);
+  background: var(--sand);
+}
+.skeletonBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+}
+.skeletonBody span {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(38, 25, 14, 0.12);
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeletonCard {
+    animation: none;
+  }
+}
+
 .empty {
   padding: 44px 24px;
   border: 2px dashed rgba(38, 25, 14, 0.3);
