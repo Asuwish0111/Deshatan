@@ -7,6 +7,11 @@ import s from './dashboard.module.css';
 // routes instead of the dashboard's in-page anchors.
 type Tab = { label: string; href: string };
 
+/* The landing page the logo returns to. /dashboard is the finished marketing
+   page; / is still the older one it supersedes. One constant so it is a
+   one-line change once those two are consolidated. */
+const HOME = "/dashboard";
+
 export default function TopBar({
   primary = { label: "Where we go", href: "#coverage" },
   secondary = { label: "Dream Calculator", href: "#calculator" },
@@ -16,6 +21,20 @@ export default function TopBar({
 }) {
   return (
     <header className={s.topbar}>
+      <Link className={s.brand} href={HOME} aria-label="Deshatan — home">
+        <img
+          className={s.brandMark}
+          src="/brand/deshatan-mark.svg"
+          alt=""
+          width={42}
+          height={48}
+        />
+        <span className={s.brandWords}>
+          <span className={s.brandName}>Deshatan</span>
+          <span className={s.brandTag}>Ghoomo Poora Bharat</span>
+        </span>
+      </Link>
+
       <nav className={s.navCenter} aria-label="Main">
         <div className={s.tabSlot}>
           <Link className={s.tab} href={primary.href}>

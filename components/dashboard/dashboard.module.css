@@ -113,6 +113,56 @@
   left: calc(50% + 65.2px);
 }
 
+/* Logo, mirroring .navRight's inset so the bar reads as balanced */
+.brand {
+  position: absolute;
+  top: 20px;
+  left: 98px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 3px 6px 3px 3px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.brand:hover {
+  background: rgba(250, 246, 240, 0.08);
+}
+.brand:focus-visible {
+  outline: 2px solid var(--tab-gold);
+  outline-offset: 2px;
+}
+.brandMark {
+  width: 34px;
+  height: 39px;
+  flex: none;
+  display: block;
+}
+.brandWords {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.brandName {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 23px;
+  letter-spacing: 0.01em;
+  color: var(--cream);
+}
+.brandTag {
+  margin-top: 3px;
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--tab-gold);
+  white-space: nowrap;
+}
+
 .navCenter {
   position: absolute;
   top: 23px;
@@ -2584,6 +2634,23 @@
   .motifDotRight {
     left: calc(50% + 52px);
   }
+  /* the bar gets tight here — the tagline goes first, then the wordmark
+     at 420, so the mark alone never collides with the language pill */
+  .brand {
+    top: 14px;
+    left: 16px;
+    gap: 9px;
+  }
+  .brandMark {
+    width: 30px;
+    height: 34px;
+  }
+  .brandTag {
+    display: none;
+  }
+  .brandName {
+    font-size: 20px;
+  }
   .navRight {
     top: 14px;
     right: 16px;
@@ -2671,6 +2738,9 @@
 }
 
 @media (max-width: 420px) {
+  .brandName {
+    display: none;
+  }
   /* shrink the proof row rather than let it wrap — the hairlines between the
      three items only read correctly while they stay on one line */
   .heroProof div {
