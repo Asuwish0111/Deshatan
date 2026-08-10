@@ -1,3 +1,6 @@
+"use client";
+
+import { useCopy } from "@/lib/copy";
 import s from "./dashboard.module.css";
 
 type Rating = { stars: string; note: string; wide?: boolean };
@@ -76,16 +79,17 @@ function BudgetIcon() {
 }
 
 export default function EverythingSection({ id = "features" }: { id?: string }) {
+  const { line } = useCopy();
   return (
     <section className={s.everything} id={id}>
       <div className={s.everythingInner}>
         <div className={s.everythingHead}>
           <p className={s.eyebrow}>
             <span className={s.eyebrowBar} aria-hidden="true" />
-            <span className={s.eyebrowWord}>Sab Kuch</span>
+            <span className={s.eyebrowWord}>{line("features.eyebrow", "Sab Kuch")}</span>
             <span className={s.eyebrowBar} aria-hidden="true" />
           </p>
-          <h2>Six things every yatri deserves — and rarely gets in one place.</h2>
+          <h2>{line("features.h2", "Six things every yatri deserves — and rarely gets in one place.")}</h2>
         </div>
 
         <div className={s.featureGrid}>
