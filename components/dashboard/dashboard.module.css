@@ -263,6 +263,10 @@
   gap: 16px;
 }
 
+.langWrap {
+  position: relative;
+}
+
 .langPill {
   display: flex;
   height: 44px;
@@ -307,6 +311,66 @@
   width: 70.8%;
   height: 39.5%;
 }
+.langPill:focus-visible {
+  outline: 2px solid var(--tab-gold);
+  outline-offset: 2px;
+}
+.iconCaretUp {
+  transform: rotate(180deg);
+}
+
+/* the menu belongs to the cream plate below, not the navy bar */
+.langMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  min-width: 178px;
+  max-height: 320px;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--parchment);
+  box-shadow: 0 10px 26px rgba(38, 25, 14, 0.28);
+}
+.langOption {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 11px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+.langOption:hover {
+  background: var(--sand);
+}
+.langOption:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: -2px;
+}
+.langOptionOn {
+  background: var(--rust);
+  color: var(--parchment);
+}
+.langOptionOn:hover {
+  background: var(--rust-deep);
+}
+.langTick {
+  font-size: 13px;
+}
+
 .langPill .langCode {
   font-family: var(--ui);
   font-weight: 500;

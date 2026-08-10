@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import LanguagePill from './LanguagePill';
 import s from './dashboard.module.css';
 
 // Navy plate above the arch: two centre tabs around the lotus motif,
@@ -56,17 +57,7 @@ export default function TopBar({
       </nav>
 
       <div className={s.navRight}>
-        <button className={s.langPill} type="button" aria-label="Change language — English">
-          <span>
-            <span className={`${s.icon18} ${s.iconGlobe}`}>
-              <img src="/figma/globe.svg" alt="" />
-            </span>
-            <span className={s.langCode}>En</span>
-          </span>
-          <span className={`${s.icon18} ${s.iconCaret}`}>
-            <img src="/figma/caret-down.svg" alt="" />
-          </span>
-        </button>
+        <LanguagePill />
 
         <span className={s.navDivider} aria-hidden="true">
           <span className={s.navDividerInner}>
