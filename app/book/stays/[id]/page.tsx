@@ -14,7 +14,16 @@ import {
   saveDraft,
   stayUpgrade,
 } from "@/components/booking/draft";
+import {
+  HOUSE_RULES,
+  STAY_STANDARD,
+  describeStay,
+  groupAmenities,
+  toneFor,
+} from "@/components/booking/stayDetail";
 import s from "@/components/booking/booking.module.css";
+
+const WARLI = ["warli-3", "warli-1", "warli-5", "warli-2", "warli-7", "warli-4", "warli-6"];
 
 export default function StayPage() {
   const params = useParams<{ id: string }>();
@@ -58,9 +67,11 @@ export default function StayPage() {
   const upgrade = draft ? stayUpgrade(draft, stay) : 0;
   const tier = draft ? INCLUDED_NIGHTLY[draft.style] : 0;
 
-  // other trips that actually pass through this stay's region
   const nearby = db.destinations.filter((d) => d.region === stay.region && !d.hidden);
   const alsoHere = db.stays.filter((st) => st.region === stay.region && st.id !== stay.id);
+  const written = db.reviews.filter((r) => r.stayId === stay.id && r.status === "published");
+  const groups = groupAmenities(stay.amenities);
+  const tone = toneFor(stay.type);
 
   const choose = () => {
     if (!draft) return;
@@ -76,38 +87,106 @@ export default function StayPage() {
       title={stay.title}
       step={inFlow ? "stay" : undefined}
     >
+      {/* Drawn, not photographed — we hold no photography of these properties. */}
+      <div className={`${s.stayBanner} ${s[`tone${tone[0].toUpperCase()}${tone.slice(1)}`]}`}>
+        <div className={s.stayBannerInner}>
+          <span className={s.stayType}>{stay.type}</span>
+          <p className={s.stayBannerCity}>
+            {stay.city} · {stay.region}
+          </p>
+        </div>
+        <div className={s.stayBannerSky} aria-hidden="true">
+          {WARLI.map((name, i) => (
+            <span
+              key={i}
+              className={s.stayBannerMonument}
+              style={{
+                maskImage: `url(/figma/${name}.svg)`,
+                WebkitMaskImage: `url(/figma/${name}.svg)`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
       <div className={s.split}>
         <div className={s.stack}>
           <div className={s.card}>
             <div className={s.stayHead}>
-              <span className={s.stayType}>{stay.type}</span>
+              <span className={s.tripRating}>
+                <span className={s.tripStars} aria-hidden="true">
+                  {stars(stay.rating)}
+                </span>{" "}
+                <b>{stay.rating}</b> from {stay.reviews} yatris
+              </span>
               {stay.verified ? <span className={s.stayVerified}>✦ Verified</span> : null}
             </div>
-            <p className={s.tripMeta} style={{ marginTop: 10 }}>
-              {stay.city} · {stay.region}
-            </p>
-            <p className={s.tripMeta} style={{ marginTop: 6 }}>
-              <span className={s.tripStars} aria-hidden="true">
-                {stars(stay.rating)}
-              </span>{" "}
-              <b>{stay.rating}</b> · {stay.reviews} reviews
-            </p>
-            <p className={s.tripBlurb} style={{ marginTop: 14, fontSize: 15 }}>
-              A {stay.type.toLowerCase()} in {stay.city}, inspected in the last six months
-              and rated by {stay.reviews} yatris who actually stayed. Your guide knows the
-              owners.
+            <p className={s.tripBlurb} style={{ marginTop: 12, fontSize: 15 }}>
+              {describeStay(stay)}
             </p>
           </div>
 
           <div className={`${s.panelFrame} ${s.panelFramePeacock}`}>
             <div className={s.panelInner}>
               <h2>What&apos;s here</h2>
-              <ul className={s.includes}>
-                {stay.amenities.map((a) => (
-                  <li key={a}>{a}</li>
+              <div className={s.amenityGroups}>
+                {groups.map((g) => (
+                  <div key={g.title}>
+                    <h3 className={s.amenityGroupTitle}>{g.title}</h3>
+                    <ul className={s.includes}>
+                      {g.items.map((a) => (
+                        <li key={a}>{a}</li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
+          </div>
+
+          <div className={s.card}>
+            <h2>What every Deshatan stay clears</h2>
+            <ul className={s.includes}>
+              {STAY_STANDARD.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={s.card}>
+            <h2>Reviews</h2>
+            {written.length > 0 ? (
+              <div className={s.reviewList}>
+                {written.map((r) => (
+                  <blockquote key={r.id} className={s.review}>
+                    <span className={s.tripStars} aria-hidden="true">
+                      {stars(r.rating)}
+                    </span>
+                    <p>{r.text}</p>
+                  </blockquote>
+                ))}
+              </div>
+            ) : (
+              /* honest: the headline number is post-trip ratings, which is not
+                 the same thing as written reviews, and we have none yet */
+              <p className={s.tripBlurb} style={{ margin: 0 }}>
+                No written reviews yet. The <b>{stay.rating}</b> average comes from{" "}
+                {stay.reviews} post-trip ratings — yatris rate every stay, and only some
+                write. Reviews appear here as they are published.
+              </p>
+            )}
+          </div>
+
+          <div className={s.card}>
+            <h2>House rules</h2>
+            <dl className={s.summaryRows}>
+              {HOUSE_RULES.map(([k, v]) => (
+                <div key={k}>
+                  <dt>{k}</dt>
+                  <dd style={{ fontSize: 14 }}>{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {nearby.length > 0 ? (
@@ -129,7 +208,7 @@ export default function StayPage() {
               <div className={s.chipRow}>
                 {alsoHere.map((st) => (
                   <Link key={st.id} className={s.chip} href={`/book/stays/${st.id}`}>
-                    {st.title}
+                    {st.title} · {inr(st.pricePerNight)}
                   </Link>
                 ))}
               </div>
@@ -154,7 +233,7 @@ export default function StayPage() {
                   </div>
                   <div>
                     <dt>
-                      {nights} {nights === 1 ? "night" : "nights"}
+                      {nights} {nights === 1 ? "night" : "nights"} here
                     </dt>
                     <dd>{upgrade === 0 ? "Included" : `+${inr(upgrade)}`}</dd>
                   </div>
@@ -171,10 +250,33 @@ export default function StayPage() {
                 </div>
               </>
             ) : (
-              <p className={s.fieldHint} style={{ marginTop: 14 }}>
-                Pick a yatra first and we&apos;ll show what this costs on top of your
-                travel style — often nothing.
-              </p>
+              <>
+                <dl className={s.summaryRows} style={{ marginTop: 16 }}>
+                  <div>
+                    <dt>Included from</dt>
+                    <dd style={{ fontSize: 14 }}>
+                      {stay.pricePerNight <= INCLUDED_NIGHTLY.backpacker
+                        ? "Backpacker"
+                        : stay.pricePerNight <= INCLUDED_NIGHTLY.comfort
+                          ? "Comfort"
+                          : "Heritage"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Kind</dt>
+                    <dd style={{ fontSize: 14 }}>{stay.type}</dd>
+                  </div>
+                </dl>
+                <p className={s.fieldHint} style={{ marginTop: 10 }}>
+                  Pick a yatra and this is covered from that travel style up — often at no
+                  extra cost.
+                </p>
+                <div style={{ marginTop: 16 }}>
+                  <Link className={s.btn} href="/book">
+                    Find a yatra →
+                  </Link>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -188,11 +290,7 @@ export default function StayPage() {
           <Link className={s.btnGhost} href="/book/details">
             Skip — pick a stay for me →
           </Link>
-        ) : (
-          <Link className={s.btn} href="/book">
-            Find a yatra →
-          </Link>
-        )}
+        ) : null}
       </div>
     </BookingShell>
   );
