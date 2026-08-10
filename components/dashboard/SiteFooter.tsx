@@ -41,6 +41,7 @@ const COLUMNS: { head: string; links: [string, string][] }[] = [
       ["footer.policy1", "#"],
       ["footer.policy2", "#"],
       ["footer.policy3", "#"],
+      ["footer.credits", "/credits"],
     ],
   },
 ];

@@ -6,8 +6,9 @@ import s from './dashboard.module.css';
 
 // The Figma image frames are named after their photo but carry no fill, so the
 // photos are sourced separately — from Wikimedia Commons, each one of the exact
-// place the design names, under a licence that permits commercial use. CREDITS
-// below carries the attribution CC BY and CC BY-SA require; keep it rendered.
+// place the design names, under a licence that permits commercial use.
+// Attribution moved to /credits, linked from the footer: CC BY and CC BY-SA
+// require it somewhere reachable, not necessarily under the photographs.
 type Card = {
   title: string;
   copy: string;
@@ -16,66 +17,7 @@ type Card = {
   image: string | null;
 };
 
-type Credit = { photo: string; author: string; licence: string; href: string; page: string };
 
-const CREDITS: Credit[] = [
-  {
-    photo: 'Leh–Manali Highway',
-    author: 'Vyacheslav Argenberg',
-    licence: 'CC BY 4.0',
-    href: 'https://creativecommons.org/licenses/by/4.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:Leh-Manali_Highway,_Ladakh,_India.jpg',
-  },
-  {
-    photo: 'Kedarnath temple',
-    author: 'Shaq774',
-    licence: 'Public domain',
-    href: 'https://commons.wikimedia.org/wiki/File:Kedarnath_Temple.jpg',
-    page: 'https://commons.wikimedia.org/wiki/File:Kedarnath_Temple.jpg',
-  },
-  {
-    photo: 'Taj Lake Palace, Udaipur',
-    author: 'Vyacheslav Argenberg',
-    licence: 'CC BY 4.0',
-    href: 'https://creativecommons.org/licenses/by/4.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:Udaipur,_India,_Taj_Lake_Palace.jpg',
-  },
-  {
-    photo: 'Alleppey backwaters',
-    author: 'Paul Arps',
-    licence: 'CC BY 2.0',
-    href: 'https://creativecommons.org/licenses/by/2.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:Houseboat_on_Alleppey_backwaters_(Kerala,_India_2023)_(52703799562).jpg',
-  },
-  {
-    photo: 'National Memorial Chorten, Thimphu',
-    author: 'Bernard Gagnon',
-    licence: 'CC BY-SA 4.0',
-    href: 'https://creativecommons.org/licenses/by-sa/4.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:National_Memorial_Chorten,_Thimphu_01.jpg',
-  },
-  {
-    photo: 'Siikhe Lake, Ziro',
-    author: 'Suraj Digrase',
-    licence: 'CC0',
-    href: 'https://creativecommons.org/publicdomain/zero/1.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:Siikhe_Lake_Ziro.jpg',
-  },
-  {
-    photo: 'Radhanagar beach, Havelock',
-    author: 'Vyacheslav Argenberg',
-    licence: 'CC BY 4.0',
-    href: 'https://creativecommons.org/licenses/by/4.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:Havelock_Island,_Radhanagar_Beach,_Andaman_Islands.jpg',
-  },
-  {
-    photo: 'Key monastery, Spiti',
-    author: 'Ksuryawanshi',
-    licence: 'CC BY-SA 4.0',
-    href: 'https://creativecommons.org/licenses/by-sa/4.0/',
-    page: 'https://commons.wikimedia.org/wiki/File:Kee_monastery_Spiti_Valley.JPG',
-  },
-];
 
 const CARDS: Card[] = [
   {
@@ -176,21 +118,6 @@ export default function ShowcaseSection() {
         ))}
       </div>
 
-      <p className={s.photoCredits}>
-        <span className={s.photoCreditsLead}>Photographs:</span>{' '}
-        {CREDITS.map((credit, i) => (
-          <span key={credit.photo}>
-            {i > 0 ? ' · ' : ''}
-            <a href={credit.page} target="_blank" rel="noopener noreferrer">
-              {credit.photo}
-            </a>{' '}
-            {credit.author},{' '}
-            <a href={credit.href} target="_blank" rel="noopener noreferrer">
-              {credit.licence}
-            </a>
-          </span>
-        ))}
-      </p>
     </section>
   );
 }

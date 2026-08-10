@@ -133,6 +133,7 @@ export const I18N = {
     "footer.policy1": "Terms of service",
     "footer.policy2": "Privacy policy",
     "footer.policy3": "Cancellation",
+    "footer.credits": "Photo credits",
   },
   hi: {
     "nav.logo": "देशतन",
@@ -268,6 +269,7 @@ export const I18N = {
     "footer.policy1": "सेवा की शर्तें",
     "footer.policy2": "गोपनीयता नीति",
     "footer.policy3": "रद्दीकरण",
+    "footer.credits": "फ़ोटो क्रेडिट",
   },
   bn: {
     "nav.logo": "দেশতন",
@@ -403,6 +405,7 @@ export const I18N = {
     "footer.policy1": "সেবার শর্তাবলী",
     "footer.policy2": "গোপনীয়তা নীতি",
     "footer.policy3": "বাতিল করা",
+    "footer.credits": "ছবির কৃতিত্ব",
   },
   mr: {
     "nav.logo": "देशतन",
@@ -538,6 +541,7 @@ export const I18N = {
     "footer.policy1": "सेवेची अटी",
     "footer.policy2": "गोपनीयता धोरण",
     "footer.policy3": "रद्दीकरण",
+    "footer.credits": "फोटो श्रेय",
   },
   te: {
     "nav.logo": "దేశతన",
@@ -671,6 +675,7 @@ export const I18N = {
     "footer.policy1": "సేవ నిబంధనలు",
     "footer.policy2": "గోప్యతా విధానం",
     "footer.policy3": "రద్దుకరణ",
+    "footer.credits": "ఫోటో క్రెడిట్స్",
   },
   ta: {
     "nav.logo": "தேசதன்",
@@ -804,6 +809,7 @@ export const I18N = {
     "footer.policy1": "சேவை நிபந்தனைகள்",
     "footer.policy2": "தனியுரிமை கொள்கை",
     "footer.policy3": "ரத்துசெய்தல்",
+    "footer.credits": "புகைப்பட நன்றி",
   },
   gu: {
     "nav.logo": "દેશતન",
@@ -937,6 +943,7 @@ export const I18N = {
     "footer.policy1": "સેવા શરતો",
     "footer.policy2": "ગોપનીયતા નીતિ",
     "footer.policy3": "રદ્દીકરણ",
+    "footer.credits": "ફોટો ક્રેડિટ",
   },
   ur: {
     "nav.logo": "دیشتن",
@@ -1070,6 +1077,7 @@ export const I18N = {
     "footer.policy1": "خدمات کی شرائط",
     "footer.policy2": "رازداری کی پالیسی",
     "footer.policy3": "منسوخی",
+    "footer.credits": "تصویری کریڈٹ",
   },
   kn: {
     "nav.logo": "ದೇಶತನ",
@@ -1203,6 +1211,7 @@ export const I18N = {
     "footer.policy1": "ಸೇವೆ ಷರತ್ತುಗಳು",
     "footer.policy2": "ಗೋಪನೀಯತೆ ನೀತಿ",
     "footer.policy3": "ರದ್ದುಗಾಗಿ",
+    "footer.credits": "ಫೋಟೋ ಕ್ರೆಡಿಟ್",
   },
   or: {
     "nav.logo": "ଦେଶତନ",
@@ -1336,6 +1345,7 @@ export const I18N = {
     "footer.policy1": "ସେବା ଅବସ୍ଥା",
     "footer.policy2": "ଗୋପନୀୟତା ନୀତି",
     "footer.policy3": "ଏୟତାଲିକୃତ",
+    "footer.credits": "ଫଟୋ କ୍ରେଡିଟ୍",
   },
 };
 
