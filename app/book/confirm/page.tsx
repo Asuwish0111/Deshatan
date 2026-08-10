@@ -27,6 +27,7 @@ export default function ConfirmPage() {
   }, []);
 
   const dest = db?.destinations.find((d) => d.id === (placed?.destId ?? draft?.destId));
+  const stay = db?.stays.find((st) => st.id === (placed?.stayId ?? draft?.stayId));
 
   if (draft === null && !placed) {
     return (
@@ -114,7 +115,7 @@ export default function ConfirmPage() {
     );
   }
 
-  const price = priceDraft(draft, dest);
+  const price = priceDraft(draft, dest, stay);
   const occasion = OCCASIONS.find((o) => o.key === draft.occasion)?.label;
   const chosenAddons = ADDONS.filter((a) => draft.addons.includes(a.id));
 
@@ -123,6 +124,7 @@ export default function ConfirmPage() {
     const booking: Booking = {
       id: "b" + Date.now().toString(36),
       destId: draft.destId,
+      stayId: draft.stayId || undefined,
       guestName: draft.guestName,
       guestEmail: draft.guestEmail,
       guestPhone: draft.guestPhone,
@@ -174,6 +176,10 @@ export default function ConfirmPage() {
                 <dd style={{ fontSize: 14, textTransform: "capitalize" }}>
                   {draft.style} · {draft.pace}
                 </dd>
+              </div>
+              <div>
+                <dt>Stay</dt>
+                <dd style={{ fontSize: 14 }}>{stay?.title ?? "We'll pick one"}</dd>
               </div>
               <div>
                 <dt>Meals · pickup</dt>
@@ -244,6 +250,10 @@ export default function ConfirmPage() {
               <div>
                 <dt>Add-ons</dt>
                 <dd>{price.addons ? inr(price.addons) : "—"}</dd>
+              </div>
+              <div>
+                <dt>Stay upgrade</dt>
+                <dd>{price.stay ? inr(price.stay) : "—"}</dd>
               </div>
             </dl>
             <div className={s.summaryTotal}>

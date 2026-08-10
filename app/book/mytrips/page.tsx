@@ -79,6 +79,7 @@ export default function MyTripsPage() {
             <div className={s.grid}>
               {bookings.map((b) => {
                 const dest = db?.destinations.find((d) => d.id === b.destId);
+                const stay = db?.stays.find((st) => st.id === b.stayId);
                 return (
                   <article className={s.card} key={b.id}>
                     <div
@@ -110,6 +111,10 @@ export default function MyTripsPage() {
                       <div>
                         <dt>Travellers</dt>
                         <dd>{b.pax}</dd>
+                      </div>
+                      <div>
+                        <dt>Stay</dt>
+                        <dd style={{ fontSize: 14 }}>{stay?.title ?? "Chosen for you"}</dd>
                       </div>
                       <div>
                         <dt>Total</dt>

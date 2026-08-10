@@ -7,6 +7,7 @@ export const STEPS = [
   { key: "search", label: "Find" },
   { key: "trip", label: "Trip" },
   { key: "customize", label: "Customise" },
+  { key: "stay", label: "Stay" },
   { key: "details", label: "Details" },
   { key: "confirm", label: "Confirm" },
 ] as const;

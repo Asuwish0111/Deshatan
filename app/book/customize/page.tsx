@@ -77,7 +77,7 @@ function CustomizeInner() {
 
   const next = () => {
     saveDraft(draft);
-    router.push("/book/details");
+    router.push("/book/stays");
   };
 
   return (
@@ -282,7 +282,7 @@ function CustomizeInner() {
           ← Back to trip
         </Link>
         <button type="button" className={s.btn} onClick={next} disabled={!draft.destId}>
-          Continue to your details →
+          Choose where you'll stay →
         </button>
       </div>
     </BookingShell>

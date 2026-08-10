@@ -12,6 +12,7 @@ import { Destination } from "@/types";
    Booking type so confirming is a copy, not a translation. */
 export type Draft = {
   destId: string;
+  stayId: string;
   days: number;
   pax: number;
   style: "backpacker" | "comfort" | "heritage";
@@ -31,6 +32,7 @@ const KEY = "deshatan-draft";
 
 export const emptyDraft = (destId = "", days = 5): Draft => ({
   destId,
+  stayId: "",
   days,
   pax: 2,
   style: "comfort",
@@ -71,14 +73,39 @@ export type Price = {
   meals: number;
   pickup: number;
   addons: number;
+  stay: number;
   total: number;
   perHead: number;
 };
 
+/* Each style already covers a nightly rate. A stay at or below its tier is
+   included; above it, only the difference is charged, so the price never
+   double-counts accommodation the base rate already paid for. */
+export const INCLUDED_NIGHTLY: Record<Draft["style"], number> = {
+  backpacker: 1500,
+  comfort: 3000,
+  heritage: 6000,
+};
+
+export const nightsFor = (days: number) => Math.max(1, days - 1);
+
+export function stayUpgrade(
+  draft: Draft,
+  stay?: { pricePerNight: number },
+): number {
+  if (!stay) return 0;
+  const over = stay.pricePerNight - INCLUDED_NIGHTLY[draft.style];
+  return over > 0 ? over * nightsFor(draft.days) : 0;
+}
+
 /* Same shape as the dashboard calculator — style rate × region multiplier,
    with a per-head group discount capped at 22% — then the extras customise
    adds on top. */
-export function priceDraft(draft: Draft, dest?: Destination): Price {
+export function priceDraft(
+  draft: Draft,
+  dest?: Destination,
+  stay?: { pricePerNight: number },
+): Price {
   const rate = STYLE_OPTIONS.find((o) => o.key === draft.style)?.price ?? 4500;
   const mult = dest ? (REGION_MULTIPLIERS[dest.region] ?? 1) : 1;
   const groupFactor = 1 - Math.min(Math.max(draft.pax - 2, 0) * 0.04, 0.22);
@@ -92,8 +119,18 @@ export function priceDraft(draft: Draft, dest?: Destination): Price {
     0,
   );
 
-  const total = base + meals + pickup + addons;
-  return { base, meals, pickup, addons, total, perHead: Math.round(total / draft.pax) };
+  const stayCost = stayUpgrade(draft, stay);
+
+  const total = base + meals + pickup + addons + stayCost;
+  return {
+    base,
+    meals,
+    pickup,
+    addons,
+    stay: stayCost,
+    total,
+    perHead: Math.round(total / draft.pax),
+  };
 }
 
 export function makeReference(id: string) {

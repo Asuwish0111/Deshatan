@@ -339,6 +339,92 @@
   letter-spacing: 1px;
 }
 
+/* ---------- stays ----------
+   Deliberately drawn rather than photographed: we have no rights-cleared
+   photography of these specific properties, and captioning a stock room as a
+   named haveli would be a claim we cannot stand behind. Type does the work. */
+.stayCard {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  padding: 18px 20px 20px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+  transition: transform 0.24s var(--ease-spring);
+}
+.stayCard:hover {
+  transform: translateY(-3px);
+}
+.stayCard h2 {
+  margin: 10px 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.stayHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.stayType {
+  padding: 3px 11px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--gold-soft);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.4px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.stayVerified {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  color: var(--peacock);
+  white-space: nowrap;
+}
+.amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.amenities li {
+  padding: 2px 9px;
+  border: 1px solid rgba(38, 25, 14, 0.28);
+  border-radius: 999px;
+  font-family: var(--text);
+  font-size: 12px;
+  line-height: 19px;
+  color: var(--body-soft);
+}
+.stayDelta {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: right;
+  color: var(--peacock);
+}
+.stayActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.stayActions > * {
+  flex: 1 1 auto;
+}
+
 .empty {
   padding: 44px 24px;
   border: 2px dashed rgba(38, 25, 14, 0.3);

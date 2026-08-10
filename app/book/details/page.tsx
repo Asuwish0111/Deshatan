@@ -23,6 +23,7 @@ export default function DetailsPage() {
   }, []);
 
   const dest = db?.destinations.find((d) => d.id === draft?.destId);
+  const stay = db?.stays.find((st) => st.id === draft?.stayId);
 
   if (draft === null) {
     return (
@@ -81,7 +82,7 @@ export default function DetailsPage() {
     router.push("/book/confirm");
   };
 
-  const price = priceDraft(draft, dest);
+  const price = priceDraft(draft, dest, stay);
   const err = (k: keyof Errors) => (tried ? errors[k] : undefined);
 
   return (
@@ -189,6 +190,10 @@ export default function DetailsPage() {
                   <dt>Style</dt>
                   <dd style={{ fontSize: 14, textTransform: "capitalize" }}>{draft.style}</dd>
                 </div>
+                <div>
+                  <dt>Stay</dt>
+                  <dd style={{ fontSize: 14 }}>{stay?.title ?? "We'll pick one"}</dd>
+                </div>
               </dl>
               <div className={s.summaryTotal}>
                 <b>{inr(price.total)}</b>
@@ -199,8 +204,8 @@ export default function DetailsPage() {
         </div>
 
         <div className={s.actions}>
-          <Link className={s.btnGhost} href="/book/customize">
-            ← Back to customise
+          <Link className={s.btnGhost} href="/book/stays">
+            ← Back to stays
           </Link>
           <button type="submit" className={s.btn}>
             Review and confirm →
