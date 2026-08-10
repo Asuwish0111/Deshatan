@@ -1,4 +1,7 @@
+"use client";
+
 import Image from 'next/image';
+import { useCopy } from "@/lib/copy";
 import s from './dashboard.module.css';
 
 // The Figma image frames are named after their photo but carry no fill, so the
@@ -134,15 +137,16 @@ const CARDS: Card[] = [
 ];
 
 export default function ShowcaseSection() {
+  const { line } = useCopy();
   return (
     <section className={s.showcase} id="showcase">
       <div className={s.showcaseHead}>
         <p className={s.eyebrow}>
           <span className={s.eyebrowBar} aria-hidden="true" />
-          <span className={s.eyebrowWord}>Asli Tasveerein</span>
+          <span className={s.eyebrowWord}>{line("showcase.eyebrow", "Asli Tasveerein")}</span>
           <span className={s.eyebrowBar} aria-hidden="true" />
         </p>
-        <h2>Every arch and frieze on this page is drawn. These aren&apos;t.</h2>
+        <h2>{line("showcase.h2", "Every arch and frieze on this page is drawn. These aren't.")}</h2>
       </div>
 
       <div className={s.showcaseGrid}>

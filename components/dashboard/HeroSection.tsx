@@ -1,11 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useCopy } from "@/lib/copy";
 import s from "./dashboard.module.css";
 
-// the three accents deliberately foreshadow the three stat cards below
+// the three accents deliberately foreshadow the three stat cards below.
+// i18n stores each as "figure\nlabel", translated in all ten languages.
 const PROOF = [
-  { figure: "2,600+", label: "Verified guides", tone: s.heroProofRust },
-  { figure: "50,000+", label: "Safe stays", tone: s.heroProofGold },
-  { figure: "₹25L+", label: "Trips booked", tone: s.heroProofIndigo },
+  { key: "hero.proof1", figure: "2,600+", label: "Verified guides", tone: s.heroProofRust },
+  { key: "hero.proof2", figure: "50,000+", label: "Safe stays", tone: s.heroProofGold },
+  { key: "hero.proof3", figure: "₹25L+", label: "Trips booked", tone: s.heroProofIndigo },
 ];
 
 // the same silhouettes the frieze band uses, laid out as a horizon line
@@ -29,6 +33,8 @@ const HORIZON: [string, number, number][] = [
 ];
 
 export default function HeroSection() {
+  const { line, t, language } = useCopy();
+
   return (
     <section className={s.hero} id="top">
       <div className={s.heroArch} aria-hidden="true" />
@@ -36,41 +42,54 @@ export default function HeroSection() {
       <div className={s.heroInner}>
         <p className={s.eyebrow}>
           <span className={s.eyebrowBar} aria-hidden="true" />
-          <span className={s.eyebrowWord}>Ghoomo Poora Bharat</span>
+          <span className={s.eyebrowWord}>{line("nav.tagline", "Ghoomo Poora Bharat")}</span>
           <span className={s.eyebrowBar} aria-hidden="true" />
         </p>
 
         <h1 className={s.heroTitle}>
-          Explore all of India
-          <span className={s.heroTitleAccent}>
-            <span className={s.heroAmp}>&amp;</span> just beyond it.
-          </span>
+          {/* the designed two-line lockup only holds for the English copy;
+              other languages take the translated line whole */}
+          {language === "en" ? (
+            <>
+              Explore all of India
+              <span className={s.heroTitleAccent}>
+                <span className={s.heroAmp}>&amp;</span> just beyond it.
+              </span>
+            </>
+          ) : (
+            t("hero.h1")
+          )}
         </h1>
 
         <p className={s.heroLede}>
-          Carefully curated journeys across 28 states, 8 union territories, Nepal and
-          Bhutan. Local guides, verified stays, live tracking. Dream bigger.
+          {line(
+            "hero.lede",
+            "Carefully curated journeys across 28 states, 8 union territories, Nepal and Bhutan. Local guides, verified stays, live tracking. Dream bigger.",
+          )}
         </p>
 
         <div className={s.heroCtas}>
           <Link className={s.heroCtaPrimary} href="/book/search">
-            Start exploring
+            {line("hero.cta1", "Start exploring")}
             <span className={s.heroCtaArrow} aria-hidden="true">
               →
             </span>
           </Link>
           <Link className={s.heroCtaGhost} href="#showcase">
-            See where we go
+            {line("hero.cta2", "See where we go")}
           </Link>
         </div>
 
         <dl className={s.heroProof}>
-          {PROOF.map((item) => (
-            <div key={item.label} className={item.tone}>
-              <dt>{item.figure}</dt>
-              <dd>{item.label}</dd>
-            </div>
-          ))}
+          {PROOF.map((item) => {
+            const [figure, label] = (t(item.key) || "").split("\n");
+            return (
+              <div key={item.key} className={item.tone}>
+                <dt>{figure || item.figure}</dt>
+                <dd>{label || item.label}</dd>
+              </div>
+            );
+          })}
         </dl>
       </div>
 
