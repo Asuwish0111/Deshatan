@@ -357,7 +357,11 @@
   background: var(--cream);
 }
 
-/* the plate's drop shadow, read from the inside of the cut-out */
+/* The plate's drop shadow, read from the inside of the cut-out. Values are
+   sampled off the Figma render rather than eyeballed: the sides fall from
+   0.042 over 30px, the cap's top edge from 0.07 over 32px. The earlier
+   0.12/42px was roughly 2.5x too dark and nearly twice too deep, which is
+   what turned the cap into a grey band instead of a soft shadow. */
 .archCap::after,
 .panel::before,
 .panelLower::before {
@@ -366,15 +370,15 @@
   inset: 0;
   border-radius: inherit;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px),
-    linear-gradient(270deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.042), rgba(0, 0, 0, 0) 30px),
+    linear-gradient(270deg, rgba(0, 0, 0, 0.042), rgba(0, 0, 0, 0) 30px);
   pointer-events: none;
 }
 .archCap::after {
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px),
-    linear-gradient(270deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0) 42px);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.042), rgba(0, 0, 0, 0) 30px),
+    linear-gradient(270deg, rgba(0, 0, 0, 0.042), rgba(0, 0, 0, 0) 30px),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0) 32px);
 }
 
 /* The design leaves the hero slot above "Asli Tasveerein" empty. */
