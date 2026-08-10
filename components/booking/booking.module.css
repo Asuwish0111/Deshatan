@@ -1,0 +1,794 @@
+/* ============================================================
+   Booking flow — search, trip, customise, details, confirm,
+   my trips. Tokens come from .page in dashboard.module.css,
+   which every booking page wraps itself in; this file only adds
+   the shapes those pages need.
+   ============================================================ */
+
+/* ---------- page frame ---------- */
+
+/* like .panel but open at the bottom, because .archBottom closes it */
+.plate {
+  position: relative;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-bottom: 0;
+  border-radius: var(--r-cap) var(--r-cap) 0 0;
+  background: var(--cream);
+}
+.plateInner {
+  width: min(1238px, 100% - 2 * var(--gutter));
+  margin: 0 auto;
+  padding: clamp(30px, 3.6vw, 52px) 0 clamp(36px, 4vw, 60px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.head h1 {
+  width: min(760px, 100%);
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.head p {
+  max-width: 62ch;
+  margin: 12px 0 0;
+  font-family: var(--text);
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--body-soft);
+}
+
+/* ---------- step rail ---------- */
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 6px;
+  margin: 0 0 clamp(26px, 3vw, 40px);
+  padding: 0;
+  list-style: none;
+}
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--body-muted);
+}
+.steps li::after {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: rgba(38, 25, 14, 0.24);
+}
+.steps li:last-child::after {
+  display: none;
+}
+.stepDot {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1.5px solid rgba(38, 25, 14, 0.28);
+  border-radius: 50%;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+.stepOn {
+  color: var(--ink);
+}
+.stepOn .stepDot {
+  border-color: var(--ink);
+  background: var(--rust);
+  color: var(--parchment);
+}
+.stepDone .stepDot {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+/* ---------- filter rail ---------- */
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+}
+.filterRow {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.filterLabel {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--body-muted);
+}
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  padding: 6px 13px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+.chip:hover {
+  background: var(--sand);
+}
+.chipOn {
+  background: var(--rust);
+  border-color: var(--ink);
+  color: var(--parchment);
+}
+.chipOn:hover {
+  background: var(--rust-deep);
+}
+.chip:focus-visible,
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+
+.searchRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.searchRow .field {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field label {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--cream);
+  font-family: var(--text);
+  font-size: 15px;
+  color: var(--ink);
+}
+.field textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--placeholder);
+}
+.fieldHint {
+  font-family: var(--text);
+  font-size: 12.5px;
+  color: var(--body-muted);
+}
+.fieldError {
+  font-family: var(--text);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--rust-deep);
+}
+
+/* ---------- results ---------- */
+
+.resultBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin: 26px 0 16px;
+  font-family: var(--text);
+  font-size: 14px;
+  color: var(--body-muted);
+}
+.resultCount {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+  gap: 24px;
+}
+
+/* same construction as the showcase card: 2px ink, photo on top */
+.tripCard {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: #fff;
+  overflow: hidden;
+  transition: transform 0.24s var(--ease-spring);
+}
+.tripCard:hover {
+  transform: translateY(-3px);
+}
+.tripMedia {
+  position: relative;
+  aspect-ratio: 288 / 195.375;
+  border-bottom: 2px solid var(--ink);
+  background: var(--sand);
+  overflow: hidden;
+}
+.tripMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tripRegion {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(38, 25, 14, 0.82);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 18.15px;
+  letter-spacing: 0.33px;
+  color: var(--parchment);
+  white-space: nowrap;
+}
+.tripBody {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  padding: 16px 18px 18px;
+}
+.tripBody h2,
+.tripBody h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.tripMeta {
+  margin: 6px 0 0;
+  font-family: var(--text);
+  font-size: 13px;
+  color: var(--body-muted);
+}
+.tripBlurb {
+  margin: 9px 0 0;
+  font-family: var(--text);
+  font-size: 14px;
+  line-height: 23px;
+  color: var(--body-soft);
+}
+.tripFoot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.tripPrice {
+  font-family: var(--display);
+  font-size: 22px;
+  line-height: 1.1;
+  color: var(--rust);
+  font-variant-numeric: tabular-nums;
+}
+.tripPrice small {
+  display: block;
+  font-family: var(--text);
+  font-size: 11.5px;
+  color: var(--body-muted);
+}
+.tripRating {
+  font-family: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.tripStars {
+  color: var(--gold-deep);
+  letter-spacing: 1px;
+}
+
+.empty {
+  padding: 44px 24px;
+  border: 2px dashed rgba(38, 25, 14, 0.3);
+  border-radius: 16px;
+  background: var(--parchment);
+  text-align: center;
+}
+.empty p {
+  margin: 0 0 14px;
+  font-family: var(--text);
+  color: var(--body-soft);
+}
+
+/* ---------- buttons ---------- */
+
+.btn,
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.24s var(--ease-spring),
+    background-color 0.18s ease;
+}
+.btn {
+  background: var(--rust);
+  color: var(--parchment);
+}
+.btn:hover {
+  background: var(--rust-deep);
+  transform: translateY(-2px);
+}
+.btnGhost {
+  background: var(--parchment);
+  color: var(--ink);
+}
+.btnGhost:hover {
+  background: var(--sand);
+  transform: translateY(-2px);
+}
+.btn:active,
+.btnGhost:active {
+  transform: translateY(0);
+}
+.btn:focus-visible,
+.btnGhost:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+}
+.btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(38, 25, 14, 0.14);
+}
+
+/* ---------- two-column detail layouts ---------- */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+  margin-top: clamp(24px, 3vw, 38px);
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* coloured frame + parchment inner — the system's workhorse card */
+.panelFrame {
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--rust);
+}
+.panelFrameIndigo {
+  background: var(--indigo);
+}
+.panelFramePeacock {
+  background: var(--peacock);
+}
+.panelFrameGold {
+  background: var(--gold);
+}
+.panelInner {
+  padding: 18px 20px 20px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+}
+.panelInner > h2 {
+  margin: 0 0 14px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* plain bordered card for content that needs no frame */
+.card {
+  padding: 20px 22px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+}
+.card > h2 {
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* sticky summary rail on the wider layouts */
+.summary {
+  position: sticky;
+  top: 20px;
+}
+.summaryRows {
+  margin: 0;
+}
+.summaryRows > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 2px dashed var(--ink);
+}
+.summaryRows > div:last-of-type {
+  border-bottom: 0;
+}
+.summaryRows dt {
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+.summaryRows dd {
+  margin: 0;
+  flex: none;
+  font-family: var(--display);
+  font-size: 15px;
+  color: var(--rust);
+  font-variant-numeric: tabular-nums;
+}
+.summaryTotal {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--gold-soft);
+  text-align: center;
+}
+.summaryTotal b {
+  display: block;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.15;
+  color: var(--rust-deep);
+  font-variant-numeric: tabular-nums;
+}
+.summaryTotal span {
+  font-family: var(--text);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+/* ---------- option lists (customise) ---------- */
+
+.optionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  gap: 10px;
+}
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--cream);
+  font-family: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+.option:hover {
+  background: var(--sand);
+}
+.option b {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.option span {
+  font-size: 12.5px;
+  line-height: 19px;
+  color: var(--body-muted);
+}
+.optionOn {
+  background: var(--rust);
+}
+.optionOn:hover {
+  background: var(--rust-deep);
+}
+.optionOn b {
+  color: var(--parchment);
+}
+.optionOn span {
+  color: var(--blush);
+}
+.option:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+.optionPrice {
+  margin-left: auto;
+  font-family: var(--display);
+  font-size: 15px;
+  color: var(--rust);
+}
+.optionOn .optionPrice {
+  color: var(--gold-soft);
+}
+
+/* ---------- itinerary ---------- */
+
+.itinerary {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: day;
+}
+.itinerary li {
+  position: relative;
+  counter-increment: day;
+  padding: 0 0 18px 40px;
+  border-left: 2px solid rgba(38, 25, 14, 0.16);
+  margin-left: 11px;
+}
+.itinerary li:last-child {
+  border-left-color: transparent;
+  padding-bottom: 0;
+}
+.itinerary li::before {
+  content: counter(day);
+  position: absolute;
+  left: -12px;
+  top: 0;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--gold-soft);
+  font-family: var(--text);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.itinerary b {
+  display: block;
+  font-family: var(--text);
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.itinerary span {
+  font-family: var(--text);
+  font-size: 14px;
+  line-height: 23px;
+  color: var(--body-soft);
+}
+
+/* ---------- trip hero ---------- */
+
+.tripHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(20px, 2.6vw, 34px);
+  align-items: stretch;
+}
+.tripHeroMedia {
+  position: relative;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 260px;
+}
+.tripHeroMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tripHeroCopy h1 {
+  margin: 10px 0 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.tripFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 14px;
+  font-family: var(--text);
+  font-size: 14px;
+  color: var(--body-muted);
+}
+.tripFacts b {
+  color: var(--ink);
+}
+
+.includes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.includes li {
+  display: flex;
+  gap: 8px;
+  font-family: var(--text);
+  font-size: 14.5px;
+  line-height: 24px;
+  color: var(--ink);
+}
+.includes li::before {
+  content: "✦";
+  color: var(--rust);
+}
+
+/* ---------- receipt / confirmation ---------- */
+
+.receipt {
+  max-width: 620px;
+  margin: 0 auto;
+}
+.receiptCode {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--gold-soft);
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 2px;
+  color: var(--ink);
+}
+.statusPill {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.statusPending {
+  background: var(--gold-soft);
+  color: var(--ink);
+}
+.statusConfirmed {
+  background: var(--peacock);
+  color: var(--parchment);
+}
+.statusCancelled {
+  background: var(--rust);
+  color: var(--parchment);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .split,
+  .tripHero {
+    grid-template-columns: 1fr;
+  }
+  .summary {
+    position: static;
+  }
+}
+
+@media (max-width: 520px) {
+  .steps li::after {
+    width: 10px;
+  }
+  .steps li span:last-child {
+    display: none;
+  }
+  .steps li.stepOn span:last-child {
+    display: inline;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions .btn,
+  .actions .btnGhost {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tripCard,
+  .btn,
+  .btnGhost {
+    transition: background-color 0.18s ease;
+  }
+  .tripCard:hover,
+  .btn:hover,
+  .btnGhost:hover {
+    transform: none;
+  }
+}

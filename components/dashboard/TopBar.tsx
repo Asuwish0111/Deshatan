@@ -3,15 +3,25 @@ import s from './dashboard.module.css';
 
 // Navy plate above the arch: two centre tabs around the lotus motif,
 // language pill + CTA on the right. Figma node 2:2441 (header band).
-export default function TopBar() {
+// The two tabs are parameterised so the booking pages can point them at
+// routes instead of the dashboard's in-page anchors.
+type Tab = { label: string; href: string };
+
+export default function TopBar({
+  primary = { label: "Where we go", href: "#coverage" },
+  secondary = { label: "Dream Calculator", href: "#calculator" },
+}: {
+  primary?: Tab;
+  secondary?: Tab;
+}) {
   return (
     <header className={s.topbar}>
       <nav className={s.navCenter} aria-label="Main">
         <div className={s.tabSlot}>
-          <Link className={s.tab} href="#coverage">
+          <Link className={s.tab} href={primary.href}>
             <span className={s.tabText}>
               <img src="/figma/user-icon-active.svg" alt="" width={16} height={16} />
-              Where we go
+              {primary.label}
             </span>
             <span className={s.tabRule} aria-hidden="true">
               <img className={s.ornLeft} src="/figma/tab-orn-right.svg" alt="" />
@@ -20,9 +30,9 @@ export default function TopBar() {
             </span>
           </Link>
         </div>
-        <Link className={s.navLink} href="#calculator">
+        <Link className={s.navLink} href={secondary.href}>
           <img src="/figma/user-icon.svg" alt="" width={16} height={16} />
-          Dream Calculator
+          {secondary.label}
         </Link>
       </nav>
 

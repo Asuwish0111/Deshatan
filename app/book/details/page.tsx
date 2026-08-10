@@ -1,244 +1,212 @@
 "use client";
 
-import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDeshatan } from "@/lib/context";
+import BookingShell from "@/components/booking/BookingShell";
+import { inr } from "@/components/booking/trips";
+import { Draft, loadDraft, priceDraft, saveDraft } from "@/components/booking/draft";
+import s from "@/components/booking/booking.module.css";
+
+type Errors = Partial<Record<"guestName" | "guestEmail" | "guestPhone" | "travelDate", string>>;
 
 export default function DetailsPage() {
-  const { language } = useDeshatan();
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    travelDate: "",
-    passengers: "1",
-  });
+  const router = useRouter();
+  const { db } = useDeshatan();
+  const [draft, setDraft] = useState<Draft | null>(null);
+  const [errors, setErrors] = useState<Errors>({});
+  const [tried, setTried] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    setDraft(loadDraft());
+  }, []);
+
+  const dest = db?.destinations.find((d) => d.id === draft?.destId);
+
+  if (draft === null) {
+    return (
+      <BookingShell eyebrow="Ek Minute" title="Loading your details…" step="details">
+        <p style={{ textAlign: "center" }}>One moment.</p>
+      </BookingShell>
+    );
+  }
+
+  if (!draft.destId) {
+    return (
+      <BookingShell
+        eyebrow="Shuru Karein"
+        title="Let's pick a yatra first"
+        lede="We need a trip before we can take your details."
+        step="details"
+      >
+        <div className={s.empty}>
+          <p>Nothing is in progress right now.</p>
+          <Link className={s.btn} href="/book">
+            Find a yatra
+          </Link>
+        </div>
+      </BookingShell>
+    );
+  }
+
+  const set = <K extends keyof Draft>(key: K, value: Draft[K]) => {
+    setDraft((d) => (d ? { ...d, [key]: value } : d));
+    if (tried) setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Booking submitted! Proceeding to payment...");
+  const validate = (d: Draft): Errors => {
+    const e: Errors = {};
+    if (!d.guestName.trim()) e.guestName = "We need a name for the booking.";
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.guestEmail))
+      e.guestEmail = "Enter an email we can send the confirmation to.";
+    if (d.guestPhone.replace(/\D/g, "").length < 10)
+      e.guestPhone = "A 10-digit number, so your driver can reach you.";
+    if (!d.travelDate) e.travelDate = "Pick the date you want to start.";
+    else if (new Date(d.travelDate) < new Date(new Date().toDateString()))
+      e.travelDate = "That date has passed.";
+    return e;
   };
+
+  const submit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    setTried(true);
+    const found = validate(draft);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      document.querySelector<HTMLElement>("[data-invalid='true']")?.focus();
+      return;
+    }
+    saveDraft(draft);
+    router.push("/book/confirm");
+  };
+
+  const price = priceDraft(draft, dest);
+  const err = (k: keyof Errors) => (tried ? errors[k] : undefined);
 
   return (
-    <main style={{ padding: "40px 20px", backgroundColor: "var(--paper)" }}>
-      <div className="wrap" style={{ maxWidth: "600px" }}>
-        <h1 style={{ marginBottom: "30px" }}>📋 Your Details</h1>
-
-        <form onSubmit={handleSubmit}>
-          {/* Personal Information */}
-          <div style={{ marginBottom: "30px" }}>
-            <h2 style={{ fontSize: "20px", marginBottom: "20px" }}>👤 Personal Information</h2>
-
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>
-                First Name *
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "2px solid var(--ink)",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                }}
-              />
+    <BookingShell
+      eyebrow="Aapki Jaankari"
+      title="Who's travelling?"
+      lede="Only what we need to run the trip and reach you on the road. Nothing is charged at this step."
+      step="details"
+    >
+      <form onSubmit={submit} noValidate>
+        <div className={s.split}>
+          <div className={s.stack}>
+            <div className={s.card}>
+              <h2>Lead traveller</h2>
+              <div className={s.stack} style={{ gap: 16 }}>
+                <div className={s.field}>
+                  <label htmlFor="name">Full name</label>
+                  <input
+                    id="name"
+                    value={draft.guestName}
+                    data-invalid={!!err("guestName")}
+                    aria-invalid={!!err("guestName")}
+                    onChange={(e) => set("guestName", e.target.value)}
+                  />
+                  {err("guestName") ? (
+                    <span className={s.fieldError}>{err("guestName")}</span>
+                  ) : null}
+                </div>
+                <div className={s.field}>
+                  <label htmlFor="email">Email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={draft.guestEmail}
+                    data-invalid={!!err("guestEmail")}
+                    aria-invalid={!!err("guestEmail")}
+                    onChange={(e) => set("guestEmail", e.target.value)}
+                  />
+                  <span className={s.fieldHint}>
+                    Your booking reference comes here — it&apos;s also how you look the trip
+                    up later.
+                  </span>
+                  {err("guestEmail") ? (
+                    <span className={s.fieldError}>{err("guestEmail")}</span>
+                  ) : null}
+                </div>
+                <div className={s.field}>
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="+91 "
+                    value={draft.guestPhone}
+                    data-invalid={!!err("guestPhone")}
+                    aria-invalid={!!err("guestPhone")}
+                    onChange={(e) => set("guestPhone", e.target.value)}
+                  />
+                  {err("guestPhone") ? (
+                    <span className={s.fieldError}>{err("guestPhone")}</span>
+                  ) : null}
+                </div>
+              </div>
             </div>
 
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>
-                Last Name *
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "2px solid var(--ink)",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                }}
-              />
-            </div>
-
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>
-                Email *
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "2px solid var(--ink)",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                }}
-              />
-            </div>
-
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>
-                Phone Number *
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "2px solid var(--ink)",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                }}
-              />
+            <div className={s.card}>
+              <h2>When are you going?</h2>
+              <div className={s.field}>
+                <label htmlFor="date">Start date</label>
+                <input
+                  id="date"
+                  type="date"
+                  value={draft.travelDate}
+                  data-invalid={!!err("travelDate")}
+                  aria-invalid={!!err("travelDate")}
+                  onChange={(e) => set("travelDate", e.target.value)}
+                />
+                <span className={s.fieldHint}>
+                  {draft.days} days from this date. Free to cancel up to 14 days before.
+                </span>
+                {err("travelDate") ? (
+                  <span className={s.fieldError}>{err("travelDate")}</span>
+                ) : null}
+              </div>
             </div>
           </div>
 
-          {/* Trip Details */}
-          <div style={{ marginBottom: "30px" }}>
-            <h2 style={{ fontSize: "20px", marginBottom: "20px" }}>✈️ Trip Details</h2>
-
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>
-                Travel Date *
-              </label>
-              <input
-                type="date"
-                name="travelDate"
-                value={formData.travelDate}
-                onChange={handleChange}
-                required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "2px solid var(--ink)",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                }}
-              />
-            </div>
-
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>
-                Number of Passengers *
-              </label>
-              <select
-                name="passengers"
-                value={formData.passengers}
-                onChange={handleChange}
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "2px solid var(--ink)",
-                  borderRadius: "6px",
-                  fontSize: "16px",
-                  fontFamily: "inherit",
-                }}
-              >
-                {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
-                  <option key={num} value={num}>
-                    {num} {num === 1 ? "person" : "people"}
-                  </option>
-                ))}
-              </select>
+          <div className={s.stack}>
+            <div className={`${s.card} ${s.summary}`}>
+              <h2>Your trip</h2>
+              <dl className={s.summaryRows}>
+                <div>
+                  <dt>Yatra</dt>
+                  <dd style={{ fontSize: 14 }}>{dest?.title ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt>Length</dt>
+                  <dd>{draft.days} days</dd>
+                </div>
+                <div>
+                  <dt>Travellers</dt>
+                  <dd>{draft.pax}</dd>
+                </div>
+                <div>
+                  <dt>Style</dt>
+                  <dd style={{ fontSize: 14, textTransform: "capitalize" }}>{draft.style}</dd>
+                </div>
+              </dl>
+              <div className={s.summaryTotal}>
+                <b>{inr(price.total)}</b>
+                <span>≈ {inr(price.perHead)} per person</span>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Summary */}
-          <div
-            style={{
-              padding: "20px",
-              backgroundColor: "var(--paper-deep)",
-              borderRadius: "10px",
-              marginBottom: "30px",
-            }}
-          >
-            <h3 style={{ marginBottom: "15px" }}>💰 Booking Summary</h3>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span>Trip Package</span>
-              <strong>₹45,000</strong>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span>Meals</span>
-              <strong>₹5,000</strong>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span>Pickup</span>
-              <strong>₹500</strong>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-              <span>Insurance</span>
-              <strong>₹1,200</strong>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingTop: "10px",
-                borderTop: "2px solid var(--ink)",
-              }}
-            >
-              <strong style={{ fontSize: "18px" }}>Total</strong>
-              <strong style={{ fontSize: "18px", color: "var(--sindoor)" }}>₹51,700</strong>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              type="submit"
-              className="btn"
-              style={{ flex: 1 }}
-            >
-              Proceed to Payment
-            </button>
-            <button
-              type="button"
-              className="btn ghost"
-              style={{ flex: 1 }}
-              onClick={() => alert("Going back...")}
-            >
-              Back
-            </button>
-          </div>
-
-          {/* Terms */}
-          <div style={{ marginTop: "20px", padding: "15px", backgroundColor: "var(--paper-deep)", borderRadius: "6px" }}>
-            <label style={{ display: "flex", alignItems: "start", gap: "10px", fontSize: "13px" }}>
-              <input type="checkbox" required style={{ marginTop: "2px" }} />
-              <span>
-                I agree to the <a href="#" style={{ color: "var(--sindoor)", fontWeight: "600" }}>terms and conditions</a> and <a href="#" style={{ color: "var(--sindoor)", fontWeight: "600" }}>privacy policy</a>
-              </span>
-            </label>
-          </div>
-        </form>
-      </div>
-    </main>
+        <div className={s.actions}>
+          <Link className={s.btnGhost} href="/book/customize">
+            ← Back to customise
+          </Link>
+          <button type="submit" className={s.btn}>
+            Review and confirm →
+          </button>
+        </div>
+      </form>
+    </BookingShell>
   );
 }
