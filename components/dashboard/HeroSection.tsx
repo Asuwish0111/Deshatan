@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCopy } from "@/lib/copy";
+import HeroSearch from "./HeroSearch";
 import s from "./dashboard.module.css";
 
 // the three accents deliberately foreshadow the three stat cards below.
@@ -68,17 +69,8 @@ export default function HeroSection() {
           )}
         </p>
 
-        <div className={s.heroCtas}>
-          <Link className={s.heroCtaPrimary} href="/book/search">
-            {line("hero.cta1", "Start exploring")}
-            <span className={s.heroCtaArrow} aria-hidden="true">
-              →
-            </span>
-          </Link>
-          <Link className={s.heroCtaGhost} href="#showcase">
-            {line("hero.cta2", "See where we go")}
-          </Link>
-        </div>
+        <HeroSearch />
+
 
         <dl className={s.heroProof}>
           {PROOF.map((item) => {

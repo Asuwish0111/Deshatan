@@ -932,6 +932,218 @@
   color: var(--body-muted);
 }
 
+
+/* ------------------------------------------------------------
+   Hero search — the big box, in our vocabulary rather than the
+   generic AI-search one: parchment fill, 2px ink keyline, rust
+   action. The panel matches the language menu so the page has one
+   idea of what an overlay looks like.
+   ------------------------------------------------------------ */
+
+.heroSearch {
+  position: relative;
+  z-index: 5;
+  width: min(660px, 100%);
+  margin: 30px auto 0;
+  text-align: left;
+}
+
+.heroSearchBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 9px 9px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  background: var(--parchment);
+  box-shadow: 0 2px 0 0 rgba(38, 25, 14, 0.09);
+  transition: box-shadow 0.2s ease;
+}
+/* the ring lands on the bar, not the bare input, so the whole control
+   reads as focused */
+.heroSearch:focus-within .heroSearchBar {
+  box-shadow:
+    0 2px 0 0 rgba(38, 25, 14, 0.09),
+    0 0 0 4px rgba(161, 72, 52, 0.18);
+}
+.heroSearchIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  opacity: 0.55;
+}
+.heroSearchIcon img {
+  width: 100%;
+  height: 100%;
+}
+.heroSearchInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 0;
+  border: 0;
+  background: none;
+  font-family: var(--text);
+  font-size: 17px;
+  color: var(--ink);
+}
+.heroSearchInput::placeholder {
+  color: var(--placeholder);
+}
+.heroSearchInput:focus {
+  outline: none;
+}
+.heroSearchGo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--rust);
+  font-size: 19px;
+  color: var(--parchment);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    transform 0.24s var(--ease-spring);
+}
+.heroSearchGo:hover {
+  background: var(--rust-deep);
+  transform: translateY(-2px);
+}
+.heroSearchGo:active {
+  transform: translateY(0);
+}
+.heroSearchGo:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+}
+
+.heroSearchList {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-height: 340px;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  list-style: none;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--parchment);
+  box-shadow: 0 14px 34px rgba(38, 25, 14, 0.24);
+}
+.heroSearchGroup {
+  margin: 8px 0 4px;
+  padding: 0 10px;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--body-muted);
+}
+.heroSearchHit {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  font-family: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.heroSearchHitOn {
+  background: var(--rust);
+}
+.heroSearchHitLabel {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+.heroSearchHitMeta {
+  font-size: 12.5px;
+  color: var(--body-muted);
+}
+.heroSearchHitOn .heroSearchHitLabel {
+  color: var(--parchment);
+}
+.heroSearchHitOn .heroSearchHitMeta {
+  color: var(--blush);
+}
+.heroSearchHit:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: -2px;
+}
+
+.heroPrompts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.heroPromptsLead {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--body-muted);
+}
+.heroPrompt {
+  padding: 6px 13px;
+  border: 1.5px solid rgba(38, 25, 14, 0.26);
+  border-radius: 999px;
+  background: rgba(250, 246, 240, 0.7);
+  font-family: var(--text);
+  font-size: 13px;
+  color: var(--body-soft);
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+.heroPrompt:hover {
+  background: var(--sand);
+  color: var(--ink);
+}
+.heroPrompt:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .heroSearchBar {
+    padding-left: 14px;
+    gap: 9px;
+  }
+  .heroSearchInput {
+    font-size: 16px;
+  }
+  .heroSearchGo {
+    width: 44px;
+    height: 44px;
+  }
+  .heroPrompt {
+    min-height: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroSearchGo:hover {
+    transform: none;
+  }
+}
+
 /* horizon: the frieze silhouettes again, whispered onto the cream */
 /* The box is much taller than the silhouettes on purpose: the mask below
    clips to the border box, so the haze needs its headroom inside the element
