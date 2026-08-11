@@ -1,0 +1,5 @@
+<svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 2px ink strokes with round caps, matching the drawn icon set -->
+  <circle cx="9.6" cy="9.6" r="6.7" stroke="#26190E" stroke-width="2" />
+  <path d="M14.6 14.6 19 19" stroke="#26190E" stroke-width="2" stroke-linecap="round" />
+</svg>

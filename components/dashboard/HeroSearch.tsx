@@ -19,7 +19,6 @@ const PROMPTS = [
   "Monasteries in Spiti",
   "Kerala backwaters",
   "Char Dham",
-  "Somewhere in the Northeast",
   "A beach that isn't Goa",
 ];
 
@@ -152,7 +151,7 @@ export default function HeroSearch() {
     <div className={s.heroSearch} ref={wrap}>
       <div className={s.heroSearchBar}>
         <span className={s.heroSearchIcon} aria-hidden="true">
-          <img src="/figma/user-icon-active.svg" alt="" width={20} height={20} />
+          <img src="/brand/search.svg" alt="" width={22} height={22} />
         </span>
 
         <input
