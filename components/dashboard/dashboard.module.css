@@ -719,14 +719,18 @@
   translate: -50% 0;
   width: min(900px, 88%);
   height: clamp(380px, 38vw, 556px);
-  border: 1.5px solid rgba(38, 25, 14, 0.11);
+  border: 1.5px solid rgba(38, 25, 14, 0.14);
   border-bottom: none;
   border-radius: 50% 50% 0 0 / clamp(150px, 19vw, 268px) clamp(150px, 19vw, 268px) 0 0;
+  /* a surface rather than a watermark — the content now sits inside the arch
+     instead of floating near it, which is what gives the hero its depth */
   background: linear-gradient(
     to bottom,
-    rgba(246, 237, 217, 0.5),
-    rgba(246, 237, 217, 0) 62%
+    rgba(246, 237, 217, 0.92) 0%,
+    rgba(246, 237, 217, 0.46) 44%,
+    rgba(246, 237, 217, 0) 78%
   );
+  box-shadow: 0 26px 70px -40px rgba(38, 25, 14, 0.35);
   -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 96%);
   mask-image: linear-gradient(to bottom, #000 55%, transparent 96%);
   pointer-events: none;
@@ -737,7 +741,7 @@
   content: '';
   position: absolute;
   inset: 13px 13px -1px;
-  border: 1.5px solid rgba(38, 25, 14, 0.06);
+  border: 1.5px solid rgba(207, 158, 70, 0.3);
   border-bottom: none;
   border-radius: 50% 50% 0 0 / clamp(140px, 18vw, 254px) clamp(140px, 18vw, 254px) 0 0;
 }
@@ -773,12 +777,12 @@
 
 /* the largest type on the page — it has to out-rank the 44px section heads */
 .heroTitle {
-  margin: 18px 0 0;
+  margin: 14px 0 0;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(38px, 5.6vw, 80px);
-  line-height: 1.06;
-  letter-spacing: -0.02em;
+  font-size: clamp(40px, 6.1vw, 88px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
   color: var(--ink);
 }
 .heroTitleAccent {
@@ -792,8 +796,8 @@
 }
 
 .heroLede {
-  max-width: 620px;
-  margin-top: 22px;
+  max-width: 600px;
+  margin-top: 20px;
   font-family: var(--text);
   font-weight: 400;
   font-size: clamp(16px, 1.35vw, 18.5px);
@@ -957,7 +961,9 @@
   border: 2px solid var(--ink);
   border-radius: 20px;
   background: linear-gradient(180deg, #fbf6e8 0%, var(--parchment) 100%);
-  box-shadow: 0 3px 0 0 rgba(38, 25, 14, 0.1);
+  box-shadow:
+    0 3px 0 0 rgba(38, 25, 14, 0.1),
+    0 20px 40px -22px rgba(38, 25, 14, 0.45);
   transition: box-shadow 0.2s ease;
 }
 /* the gold inner keyline the arch and the framed cards both carry — it is what
@@ -975,6 +981,7 @@
 .heroSearch:focus-within .heroSearchBar {
   box-shadow:
     0 3px 0 0 rgba(38, 25, 14, 0.1),
+    0 20px 40px -22px rgba(38, 25, 14, 0.45),
     0 0 0 4px rgba(161, 72, 52, 0.16);
 }
 .heroSearch:focus-within .heroSearchBar::before {
