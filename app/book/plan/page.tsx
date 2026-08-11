@@ -60,6 +60,7 @@ function PlanInner() {
   const [typed, setTyped] = useState("");
   const [signals, setSignals] = useState<Signal[]>([]);
   const [typing, setTyping] = useState(false);
+  const [live, setLive] = useState<boolean | null>(null);
   const end = useRef<HTMLDivElement>(null);
   const timers = useRef<number[]>([]);
 
@@ -111,19 +112,46 @@ function PlanInner() {
     setStep(following);
   };
 
-  /* Free text at any point is read for more signals rather than dropped. */
-  const sendTyped = () => {
+  /* Free text always feeds the matcher. If a model is configured it also
+     answers the question properly; if not, or if the call fails, the local
+     reply stands and the customer sees no difference. */
+  const sendTyped = async () => {
     const text = typed.trim();
     if (!text) return;
     const more = readMood(text);
     setSignals((prev) => Array.from(new Set([...prev, ...more])));
+    const history: { role: "user" | "assistant"; content: string }[] = [
+      ...turns.map((t) => ({
+        role: (t.from === "you" ? "user" : "assistant") as "user" | "assistant",
+        content: t.text,
+      })),
+      { role: "user", content: text },
+    ];
     setTurns((t) => [...t, { from: "you", text }]);
-    say([
-      more.length
-        ? `Noted — ${more.map((m) => SIGNAL_LABEL[m]).join(" and ")}.${step === "done" ? " I've reshuffled the list below." : ""}`
-        : "Noted. I'll keep that in mind.",
-    ]);
     setTyped("");
+
+    const local = more.length
+      ? `Noted — ${more.map((m) => SIGNAL_LABEL[m]).join(" and ")}.${step === "done" ? " I've reshuffled the list below." : ""}`
+      : "Noted. I'll keep that in mind.";
+
+    if (live === false) return say([local]);
+
+    setTyping(true);
+    try {
+      const res = await fetch("/api/plan", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = await res.json();
+      setLive(Boolean(data?.configured));
+      setTyping(false);
+      say([data?.configured && data?.reply ? data.reply : local], 120);
+    } catch {
+      setLive(false);
+      setTyping(false);
+      say([local], 120);
+    }
   };
 
   const ranked = db ? rankDestinations(db.destinations, signals).slice(0, 3) : [];

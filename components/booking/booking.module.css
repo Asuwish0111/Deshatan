@@ -1124,9 +1124,11 @@
   white-space: nowrap;
 }
 
+/* the planner was the one page not using its plate — 660px of content inside
+   1238px. It fills the width now; the message bubbles keep their own measure
+   so the lines stay readable rather than running the full span. */
 .planWrap {
-  width: min(660px, 100%);
-  margin: 0 auto;
+  width: 100%;
 }
 /* one window: header, scrolling thread, composer attached at the bottom —
    the composer floating below a card is what stopped it reading as a chat */
@@ -1214,7 +1216,7 @@
    bubble legible without putting a box around the whole conversation */
 .planBot {
   align-self: flex-start;
-  max-width: 80%;
+  max-width: min(68ch, 80%);
   border: 1px solid rgba(38, 25, 14, 0.13);
   border-radius: 16px 16px 16px 5px;
   background: var(--parchment);
@@ -1275,7 +1277,7 @@
 }
 .planYou {
   align-self: flex-end;
-  max-width: 80%;
+  max-width: min(68ch, 80%);
   border: 2px solid var(--ink);
   border-radius: 16px 16px 5px 16px;
   background: var(--rust);
@@ -1294,15 +1296,17 @@
   font-size: 13.5px;
 }
 
+/* results use the whole width the thread now has */
 .planResults {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 12px;
+  margin-top: 6px;
 }
 .planCard {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  gap: 12px;
   padding: 12px;
   border: 2px solid var(--ink);
   border-radius: 16px;
@@ -1310,8 +1314,8 @@
 }
 .planCardMedia {
   display: block;
-  flex: 0 0 132px;
-  aspect-ratio: 16 / 11;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border: 2px solid var(--ink);
   border-radius: 11px;
   background: var(--sand);
@@ -1414,13 +1418,6 @@
 }
 
 @media (max-width: 620px) {
-  .planCard {
-    flex-direction: column;
-  }
-  .planCardMedia {
-    flex: none;
-    width: 100%;
-  }
   .planBot,
   .planYou {
     max-width: 92%;
