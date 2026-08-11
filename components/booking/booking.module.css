@@ -22,6 +22,34 @@
   padding: clamp(30px, 3.6vw, 52px) 0 clamp(36px, 4vw, 60px);
 }
 
+/* A short page used to stop mid-screen and leave the rest as bare cream under a
+   closed arch — 745px of it on the planner at 1337px tall. The plate now reaches
+   the fold however little it holds, so the arch always closes on the fold. */
+.upperMin {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--topbar-h) - var(--close-h));
+}
+.plateMin {
+  flex: 1 1 auto;
+}
+
+/* Fill mode, for the planner: a document ends where its content ends, but a
+   conversation should own the screen it is held in. */
+.upperFill {
+  /* a height, not a min-height: it has to bound the thread from above too,
+     or a long conversation grows the page instead of scrolling in place */
+  height: calc(100dvh - var(--topbar-h) - var(--close-h));
+}
+.plateFill,
+.plateInnerFill,
+.plateBodyFill {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0; /* or the thread cannot scroll inside it */
+}
+
 .head {
   display: flex;
   flex-direction: column;
@@ -1128,14 +1156,25 @@
    1238px. It fills the width now; the message bubbles keep their own measure
    so the lines stay readable rather than running the full span. */
 .planWrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   width: 100%;
+  min-height: 0;
 }
 /* one window: header, scrolling thread, composer attached at the bottom —
    the composer floating below a card is what stopped it reading as a chat */
+/* The conversation sits in the middle of the arch and grows outward from
+   there. Stretching it instead would just move the blank space above the
+   first line; centred, three messages read as composed rather than stranded,
+   and a long thread expands until it fills the arch and then scrolls. */
 .planPanel {
   display: flex;
   flex-direction: column;
+  flex: 0 1 auto;
   gap: 16px;
+  min-height: 0;
+  margin: auto 0;
 }
 .planHeader {
   display: flex;
@@ -1177,9 +1216,9 @@
 .planThread {
   display: flex;
   flex-direction: column;
+  flex: 0 1 auto;
   gap: 10px;
-  min-height: 220px;
-  max-height: min(58vh, 480px);
+  min-height: 0;
   padding: 2px;
   overflow-y: auto;
   scroll-behavior: smooth;

@@ -177,7 +177,7 @@ function PlanInner() {
   };
 
   return (
-    <BookingShell title="Plan a trip" titleAs="hidden">
+    <BookingShell title="Plan a trip" titleAs="hidden" fill>
       <div className={s.planWrap}>
         <div className={s.planPanel}>
           <div className={s.planThread} role="log" aria-live="polite">

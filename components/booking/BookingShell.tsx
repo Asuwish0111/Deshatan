@@ -43,6 +43,7 @@ export default function BookingShell({
   lede,
   step,
   titleAs = "h1",
+  fill = false,
 }: {
   children: React.ReactNode;
   eyebrow?: string;
@@ -52,6 +53,9 @@ export default function BookingShell({
   /* the trip page renders its own h1 in the hero, so the shell steps down
      to avoid two competing page titles */
   titleAs?: "h1" | "p" | "hidden";
+  /* stretch the arch to the fold instead of wrapping the content — for the
+     planner, where the page is a conversation and should fill the screen */
+  fill?: boolean;
 }) {
   return (
     <div className={ds.page}>
@@ -61,10 +65,10 @@ export default function BookingShell({
         secondary={{ label: "My trips", href: "/book/mytrips" }}
       />
 
-      <main id="main" className={ds.upper}>
+      <main id="main" className={`${ds.upper} ${s.upperMin} ${fill ? s.upperFill : ""}`}>
         <div className={ds.archCap} aria-hidden="true" />
-        <div className={s.plate}>
-          <div className={s.plateInner}>
+        <div className={`${s.plate} ${s.plateMin} ${fill ? s.plateFill : ""}`}>
+          <div className={`${s.plateInner} ${fill ? s.plateInnerFill : ""}`}>
             <div className={s.head}>
               {eyebrow ? (
                 <p className={ds.eyebrow}>
@@ -83,7 +87,10 @@ export default function BookingShell({
               {lede ? <p>{lede}</p> : null}
             </div>
 
-            <div style={{ marginTop: "clamp(24px, 3vw, 36px)" }}>
+            <div
+              className={fill ? s.plateBodyFill : undefined}
+              style={{ marginTop: "clamp(24px, 3vw, 36px)" }}
+            >
               {step ? <StepRail current={step} /> : null}
               {children}
             </div>
