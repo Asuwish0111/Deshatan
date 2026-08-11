@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCopy } from "@/lib/copy";
 import HeroSearch from "./HeroSearch";
+import HeroRail from "./HeroRail";
 import s from "./dashboard.module.css";
 
 // the three accents deliberately foreshadow the three stat cards below.
@@ -72,17 +73,18 @@ export default function HeroSection() {
         <HeroSearch />
 
 
-        <dl className={s.heroProof}>
+        <HeroRail />
+
+        <p className={s.heroProofLine}>
           {PROOF.map((item) => {
             const [figure, label] = (t(item.key) || "").split("\n");
             return (
-              <div key={item.key} className={item.tone}>
-                <dt>{figure || item.figure}</dt>
-                <dd>{label || item.label}</dd>
-              </div>
+              <span key={item.key}>
+                <b>{figure || item.figure}</b> {label || item.label}
+              </span>
             );
           })}
-        </dl>
+        </p>
       </div>
 
       <div className={s.heroHorizon} aria-hidden="true">

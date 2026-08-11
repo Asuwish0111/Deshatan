@@ -690,7 +690,7 @@
 
 .hero {
   position: relative;
-  padding: clamp(48px, 6vw, 92px) 0 clamp(44px, 5.4vw, 78px);
+  padding: clamp(40px, 4.6vw, 68px) 0 clamp(30px, 3.4vw, 48px);
   overflow: hidden;
 }
 .hero::before {
@@ -1166,6 +1166,129 @@
 @media (prefers-reduced-motion: reduce) {
   .heroSearchGo:hover {
     transform: none;
+  }
+}
+
+
+/* ---------- hero rail ----------
+   The one place the hero shows what it sells. Small on purpose: the search
+   box stays the main action, this just proves there is something behind it. */
+.heroRail {
+  width: min(680px, 100%);
+  margin: 26px auto 0;
+}
+.heroRailLead {
+  margin: 0 0 10px;
+  text-align: center;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--body-muted);
+}
+.heroRailList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.heroRailCard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-decoration: none;
+  transition: transform 0.24s var(--ease-spring);
+}
+.heroRailCard:hover {
+  transform: translateY(-3px);
+}
+.heroRailCard:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+.heroRailMedia {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--sand);
+  overflow: hidden;
+}
+.heroRailMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.heroRailName {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--ink);
+}
+.heroRailMeta {
+  font-family: var(--text);
+  font-size: 11.5px;
+  color: var(--body-muted);
+}
+.heroRailMeta b {
+  font-weight: 700;
+  color: var(--rust);
+}
+
+/* the trust figures step back to a single line once the rail carries the
+   visual weight — three stacked blocks was more furniture than the hero needed */
+.heroProofLine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 18px;
+  margin: 22px 0 0;
+  padding-top: 18px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(38, 25, 14, 0.32) 0 4.2px,
+    transparent 4.2px 8.4px
+  );
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  font-family: var(--text);
+  font-size: 13px;
+  color: var(--body-muted);
+}
+.heroProofLine b {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--rust);
+}
+
+/* A 2-column grid put 225px-tall photos on a tablet and ran the rail to 550px.
+   Scrolling sideways keeps it one row and a constant height at every width. */
+@media (max-width: 900px) {
+  .heroRail {
+    margin-top: 22px;
+    width: 100%;
+  }
+  .heroRailList {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .heroRailList > li {
+    flex: 0 0 148px;
+    scroll-snap-align: start;
+  }
+  .heroRailLead {
+    text-align: left;
   }
 }
 
