@@ -59,7 +59,27 @@ function PlanInner() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [typed, setTyped] = useState("");
   const [signals, setSignals] = useState<Signal[]>([]);
+  const [typing, setTyping] = useState(false);
   const end = useRef<HTMLDivElement>(null);
+  const timers = useRef<number[]>([]);
+
+  /* The planner lands a beat later, with a typing bubble in between —
+     without it the replies appear instantly and it reads as a form. */
+  const say = (texts: string[], first = 420, gap = 620) => {
+    setTyping(true);
+    let at = first;
+    texts.forEach((text, i) => {
+      timers.current.push(
+        window.setTimeout(() => {
+          setTurns((prev) => [...prev, { from: "planner", text }]);
+          if (i === texts.length - 1) setTyping(false);
+        }, at),
+      );
+      at += gap;
+    });
+  };
+
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   // open on what they typed, and say back what was actually understood
   useEffect(() => {
@@ -68,11 +88,9 @@ function PlanInner() {
     const opening = found.length
       ? `Got it — ${found.slice(0, 3).map((f) => SIGNAL_LABEL[f]).join(", ")}. Everything I suggest is a trip we actually run, at the real price.`
       : "Let's work out what fits. Everything I suggest is a trip we actually run, at the real price.";
-    setTurns([
-      ...(mood ? ([{ from: "you", text: mood }] as Turn[]) : []),
-      { from: "planner", text: opening },
-      { from: "planner", text: STEP_QUESTION.days },
-    ]);
+    setTurns(mood ? ([{ from: "you", text: mood }] as Turn[]) : []);
+    say([opening, STEP_QUESTION.days]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mood]);
 
   useEffect(() => {
@@ -84,17 +102,11 @@ function PlanInner() {
     setAnswers(next);
     const order: StepKey[] = ["days", "pax", "budget", "done"];
     const following = order[order.indexOf(step) + 1];
-    setTurns((t) => [
-      ...t,
-      { from: "you", text: label },
-      ...(following !== "done"
-        ? ([{ from: "planner", text: STEP_QUESTION[following] }] as Turn[])
-        : ([
-            {
-              from: "planner",
-              text: "Here's what I'd send you on. Pick one and I'll carry your answers into it.",
-            },
-          ] as Turn[])),
+    setTurns((t) => [...t, { from: "you", text: label }]);
+    say([
+      following !== "done"
+        ? STEP_QUESTION[following]
+        : "Here's what I'd send you on. Pick one and I'll carry your answers into it.",
     ]);
     setStep(following);
   };
@@ -105,15 +117,11 @@ function PlanInner() {
     if (!text) return;
     const more = readMood(text);
     setSignals((prev) => Array.from(new Set([...prev, ...more])));
-    setTurns((t) => [
-      ...t,
-      { from: "you", text },
-      {
-        from: "planner",
-        text: more.length
-          ? `Noted — ${more.map((m) => SIGNAL_LABEL[m]).join(" and ")}. ${step === "done" ? "I've reshuffled the list below." : ""}`
-          : "Noted. I'll keep that in mind.",
-      },
+    setTurns((t) => [...t, { from: "you", text }]);
+    say([
+      more.length
+        ? `Noted — ${more.map((m) => SIGNAL_LABEL[m]).join(" and ")}.${step === "done" ? " I've reshuffled the list below." : ""}`
+        : "Noted. I'll keep that in mind.",
     ]);
     setTyped("");
   };
@@ -122,6 +130,14 @@ function PlanInner() {
   const days = Number(answers.days) || 7;
   const pax = Number(answers.pax) || 2;
   const style = (answers.budget as ReturnType<typeof styleFor>) || styleFor(signals);
+
+  const restart = () => {
+    timers.current.forEach(clearTimeout);
+    setAnswers({});
+    setStep("days");
+    setTurns([]);
+    say(["Start again then. How long have you got?"], 260);
+  };
 
   const build = (destId: string, destDays: number) => {
     const draft = emptyDraft(destId, days || destDays);
@@ -149,7 +165,15 @@ function PlanInner() {
               ),
             )}
 
-            {step !== "done" ? (
+            {typing ? (
+              <p className={s.planTyping} aria-label="Planner is typing">
+                <span />
+                <span />
+                <span />
+              </p>
+            ) : null}
+
+            {!typing && step !== "done" ? (
             <div className={s.planChoices}>
               {OPTIONS[step].map((o) => (
                 <button
@@ -164,7 +188,7 @@ function PlanInner() {
             </div>
           ) : null}
 
-            {step === "done" && ranked.length ? (
+            {!typing && step === "done" && ranked.length ? (
             <div className={s.planResults}>
               {ranked.map(({ dest, why }) => (
                 <article className={s.planCard} key={dest.id}>
@@ -238,6 +262,12 @@ function PlanInner() {
               <span aria-hidden="true">→</span>
             </button>
           </form>
+
+          {step !== "days" || Object.keys(answers).length ? (
+            <button type="button" className={s.planRestart} onClick={restart}>
+              Start over
+            </button>
+          ) : null}
         </div>
 
       </div>
