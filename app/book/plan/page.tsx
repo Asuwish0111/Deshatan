@@ -66,8 +66,8 @@ function PlanInner() {
     const found = readMood(mood);
     setSignals(found);
     const opening = found.length
-      ? `Got it — ${found.slice(0, 3).map((f) => SIGNAL_LABEL[f]).join(", ")}. I can work with that.`
-      : "Right, let's work out what fits. Three quick questions.";
+      ? `Got it — ${found.slice(0, 3).map((f) => SIGNAL_LABEL[f]).join(", ")}. Everything I suggest is a trip we actually run, at the real price.`
+      : "Let's work out what fits. Everything I suggest is a trip we actually run, at the real price.";
     setTurns([
       ...(mood ? ([{ from: "you", text: mood }] as Turn[]) : []),
       { from: "planner", text: opening },
@@ -133,23 +133,9 @@ function PlanInner() {
   };
 
   return (
-    <BookingShell
-      eyebrow="Batao Na"
-      title="Tell me the trip you want"
-      lede="Not a search box — say what you're after and I'll match it against what we actually run."
-    >
+    <BookingShell title="Plan a trip">
       <div className={s.planWrap}>
         <div className={s.planPanel}>
-          <header className={s.planHeader}>
-            <span className={s.planAvatar} aria-hidden="true">
-              ✦
-            </span>
-            <span className={s.planWho}>
-              <b>Deshatan planner</b>
-              <small>Matches what you say against the trips we run</small>
-            </span>
-          </header>
-
           <div className={s.planThread} role="log" aria-live="polite">
             {turns.map((turn, i) =>
               turn.from === "you" ? (
@@ -257,11 +243,6 @@ function PlanInner() {
           </form>
         </div>
 
-        <p className={s.planNote}>
-          This planner reads what you type for intent and matches it against the
-          trips we run. It isn&apos;t a chatbot — every answer comes from the real
-          catalogue and the real prices.
-        </p>
       </div>
     </BookingShell>
   );

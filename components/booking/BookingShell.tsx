@@ -45,7 +45,7 @@ export default function BookingShell({
   titleAs = "h1",
 }: {
   children: React.ReactNode;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   lede?: string;
   step?: StepKey;
@@ -66,11 +66,13 @@ export default function BookingShell({
         <div className={s.plate}>
           <div className={s.plateInner}>
             <div className={s.head}>
-              <p className={ds.eyebrow}>
-                <span className={ds.eyebrowBar} aria-hidden="true" />
-                <span className={ds.eyebrowWord}>{eyebrow}</span>
-                <span className={ds.eyebrowBar} aria-hidden="true" />
-              </p>
+              {eyebrow ? (
+                <p className={ds.eyebrow}>
+                  <span className={ds.eyebrowBar} aria-hidden="true" />
+                  <span className={ds.eyebrowWord}>{eyebrow}</span>
+                  <span className={ds.eyebrowBar} aria-hidden="true" />
+                </p>
+              ) : null}
               {titleAs === "h1" ? <h1>{title}</h1> : <p className={s.plateTitle}>{title}</p>}
               {lede ? <p>{lede}</p> : null}
             </div>

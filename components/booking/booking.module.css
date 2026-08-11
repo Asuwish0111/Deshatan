@@ -1125,7 +1125,7 @@
 }
 
 .planWrap {
-  width: min(720px, 100%);
+  width: min(660px, 100%);
   margin: 0 auto;
 }
 /* one window: header, scrolling thread, composer attached at the bottom —
@@ -1179,8 +1179,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: min(56vh, 460px);
-  padding: 18px 16px;
+  min-height: 260px;
+  max-height: min(58vh, 480px);
+  padding: 20px 18px;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
