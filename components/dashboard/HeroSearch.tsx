@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDeshatan } from "@/lib/context";
+import { looksLikeMood } from "@/components/booking/intent";
 import s from "./dashboard.module.css";
 
 type Hit = {
@@ -34,6 +35,7 @@ export default function HeroSearch() {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
+  const [touched, setTouched] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
 
@@ -98,7 +100,10 @@ export default function HeroSearch() {
     return top;
   }, [q, db]);
 
-  useEffect(() => setActive(0), [q]);
+  useEffect(() => {
+    setActive(0);
+    setTouched(false);
+  }, [q]);
 
   useEffect(() => {
     if (!open) return;
@@ -114,12 +119,27 @@ export default function HeroSearch() {
     router.push(href);
   };
 
-  /* Enter with nothing highlighted still has to do something useful, so it
-     falls through to the search page rather than dead-ending. */
+  /* A place goes to the place. Anything that reads like a mood — "somewhere
+     quiet", "burnt out and need mountains" — goes to the planner instead,
+     because a keyword search has nothing useful to do with it. */
   const submit = () => {
-    if (hits[active]) return go(hits[active].href);
+    // an explicit pick always wins
+    if (touched && hits[active]) return go(hits[active].href);
     const term = q.trim();
-    go(term ? `/book?q=${encodeURIComponent(term)}` : "/book");
+    if (!term) return go("/book");
+
+    /* Only a *named* place beats the mood. "burnt out, need to escape" turns up
+       incidental keyword hits, and sending someone to whichever trip happened
+       to contain the word "escape" is worse than asking them a question. */
+    const needle = term.toLowerCase();
+    const named = hits.find(
+      (h) => h.label.toLowerCase().includes(needle) || needle.includes(h.label.toLowerCase()),
+    );
+    if (named) return go(named.href);
+
+    if (looksLikeMood(term, false))
+      return go(`/book/plan?mood=${encodeURIComponent(term)}`);
+    go(`/book?q=${encodeURIComponent(term)}`);
   };
 
   const onKey = (e: React.KeyboardEvent) => {
@@ -136,15 +156,22 @@ export default function HeroSearch() {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setOpen(true);
+      setTouched(true);
       setActive((a) => (a + 1) % hits.length);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setOpen(true);
+      setTouched(true);
       setActive((a) => (a - 1 + hits.length) % hits.length);
     }
   };
 
-  const showList = open && hits.length > 0;
+  const needleNow = q.trim().toLowerCase();
+  const namedNow = hits.some(
+    (h) => h.label.toLowerCase().includes(needleNow) || (needleNow && needleNow.includes(h.label.toLowerCase())),
+  );
+  const moodly = q.trim().length > 2 && !namedNow && looksLikeMood(q.trim(), false);
+  const showList = open && (hits.length > 0 || moodly);
   let lastKind: Hit["kind"] | null = null;
 
   return (
@@ -186,6 +213,27 @@ export default function HeroSearch() {
 
       {showList ? (
         <ul className={s.heroSearchList} id="hero-search-list" role="listbox">
+          {moodly ? (
+            <li role="none">
+              <p className={s.heroSearchGroup} role="presentation">
+                Not sure yet?
+              </p>
+              <button
+                type="button"
+                role="option"
+                aria-selected={false}
+                className={s.heroSearchHit}
+                onClick={() => go(`/book/plan?mood=${encodeURIComponent(q.trim())}`)}
+              >
+                <span className={s.heroSearchHitLabel}>
+                  Plan it with me →
+                </span>
+                <span className={s.heroSearchHitMeta}>
+                  Tell me the mood and I&apos;ll match a trip
+                </span>
+              </button>
+            </li>
+          ) : null}
           {hits.map((hit, i) => {
             const head = hit.kind !== lastKind ? GROUP_LABEL[hit.kind] : null;
             lastKind = hit.kind;
@@ -202,7 +250,10 @@ export default function HeroSearch() {
                   role="option"
                   aria-selected={i === active}
                   className={`${s.heroSearchHit} ${i === active ? s.heroSearchHitOn : ""}`}
-                  onMouseEnter={() => setActive(i)}
+                  onMouseEnter={() => {
+                    setActive(i);
+                    setTouched(true);
+                  }}
                   onClick={() => go(hit.href)}
                 >
                   <span className={s.heroSearchHitLabel}>{hit.label}</span>

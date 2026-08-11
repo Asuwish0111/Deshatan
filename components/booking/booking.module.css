@@ -1108,3 +1108,155 @@
     transform: none;
   }
 }
+
+
+/* ---------- planner ----------
+   A conversation, drawn with the same parts as everything else: parchment
+   cards, ink keylines, rust for the customer's own words. */
+.planWrap {
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+.planThread {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  background: var(--parchment);
+}
+.planBot,
+.planYou {
+  max-width: 82%;
+  margin: 0;
+  padding: 11px 15px;
+  font-family: var(--text);
+  font-size: 15px;
+  line-height: 24px;
+}
+.planBot {
+  align-self: flex-start;
+  border: 1.5px solid rgba(38, 25, 14, 0.22);
+  border-radius: 14px 14px 14px 4px;
+  background: var(--cream);
+  color: var(--ink);
+}
+.planYou {
+  align-self: flex-end;
+  border: 2px solid var(--ink);
+  border-radius: 14px 14px 4px 14px;
+  background: var(--rust);
+  color: var(--parchment);
+}
+.planChoices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.planResults {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+.planCard {
+  display: flex;
+  gap: 14px;
+  padding: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--cream);
+}
+.planCardMedia {
+  display: block;
+  flex: 0 0 132px;
+  aspect-ratio: 16 / 11;
+  border: 2px solid var(--ink);
+  border-radius: 11px;
+  background: var(--sand);
+  overflow: hidden;
+}
+.planCardMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.planCardBody {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.planCardBody h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.planWhy {
+  margin: 5px 0 0;
+  font-family: var(--text);
+  font-size: 12.5px;
+  color: var(--peacock);
+}
+.planCardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 11px;
+}
+.planCardActions .btn,
+.planCardActions .btnGhost {
+  padding: 8px 16px;
+  font-size: 13.5px;
+}
+
+.planComposer {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.planComposer input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 13px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--cream);
+  font-family: var(--text);
+  font-size: 15px;
+  color: var(--ink);
+}
+.planComposer input::placeholder {
+  color: var(--placeholder);
+}
+.planComposer input:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+.planNote {
+  margin: 14px 0 0;
+  font-family: var(--text);
+  font-size: 12.5px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--body-muted);
+}
+
+@media (max-width: 620px) {
+  .planCard {
+    flex-direction: column;
+  }
+  .planCardMedia {
+    flex: none;
+    width: 100%;
+  }
+  .planBot,
+  .planYou {
+    max-width: 92%;
+  }
+}
