@@ -133,7 +133,7 @@ function PlanInner() {
   };
 
   return (
-    <BookingShell title="Plan a trip">
+    <BookingShell title="Plan a trip" titleAs="hidden">
       <div className={s.planWrap}>
         <div className={s.planPanel}>
           <div className={s.planThread} role="log" aria-live="polite">
@@ -143,12 +143,9 @@ function PlanInner() {
                   {turn.text}
                 </p>
               ) : (
-                <div key={i} className={s.planRow}>
-                  <span className={s.planAvatarSm} aria-hidden="true">
-                    ✦
-                  </span>
-                  <p className={s.planBot}>{turn.text}</p>
-                </div>
+                <p key={i} className={s.planBot}>
+                  {turn.text}
+                </p>
               ),
             )}
 

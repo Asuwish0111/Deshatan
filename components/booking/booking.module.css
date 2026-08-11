@@ -1133,10 +1133,7 @@
 .planPanel {
   display: flex;
   flex-direction: column;
-  border: 2px solid var(--ink);
-  border-radius: 18px;
-  background: var(--parchment);
-  overflow: hidden;
+  gap: 16px;
 }
 .planHeader {
   display: flex;
@@ -1179,9 +1176,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-height: 260px;
+  min-height: 220px;
   max-height: min(58vh, 480px);
-  padding: 20px 18px;
+  padding: 2px;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
@@ -1214,9 +1211,10 @@
   line-height: 22px;
 }
 .planBot {
-  border: 1.5px solid rgba(38, 25, 14, 0.2);
+  align-self: flex-start;
+  max-width: 80%;
   border-radius: 16px 16px 16px 5px;
-  background: var(--cream);
+  background: var(--parchment);
   color: var(--ink);
 }
 .planYou {
@@ -1234,7 +1232,6 @@
   justify-content: flex-end;
   gap: 7px;
   margin-top: 2px;
-  padding-left: 32px;
 }
 .planChoices .chip {
   padding: 7px 14px;
@@ -1246,7 +1243,6 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 4px;
-  padding-left: 32px;
 }
 .planCard {
   display: flex;
@@ -1305,15 +1301,12 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 11px 12px;
-  border-top: 2px solid var(--ink);
-  background: var(--cream);
 }
 .planComposer input {
   flex: 1 1 auto;
   min-width: 0;
-  padding: 11px 15px;
-  border: 1.5px solid rgba(38, 25, 14, 0.24);
+  padding: 13px 20px;
+  border: 2px solid var(--ink);
   border-radius: 999px;
   background: var(--parchment);
   font-family: var(--text);

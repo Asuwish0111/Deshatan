@@ -51,7 +51,7 @@ export default function BookingShell({
   step?: StepKey;
   /* the trip page renders its own h1 in the hero, so the shell steps down
      to avoid two competing page titles */
-  titleAs?: "h1" | "p";
+  titleAs?: "h1" | "p" | "hidden";
 }) {
   return (
     <div className={ds.page}>
@@ -73,7 +73,13 @@ export default function BookingShell({
                   <span className={ds.eyebrowBar} aria-hidden="true" />
                 </p>
               ) : null}
-              {titleAs === "h1" ? <h1>{title}</h1> : <p className={s.plateTitle}>{title}</p>}
+              {titleAs === "hidden" ? (
+                <h1 className={s.srOnly}>{title}</h1>
+              ) : titleAs === "h1" ? (
+                <h1>{title}</h1>
+              ) : (
+                <p className={s.plateTitle}>{title}</p>
+              )}
               {lede ? <p>{lede}</p> : null}
             </div>
 
