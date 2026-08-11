@@ -139,17 +139,34 @@ function PlanInner() {
       lede="Not a search box — say what you're after and I'll match it against what we actually run."
     >
       <div className={s.planWrap}>
-        <div className={s.planThread} role="log" aria-live="polite">
-          {turns.map((turn, i) => (
-            <p
-              key={i}
-              className={turn.from === "you" ? s.planYou : s.planBot}
-            >
-              {turn.text}
-            </p>
-          ))}
+        <div className={s.planPanel}>
+          <header className={s.planHeader}>
+            <span className={s.planAvatar} aria-hidden="true">
+              ✦
+            </span>
+            <span className={s.planWho}>
+              <b>Deshatan planner</b>
+              <small>Matches what you say against the trips we run</small>
+            </span>
+          </header>
 
-          {step !== "done" ? (
+          <div className={s.planThread} role="log" aria-live="polite">
+            {turns.map((turn, i) =>
+              turn.from === "you" ? (
+                <p key={i} className={s.planYou}>
+                  {turn.text}
+                </p>
+              ) : (
+                <div key={i} className={s.planRow}>
+                  <span className={s.planAvatarSm} aria-hidden="true">
+                    ✦
+                  </span>
+                  <p className={s.planBot}>{turn.text}</p>
+                </div>
+              ),
+            )}
+
+            {step !== "done" ? (
             <div className={s.planChoices}>
               {OPTIONS[step].map((o) => (
                 <button
@@ -164,7 +181,7 @@ function PlanInner() {
             </div>
           ) : null}
 
-          {step === "done" && ranked.length ? (
+            {step === "done" && ranked.length ? (
             <div className={s.planResults}>
               {ranked.map(({ dest, why }) => (
                 <article className={s.planCard} key={dest.id}>
@@ -210,29 +227,35 @@ function PlanInner() {
             </div>
           ) : null}
 
-          <div ref={end} />
-        </div>
+            <div ref={end} />
+          </div>
 
-        <form
-          className={s.planComposer}
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendTyped();
-          }}
-        >
-          <label className={s.srOnly} htmlFor="plan-input">
-            Add anything else
-          </label>
-          <input
-            id="plan-input"
-            value={typed}
-            placeholder="Anything else? Dates, people, things you'd rather avoid…"
-            onChange={(e) => setTyped(e.target.value)}
-          />
-          <button type="submit" className={s.btn} disabled={!typed.trim()}>
-            Send
-          </button>
-        </form>
+          <form
+            className={s.planComposer}
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendTyped();
+            }}
+          >
+            <label className={s.srOnly} htmlFor="plan-input">
+              Add anything else
+            </label>
+            <input
+              id="plan-input"
+              value={typed}
+              placeholder="Anything else? Dates, people, things to avoid…"
+              onChange={(e) => setTyped(e.target.value)}
+            />
+            <button
+              type="submit"
+              className={s.planSend}
+              aria-label="Send"
+              disabled={!typed.trim()}
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+        </div>
 
         <p className={s.planNote}>
           This planner reads what you type for intent and matches it against the

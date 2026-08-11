@@ -1113,54 +1113,139 @@
 /* ---------- planner ----------
    A conversation, drawn with the same parts as everything else: parchment
    cards, ink keylines, rust for the customer's own words. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .planWrap {
   width: min(720px, 100%);
   margin: 0 auto;
 }
-.planThread {
+/* one window: header, scrolling thread, composer attached at the bottom —
+   the composer floating below a card is what stopped it reading as a chat */
+.planPanel {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 22px;
   border: 2px solid var(--ink);
   border-radius: 18px;
   background: var(--parchment);
+  overflow: hidden;
+}
+.planHeader {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 16px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--sand);
+}
+.planAvatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--rust);
+  font-size: 15px;
+  color: var(--parchment);
+}
+.planWho {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.planWho b {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.planWho small {
+  font-family: var(--text);
+  font-size: 12px;
+  color: var(--body-muted);
+}
+
+.planThread {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: min(56vh, 460px);
+  padding: 18px 16px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+/* bot lines get the mark beside them; the customer's own words do not need one */
+.planRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 88%;
+}
+.planAvatarSm {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 2px;
+  border: 1.5px solid rgba(38, 25, 14, 0.3);
+  border-radius: 50%;
+  background: var(--cream);
+  font-size: 11px;
+  color: var(--rust);
 }
 .planBot,
 .planYou {
-  max-width: 82%;
   margin: 0;
-  padding: 11px 15px;
+  padding: 9px 14px;
   font-family: var(--text);
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 14.5px;
+  line-height: 22px;
 }
 .planBot {
-  align-self: flex-start;
-  border: 1.5px solid rgba(38, 25, 14, 0.22);
-  border-radius: 14px 14px 14px 4px;
+  border: 1.5px solid rgba(38, 25, 14, 0.2);
+  border-radius: 16px 16px 16px 5px;
   background: var(--cream);
   color: var(--ink);
 }
 .planYou {
   align-self: flex-end;
+  max-width: 80%;
   border: 2px solid var(--ink);
-  border-radius: 14px 14px 4px 14px;
+  border-radius: 16px 16px 5px 16px;
   background: var(--rust);
   color: var(--parchment);
 }
+/* quick replies belong on the customer's side — they are their next line */
 .planChoices {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  justify-content: flex-end;
+  gap: 7px;
   margin-top: 2px;
+  padding-left: 32px;
+}
+.planChoices .chip {
+  padding: 7px 14px;
+  font-size: 13.5px;
 }
 
 .planResults {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 6px;
+  gap: 10px;
+  margin-top: 4px;
+  padding-left: 32px;
 }
 .planCard {
   display: flex;
@@ -1217,19 +1302,50 @@
 
 .planComposer {
   display: flex;
-  gap: 10px;
-  margin-top: 14px;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 12px;
+  border-top: 2px solid var(--ink);
+  background: var(--cream);
 }
 .planComposer input {
   flex: 1 1 auto;
   min-width: 0;
-  padding: 13px 16px;
-  border: 2px solid var(--ink);
-  border-radius: 14px;
-  background: var(--cream);
+  padding: 11px 15px;
+  border: 1.5px solid rgba(38, 25, 14, 0.24);
+  border-radius: 999px;
+  background: var(--parchment);
   font-family: var(--text);
-  font-size: 15px;
+  font-size: 14.5px;
   color: var(--ink);
+}
+/* round send, like every messaging app — and it dims rather than looking broken */
+.planSend {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--rust);
+  font-size: 17px;
+  color: var(--parchment);
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+.planSend:hover:not(:disabled) {
+  background: var(--rust-deep);
+}
+.planSend:disabled {
+  border-color: rgba(38, 25, 14, 0.28);
+  background: rgba(38, 25, 14, 0.12);
+  color: var(--body-muted);
+  cursor: not-allowed;
+}
+.planSend:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
 }
 .planComposer input::placeholder {
   color: var(--placeholder);
